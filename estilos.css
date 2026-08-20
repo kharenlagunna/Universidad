@@ -1,0 +1,259 @@
+/* ====== Fondo login ====== */
+body.login-body {
+    background: url('img/fac_tecno.jpg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Fondo semitransparente para el formulario login */
+.login-container {
+    background-color: rgba(255, 255, 255, 0.85);
+    max-width: 360px;
+    margin: 100px auto;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    text-align: center;
+}
+
+.login-container h2 {
+    margin-bottom: 25px;
+    font-weight: 700;
+    color: #333;
+}
+
+.login-container label {
+    display: block;
+    margin: 12px 0 6px 0;
+    font-weight: 600;
+    color: #555;
+    text-align: left;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1.5px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
+    border-color: #0073e6;
+    outline: none;
+}
+
+.login-container .btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #0056b3;
+    border: none;
+    color: white;
+    font-size: 17px;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-container .btn:hover {
+    background-color: #003d80;
+}
+
+.error {
+    color: #cc0000;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* ====== Estilos generales para sidebar y contenido ====== */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar común */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px; /* ancho ajustado */
+    height: 100%;
+    background-color: #1e272e;
+    padding-top: 25px;
+    box-sizing: border-box;
+}
+
+.sidebar h2 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.sidebar a {
+    display: block;
+    color: #d2dae2;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar a:hover {
+    background-color: #485460;
+    color: white;
+}
+
+.sidebar a.active {
+    background-color: #0fbcf9;
+    color: white;
+}
+
+.sidebar a.logout:hover {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+/* Contenido principal */
+.content {
+    margin-left: 240px; /* igual que el ancho del sidebar */
+    padding: 30px 40px;
+    background-color: #f7f9fc;
+    min-height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+}
+
+/* Contenedor derecho para cargar_informacion */
+.contenedor-derecho {
+    background-color: #fff;
+    padding: 30px 35px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(15, 188, 249, 0.15);
+    max-width: 700px;
+    width: 100%;
+    margin-left: 40px;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contenedor-derecho h2 {
+    margin-top: 0;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #000000; /* Título negro para uniformidad */
+}
+
+.contenedor-derecho p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.contenedor-derecho form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Botones estilo general */
+.btn {
+    padding: 12px 24px;
+    background-color: #0056b3;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #003d80;
+}
+
+/* Formularios */
+form label {
+    font-weight: 600;
+    color: #333;
+    display: block;
+    margin-bottom: 6px;
+}
+
+form input[type="file"],
+form input[type="text"],
+form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1.5px solid #ccc;
+    box-sizing: border-box;
+    font-size: 15px;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="file"]:focus,
+form input[type="text"]:focus,
+form input[type="password"]:focus {
+    border-color: #0073e6;
+    outline: none;
+}
+
+/* ====== Estilo tabla indicadores ====== */
+
+.tabla-indicadores {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabla-indicadores thead tr {
+    background-color: #0fbcf9;
+    color: white;
+    text-align: left;
+    font-weight: 700;
+}
+
+.tabla-indicadores th,
+.tabla-indicadores td {
+    padding: 14px 20px;
+}
+
+.tabla-indicadores tbody tr {
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+}
+
+.tabla-indicadores tbody tr:hover {
+    background-color: #e6f7ff;
+}
+
+.tabla-indicadores tbody tr:last-child {
+    border-bottom: none;
+}

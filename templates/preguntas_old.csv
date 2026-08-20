@@ -1,0 +1,1001 @@
+id,enunciado,grupo_referencia,modulo,tipo_prueba,puntaje,creado_en
+1,Esta es la pregunta 1 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,0.71,2025-08-13 16:54:01.292759
+2,Esta es la pregunta 2 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.0,2025-08-13 16:54:01.292780
+3,Esta es la pregunta 3 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.15,2025-08-13 16:54:01.292797
+4,Esta es la pregunta 4 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.5,2025-08-13 16:54:01.292809
+5,Esta es la pregunta 5 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.98,2025-08-13 16:54:01.292817
+6,Esta es la pregunta 6 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.39,2025-08-13 16:54:01.292825
+7,Esta es la pregunta 7 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.99,2025-08-13 16:54:01.292859
+8,Esta es la pregunta 8 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.58,2025-08-13 16:54:01.292872
+9,Esta es la pregunta 9 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,0.58,2025-08-13 16:54:01.292889
+10,Esta es la pregunta 10 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.82,2025-08-13 16:54:01.292897
+11,Esta es la pregunta 11 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.58,2025-08-13 16:54:01.292903
+12,Esta es la pregunta 12 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,0.71,2025-08-13 16:54:01.292910
+13,Esta es la pregunta 13 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.5,2025-08-13 16:54:01.292917
+14,Esta es la pregunta 14 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,1.1,2025-08-13 16:54:01.292923
+15,Esta es la pregunta 15 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.84,2025-08-13 16:54:01.292930
+16,Esta es la pregunta 16 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.85,2025-08-13 16:54:01.292936
+17,Esta es la pregunta 17 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.17,2025-08-13 16:54:01.292942
+18,Esta es la pregunta 18 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.98,2025-08-13 16:54:01.292959
+19,Esta es la pregunta 19 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,0.95,2025-08-13 16:54:01.292966
+20,Esta es la pregunta 20 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.75,2025-08-13 16:54:01.292972
+21,Esta es la pregunta 21 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.94,2025-08-13 16:54:01.292979
+22,Esta es la pregunta 22 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.89,2025-08-13 16:54:01.292985
+23,Esta es la pregunta 23 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.09,2025-08-13 16:54:01.292994
+24,Esta es la pregunta 24 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,1.61,2025-08-13 16:54:01.293001
+25,Esta es la pregunta 25 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.91,2025-08-13 16:54:01.293007
+26,Esta es la pregunta 26 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.96,2025-08-13 16:54:01.293013
+27,Esta es la pregunta 27 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.92,2025-08-13 16:54:01.293019
+28,Esta es la pregunta 28 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.2,2025-08-13 16:54:01.293027
+29,Esta es la pregunta 29 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.53,2025-08-13 16:54:01.293034
+30,Esta es la pregunta 30 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.63,2025-08-13 16:54:01.293040
+31,Esta es la pregunta 31 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,0.73,2025-08-13 16:54:01.293046
+32,Esta es la pregunta 32 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.89,2025-08-13 16:54:01.293052
+33,Esta es la pregunta 33 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.33,2025-08-13 16:54:01.293058
+34,Esta es la pregunta 34 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.9,2025-08-13 16:54:01.293064
+35,Esta es la pregunta 35 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.83,2025-08-13 16:54:01.293071
+36,Esta es la pregunta 36 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.3,2025-08-13 16:54:01.293079
+37,Esta es la pregunta 37 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,1.13,2025-08-13 16:54:01.293086
+38,Esta es la pregunta 38 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,0.57,2025-08-13 16:54:01.293092
+39,Esta es la pregunta 39 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.61,2025-08-13 16:54:01.293100
+40,Esta es la pregunta 40 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.96,2025-08-13 16:54:01.293108
+41,Esta es la pregunta 41 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,1.99,2025-08-13 16:54:01.294333
+42,Esta es la pregunta 42 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.85,2025-08-13 16:54:01.294349
+43,Esta es la pregunta 43 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.29,2025-08-13 16:54:01.294356
+44,Esta es la pregunta 44 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.71,2025-08-13 16:54:01.294363
+45,Esta es la pregunta 45 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.53,2025-08-13 16:54:01.294378
+46,Esta es la pregunta 46 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.96,2025-08-13 16:54:01.294384
+47,Esta es la pregunta 47 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.38,2025-08-13 16:54:01.294391
+48,Esta es la pregunta 48 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.1,2025-08-13 16:54:01.294397
+49,Esta es la pregunta 49 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.59,2025-08-13 16:54:01.294413
+50,Esta es la pregunta 50 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,1.01,2025-08-13 16:54:01.294420
+51,Esta es la pregunta 51 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.22,2025-08-13 16:54:01.294428
+52,Esta es la pregunta 52 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,1.54,2025-08-13 16:54:01.294435
+53,Esta es la pregunta 53 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.43,2025-08-13 16:54:01.294441
+54,Esta es la pregunta 54 del módulo Inglés para el grupo Ingeniería.,Ingeniería,Inglés,especifica,1.9,2025-08-13 16:54:01.294450
+55,Esta es la pregunta 55 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,1.19,2025-08-13 16:54:01.294456
+56,Esta es la pregunta 56 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,1.86,2025-08-13 16:54:01.294462
+57,Esta es la pregunta 57 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.21,2025-08-13 16:54:01.294468
+58,Esta es la pregunta 58 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.2,2025-08-13 16:54:01.294476
+59,Esta es la pregunta 59 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,1.35,2025-08-13 16:54:01.294482
+60,Esta es la pregunta 60 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.75,2025-08-13 16:54:01.294489
+61,Esta es la pregunta 61 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.18,2025-08-13 16:54:01.294497
+62,Esta es la pregunta 62 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.25,2025-08-13 16:54:01.294504
+63,Esta es la pregunta 63 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.01,2025-08-13 16:54:01.294512
+64,Esta es la pregunta 64 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.92,2025-08-13 16:54:01.294518
+65,Esta es la pregunta 65 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.7,2025-08-13 16:54:01.294524
+66,Esta es la pregunta 66 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,0.92,2025-08-13 16:54:01.294531
+67,Esta es la pregunta 67 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.0,2025-08-13 16:54:01.294537
+68,Esta es la pregunta 68 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.82,2025-08-13 16:54:01.294543
+69,Esta es la pregunta 69 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,0.9,2025-08-13 16:54:01.294550
+70,Esta es la pregunta 70 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,0.76,2025-08-13 16:54:01.294556
+71,Esta es la pregunta 71 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.89,2025-08-13 16:54:01.294562
+72,Esta es la pregunta 72 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.04,2025-08-13 16:54:01.294570
+73,Esta es la pregunta 73 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,0.64,2025-08-13 16:54:01.294578
+74,Esta es la pregunta 74 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,0.96,2025-08-13 16:54:01.294584
+75,Esta es la pregunta 75 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,1.29,2025-08-13 16:54:01.294593
+76,Esta es la pregunta 76 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.29,2025-08-13 16:54:01.294601
+77,Esta es la pregunta 77 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.59,2025-08-13 16:54:01.294607
+78,Esta es la pregunta 78 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.2,2025-08-13 16:54:01.294613
+79,Esta es la pregunta 79 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.01,2025-08-13 16:54:01.294619
+80,Esta es la pregunta 80 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.95,2025-08-13 16:54:01.294625
+81,Esta es la pregunta 81 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.03,2025-08-13 16:54:01.294631
+82,Esta es la pregunta 82 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.77,2025-08-13 16:54:01.294641
+83,Esta es la pregunta 83 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,0.7,2025-08-13 16:54:01.294649
+84,Esta es la pregunta 84 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.33,2025-08-13 16:54:01.294657
+85,Esta es la pregunta 85 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.62,2025-08-13 16:54:01.294664
+86,Esta es la pregunta 86 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,1.02,2025-08-13 16:54:01.294670
+87,Esta es la pregunta 87 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.58,2025-08-13 16:54:01.294676
+88,Esta es la pregunta 88 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,0.8,2025-08-13 16:54:01.294683
+89,Esta es la pregunta 89 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.36,2025-08-13 16:54:01.294689
+90,Esta es la pregunta 90 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,1.94,2025-08-13 16:54:01.294695
+91,Esta es la pregunta 91 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.58,2025-08-13 16:54:01.294703
+92,Esta es la pregunta 92 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.02,2025-08-13 16:54:01.294712
+93,Esta es la pregunta 93 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.14,2025-08-13 16:54:01.294720
+94,Esta es la pregunta 94 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,0.76,2025-08-13 16:54:01.294728
+95,Esta es la pregunta 95 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.78,2025-08-13 16:54:01.294734
+96,Esta es la pregunta 96 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.76,2025-08-13 16:54:01.294740
+97,Esta es la pregunta 97 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.26,2025-08-13 16:54:01.294746
+98,Esta es la pregunta 98 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,1.1,2025-08-13 16:54:01.294753
+99,Esta es la pregunta 99 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,0.69,2025-08-13 16:54:01.294759
+100,Esta es la pregunta 100 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.34,2025-08-13 16:54:01.294767
+101,Esta es la pregunta 101 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,0.53,2025-08-13 16:54:01.294773
+102,Esta es la pregunta 102 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,0.93,2025-08-13 16:54:01.294779
+103,Esta es la pregunta 103 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,1.5,2025-08-13 16:54:01.294786
+104,Esta es la pregunta 104 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.54,2025-08-13 16:54:01.294794
+105,Esta es la pregunta 105 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.08,2025-08-13 16:54:01.294800
+106,Esta es la pregunta 106 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.59,2025-08-13 16:54:01.294806
+107,Esta es la pregunta 107 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.65,2025-08-13 16:54:01.294811
+108,Esta es la pregunta 108 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.9,2025-08-13 16:54:01.294818
+109,Esta es la pregunta 109 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,1.0,2025-08-13 16:54:01.294847
+110,Esta es la pregunta 110 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.23,2025-08-13 16:54:01.294858
+111,Esta es la pregunta 111 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,0.89,2025-08-13 16:54:01.294868
+112,Esta es la pregunta 112 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,0.97,2025-08-13 16:54:01.294882
+113,Esta es la pregunta 113 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.96,2025-08-13 16:54:01.294888
+114,Esta es la pregunta 114 del módulo Razonamiento Cuantitativo para el grupo Tecnología.,Tecnología,Razonamiento Cuantitativo,especifica,1.04,2025-08-13 16:54:01.294897
+115,Esta es la pregunta 115 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.31,2025-08-13 16:54:01.294903
+116,Esta es la pregunta 116 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,1.95,2025-08-13 16:54:01.294909
+117,Esta es la pregunta 117 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,1.84,2025-08-13 16:54:01.294916
+118,Esta es la pregunta 118 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.93,2025-08-13 16:54:01.294924
+119,Esta es la pregunta 119 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.04,2025-08-13 16:54:01.294930
+120,Esta es la pregunta 120 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,0.94,2025-08-13 16:54:01.294936
+121,Esta es la pregunta 121 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,0.58,2025-08-13 16:54:01.294942
+122,Esta es la pregunta 122 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,1.56,2025-08-13 16:54:01.294949
+123,Esta es la pregunta 123 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.02,2025-08-13 16:54:01.294955
+124,Esta es la pregunta 124 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.74,2025-08-13 16:54:01.294961
+125,Esta es la pregunta 125 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.51,2025-08-13 16:54:01.294969
+126,Esta es la pregunta 126 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.79,2025-08-13 16:54:01.294977
+127,Esta es la pregunta 127 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.61,2025-08-13 16:54:01.294985
+128,Esta es la pregunta 128 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,1.37,2025-08-13 16:54:01.295023
+129,Esta es la pregunta 129 del módulo Razonamiento Cuantitativo para el grupo Tecnología.,Tecnología,Razonamiento Cuantitativo,especifica,0.96,2025-08-13 16:54:01.295029
+130,Esta es la pregunta 130 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.26,2025-08-13 16:54:01.295035
+131,Esta es la pregunta 131 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.53,2025-08-13 16:54:01.295042
+132,Esta es la pregunta 132 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.58,2025-08-13 16:54:01.295048
+133,Esta es la pregunta 133 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.27,2025-08-13 16:54:01.295056
+134,Esta es la pregunta 134 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,0.87,2025-08-13 16:54:01.295063
+135,Esta es la pregunta 135 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.92,2025-08-13 16:54:01.295068
+136,Esta es la pregunta 136 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.86,2025-08-13 16:54:01.295078
+137,Esta es la pregunta 137 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.64,2025-08-13 16:54:01.295085
+138,Esta es la pregunta 138 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.13,2025-08-13 16:54:01.295090
+139,Esta es la pregunta 139 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.06,2025-08-13 16:54:01.295097
+140,Esta es la pregunta 140 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.97,2025-08-13 16:54:01.295103
+141,Esta es la pregunta 141 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,1.07,2025-08-13 16:54:01.295109
+142,Esta es la pregunta 142 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.75,2025-08-13 16:54:01.295115
+143,Esta es la pregunta 143 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,0.97,2025-08-13 16:54:01.295124
+144,Esta es la pregunta 144 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.83,2025-08-13 16:54:01.295130
+145,Esta es la pregunta 145 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.62,2025-08-13 16:54:01.295137
+146,Esta es la pregunta 146 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.29,2025-08-13 16:54:01.295146
+147,Esta es la pregunta 147 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.67,2025-08-13 16:54:01.295153
+148,Esta es la pregunta 148 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.34,2025-08-13 16:54:01.295159
+149,Esta es la pregunta 149 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.15,2025-08-13 16:54:01.295164
+150,Esta es la pregunta 150 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.71,2025-08-13 16:54:01.295171
+151,Esta es la pregunta 151 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.94,2025-08-13 16:54:01.295178
+152,Esta es la pregunta 152 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,0.92,2025-08-13 16:54:01.295185
+153,Esta es la pregunta 153 del módulo Inglés para el grupo Ingeniería.,Ingeniería,Inglés,especifica,1.81,2025-08-13 16:54:01.295191
+154,Esta es la pregunta 154 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,1.43,2025-08-13 16:54:01.295199
+155,Esta es la pregunta 155 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.94,2025-08-13 16:54:01.295205
+156,Esta es la pregunta 156 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.52,2025-08-13 16:54:01.295214
+157,Esta es la pregunta 157 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,0.72,2025-08-13 16:54:01.295222
+158,Esta es la pregunta 158 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.57,2025-08-13 16:54:01.295228
+159,Esta es la pregunta 159 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.28,2025-08-13 16:54:01.295234
+160,Esta es la pregunta 160 del módulo Razonamiento Cuantitativo para el grupo Tecnología.,Tecnología,Razonamiento Cuantitativo,especifica,1.28,2025-08-13 16:54:01.295242
+161,Esta es la pregunta 161 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.94,2025-08-13 16:54:01.295248
+162,Esta es la pregunta 162 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,0.8,2025-08-13 16:54:01.295255
+163,Esta es la pregunta 163 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.78,2025-08-13 16:54:01.295263
+164,Esta es la pregunta 164 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.64,2025-08-13 16:54:01.295269
+165,Esta es la pregunta 165 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.25,2025-08-13 16:54:01.295275
+166,Esta es la pregunta 166 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,0.69,2025-08-13 16:54:01.295281
+167,Esta es la pregunta 167 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.43,2025-08-13 16:54:01.295287
+168,Esta es la pregunta 168 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.98,2025-08-13 16:54:01.295295
+169,Esta es la pregunta 169 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,1.5,2025-08-13 16:54:01.295301
+170,Esta es la pregunta 170 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.18,2025-08-13 16:54:01.295308
+171,Esta es la pregunta 171 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.17,2025-08-13 16:54:01.295315
+172,Esta es la pregunta 172 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.99,2025-08-13 16:54:01.295323
+173,Esta es la pregunta 173 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,1.57,2025-08-13 16:54:01.295330
+174,Esta es la pregunta 174 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.59,2025-08-13 16:54:01.295336
+175,Esta es la pregunta 175 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,1.08,2025-08-13 16:54:01.295343
+176,Esta es la pregunta 176 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.64,2025-08-13 16:54:01.295349
+177,Esta es la pregunta 177 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.87,2025-08-13 16:54:01.295358
+178,Esta es la pregunta 178 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.77,2025-08-13 16:54:01.295366
+179,Esta es la pregunta 179 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.6,2025-08-13 16:54:01.295372
+180,Esta es la pregunta 180 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,1.24,2025-08-13 16:54:01.295378
+181,Esta es la pregunta 181 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,1.24,2025-08-13 16:54:01.295388
+182,Esta es la pregunta 182 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.51,2025-08-13 16:54:01.295426
+183,Esta es la pregunta 183 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.0,2025-08-13 16:54:01.295432
+184,Esta es la pregunta 184 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.55,2025-08-13 16:54:01.295438
+185,Esta es la pregunta 185 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,0.96,2025-08-13 16:54:01.295444
+186,Esta es la pregunta 186 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.15,2025-08-13 16:54:01.295450
+187,Esta es la pregunta 187 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.05,2025-08-13 16:54:01.295456
+188,Esta es la pregunta 188 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,1.61,2025-08-13 16:54:01.295462
+189,Esta es la pregunta 189 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,0.88,2025-08-13 16:54:01.295471
+190,Esta es la pregunta 190 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.13,2025-08-13 16:54:01.295479
+191,Esta es la pregunta 191 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.43,2025-08-13 16:54:01.295484
+192,Esta es la pregunta 192 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,0.98,2025-08-13 16:54:01.295491
+193,Esta es la pregunta 193 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.42,2025-08-13 16:54:01.295497
+194,Esta es la pregunta 194 del módulo Razonamiento Cuantitativo para el grupo Tecnología.,Tecnología,Razonamiento Cuantitativo,especifica,1.36,2025-08-13 16:54:01.295505
+195,Esta es la pregunta 195 del módulo Razonamiento Cuantitativo para el grupo Tecnología.,Tecnología,Razonamiento Cuantitativo,especifica,0.91,2025-08-13 16:54:01.295511
+196,Esta es la pregunta 196 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,1.87,2025-08-13 16:54:01.295517
+197,Esta es la pregunta 197 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.8,2025-08-13 16:54:01.295523
+198,Esta es la pregunta 198 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,1.47,2025-08-13 16:54:01.295529
+199,Esta es la pregunta 199 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,1.43,2025-08-13 16:54:01.295539
+200,Esta es la pregunta 200 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.28,2025-08-13 16:54:01.295545
+201,Esta es la pregunta 201 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.6,2025-08-13 16:54:01.295552
+202,Esta es la pregunta 202 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.65,2025-08-13 16:54:01.295558
+203,Esta es la pregunta 203 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.94,2025-08-13 16:54:01.295566
+204,Esta es la pregunta 204 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.81,2025-08-13 16:54:01.295572
+205,Esta es la pregunta 205 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.64,2025-08-13 16:54:01.295578
+206,Esta es la pregunta 206 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,1.47,2025-08-13 16:54:01.295584
+207,Esta es la pregunta 207 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.71,2025-08-13 16:54:01.295593
+208,Esta es la pregunta 208 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.22,2025-08-13 16:54:01.295601
+209,Esta es la pregunta 209 del módulo Inglés para el grupo Ingeniería.,Ingeniería,Inglés,especifica,1.69,2025-08-13 16:54:01.295607
+210,Esta es la pregunta 210 del módulo Razonamiento Cuantitativo para el grupo Salud.,Salud,Razonamiento Cuantitativo,especifica,1.12,2025-08-13 16:54:01.295616
+211,Esta es la pregunta 211 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,0.73,2025-08-13 16:54:01.295624
+212,Esta es la pregunta 212 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.11,2025-08-13 16:54:01.295630
+213,Esta es la pregunta 213 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,1.94,2025-08-13 16:54:01.295636
+214,Esta es la pregunta 214 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.87,2025-08-13 16:54:01.295642
+215,Esta es la pregunta 215 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.33,2025-08-13 16:54:01.295648
+216,Esta es la pregunta 216 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.06,2025-08-13 16:54:01.295657
+217,Esta es la pregunta 217 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.99,2025-08-13 16:54:01.295665
+218,Esta es la pregunta 218 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.55,2025-08-13 16:54:01.295674
+219,Esta es la pregunta 219 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.5,2025-08-13 16:54:01.295680
+220,Esta es la pregunta 220 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.76,2025-08-13 16:54:01.295686
+221,Esta es la pregunta 221 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,0.84,2025-08-13 16:54:01.295695
+222,Esta es la pregunta 222 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.92,2025-08-13 16:54:01.295700
+223,Esta es la pregunta 223 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.17,2025-08-13 16:54:01.295707
+224,Esta es la pregunta 224 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.41,2025-08-13 16:54:01.295712
+225,Esta es la pregunta 225 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,1.8,2025-08-13 16:54:01.295719
+226,Esta es la pregunta 226 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.3,2025-08-13 16:54:01.295725
+227,Esta es la pregunta 227 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.18,2025-08-13 16:54:01.295734
+228,Esta es la pregunta 228 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.18,2025-08-13 16:54:01.295742
+229,Esta es la pregunta 229 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.97,2025-08-13 16:54:01.295748
+230,Esta es la pregunta 230 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.12,2025-08-13 16:54:01.295754
+231,Esta es la pregunta 231 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.3,2025-08-13 16:54:01.295762
+232,Esta es la pregunta 232 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,0.78,2025-08-13 16:54:01.295771
+233,Esta es la pregunta 233 del módulo Inglés para el grupo Ingeniería.,Ingeniería,Inglés,especifica,1.77,2025-08-13 16:54:01.295777
+234,Esta es la pregunta 234 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.83,2025-08-13 16:54:01.295783
+235,Esta es la pregunta 235 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.27,2025-08-13 16:54:01.295789
+236,Esta es la pregunta 236 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.13,2025-08-13 16:54:01.295797
+237,Esta es la pregunta 237 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.12,2025-08-13 16:54:01.295803
+238,Esta es la pregunta 238 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.52,2025-08-13 16:54:01.295809
+239,Esta es la pregunta 239 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.62,2025-08-13 16:54:01.295815
+240,Esta es la pregunta 240 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,0.5,2025-08-13 16:54:01.295821
+241,Esta es la pregunta 241 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.17,2025-08-13 16:54:01.295847
+242,Esta es la pregunta 242 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.85,2025-08-13 16:54:01.295859
+243,Esta es la pregunta 243 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.8,2025-08-13 16:54:01.295871
+244,Esta es la pregunta 244 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.26,2025-08-13 16:54:01.295880
+245,Esta es la pregunta 245 del módulo Razonamiento Cuantitativo para el grupo Salud.,Salud,Razonamiento Cuantitativo,especifica,1.24,2025-08-13 16:54:01.295891
+246,Esta es la pregunta 246 del módulo Razonamiento Cuantitativo para el grupo Salud.,Salud,Razonamiento Cuantitativo,especifica,1.03,2025-08-13 16:54:01.295897
+247,Esta es la pregunta 247 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,0.99,2025-08-13 16:54:01.295904
+248,Esta es la pregunta 248 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,1.02,2025-08-13 16:54:01.295910
+249,Esta es la pregunta 249 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.18,2025-08-13 16:54:01.295916
+250,Esta es la pregunta 250 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.72,2025-08-13 16:54:01.295922
+251,Esta es la pregunta 251 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,0.7,2025-08-13 16:54:01.295928
+252,Esta es la pregunta 252 del módulo Razonamiento Cuantitativo para el grupo Salud.,Salud,Razonamiento Cuantitativo,especifica,1.45,2025-08-13 16:54:01.295935
+253,Esta es la pregunta 253 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.25,2025-08-13 16:54:01.295943
+254,Esta es la pregunta 254 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,1.97,2025-08-13 16:54:01.295951
+255,Esta es la pregunta 255 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,1.86,2025-08-13 16:54:01.295957
+256,Esta es la pregunta 256 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,0.96,2025-08-13 16:54:01.295964
+257,Esta es la pregunta 257 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.84,2025-08-13 16:54:01.295970
+258,Esta es la pregunta 258 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,0.93,2025-08-13 16:54:01.295979
+259,Esta es la pregunta 259 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.9,2025-08-13 16:54:01.295985
+260,Esta es la pregunta 260 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,1.63,2025-08-13 16:54:01.295992
+261,Esta es la pregunta 261 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.74,2025-08-13 16:54:01.295998
+262,Esta es la pregunta 262 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,1.27,2025-08-13 16:54:01.296006
+263,Esta es la pregunta 263 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.73,2025-08-13 16:54:01.296017
+264,Esta es la pregunta 264 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,1.09,2025-08-13 16:54:01.296023
+265,Esta es la pregunta 265 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.49,2025-08-13 16:54:01.296030
+266,Esta es la pregunta 266 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.7,2025-08-13 16:54:01.296035
+267,Esta es la pregunta 267 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.6,2025-08-13 16:54:01.296041
+268,Esta es la pregunta 268 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.33,2025-08-13 16:54:01.296048
+269,Esta es la pregunta 269 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.84,2025-08-13 16:54:01.296054
+270,Esta es la pregunta 270 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,0.64,2025-08-13 16:54:01.296060
+271,Esta es la pregunta 271 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.56,2025-08-13 16:54:01.296066
+272,Esta es la pregunta 272 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,0.59,2025-08-13 16:54:01.296075
+273,Esta es la pregunta 273 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.61,2025-08-13 16:54:01.296080
+274,Esta es la pregunta 274 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.89,2025-08-13 16:54:01.296089
+275,Esta es la pregunta 275 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.94,2025-08-13 16:54:01.296096
+276,Esta es la pregunta 276 del módulo Razonamiento Cuantitativo para el grupo Salud.,Salud,Razonamiento Cuantitativo,especifica,0.95,2025-08-13 16:54:01.296103
+277,Esta es la pregunta 277 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,0.89,2025-08-13 16:54:01.296109
+278,Esta es la pregunta 278 del módulo Razonamiento Cuantitativo para el grupo Tecnología.,Tecnología,Razonamiento Cuantitativo,especifica,0.89,2025-08-13 16:54:01.296117
+279,Esta es la pregunta 279 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.54,2025-08-13 16:54:01.296126
+280,Esta es la pregunta 280 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.84,2025-08-13 16:54:01.296137
+281,Esta es la pregunta 281 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.85,2025-08-13 16:54:01.296149
+282,Esta es la pregunta 282 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,0.76,2025-08-13 16:54:01.296195
+283,Esta es la pregunta 283 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.01,2025-08-13 16:54:01.296228
+284,Esta es la pregunta 284 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.53,2025-08-13 16:54:01.296247
+285,Esta es la pregunta 285 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.34,2025-08-13 16:54:01.296265
+286,Esta es la pregunta 286 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.92,2025-08-13 16:54:01.296276
+287,Esta es la pregunta 287 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.88,2025-08-13 16:54:01.296284
+288,Esta es la pregunta 288 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.94,2025-08-13 16:54:01.296293
+289,Esta es la pregunta 289 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.62,2025-08-13 16:54:01.296302
+290,Esta es la pregunta 290 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.19,2025-08-13 16:54:01.296315
+291,Esta es la pregunta 291 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,1.17,2025-08-13 16:54:01.296326
+292,Esta es la pregunta 292 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.95,2025-08-13 16:54:01.296334
+293,Esta es la pregunta 293 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,1.8,2025-08-13 16:54:01.296343
+294,Esta es la pregunta 294 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.15,2025-08-13 16:54:01.296352
+295,Esta es la pregunta 295 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.91,2025-08-13 16:54:01.296363
+296,Esta es la pregunta 296 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.97,2025-08-13 16:54:01.296375
+297,Esta es la pregunta 297 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.65,2025-08-13 16:54:01.296384
+298,Esta es la pregunta 298 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.11,2025-08-13 16:54:01.296392
+299,Esta es la pregunta 299 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,0.62,2025-08-13 16:54:01.296404
+300,Esta es la pregunta 300 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,1.2,2025-08-13 16:54:01.296419
+301,Esta es la pregunta 301 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,1.07,2025-08-13 16:54:01.296428
+302,Esta es la pregunta 302 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.65,2025-08-13 16:54:01.296437
+303,Esta es la pregunta 303 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.96,2025-08-13 16:54:01.296446
+304,Esta es la pregunta 304 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.01,2025-08-13 16:54:01.296458
+305,Esta es la pregunta 305 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.62,2025-08-13 16:54:01.296468
+306,Esta es la pregunta 306 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.61,2025-08-13 16:54:01.296482
+307,Esta es la pregunta 307 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.91,2025-08-13 16:54:01.296492
+308,Esta es la pregunta 308 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,0.93,2025-08-13 16:54:01.296504
+309,Esta es la pregunta 309 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.78,2025-08-13 16:54:01.296513
+310,Esta es la pregunta 310 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,1.07,2025-08-13 16:54:01.296524
+311,Esta es la pregunta 311 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.71,2025-08-13 16:54:01.296532
+312,Esta es la pregunta 312 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.54,2025-08-13 16:54:01.296541
+313,Esta es la pregunta 313 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.09,2025-08-13 16:54:01.296553
+314,Esta es la pregunta 314 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.27,2025-08-13 16:54:01.296563
+315,Esta es la pregunta 315 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.37,2025-08-13 16:54:01.296572
+316,Esta es la pregunta 316 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,1.94,2025-08-13 16:54:01.296581
+317,Esta es la pregunta 317 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,1.32,2025-08-13 16:54:01.296600
+318,Esta es la pregunta 318 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.18,2025-08-13 16:54:01.296610
+319,Esta es la pregunta 319 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.2,2025-08-13 16:54:01.296621
+320,Esta es la pregunta 320 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.95,2025-08-13 16:54:01.296630
+321,Esta es la pregunta 321 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,0.52,2025-08-13 16:54:01.296643
+322,Esta es la pregunta 322 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,0.54,2025-08-13 16:54:01.296662
+323,Esta es la pregunta 323 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.49,2025-08-13 16:54:01.296717
+324,Esta es la pregunta 324 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.89,2025-08-13 16:54:01.296727
+325,Esta es la pregunta 325 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,0.89,2025-08-13 16:54:01.296736
+326,Esta es la pregunta 326 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,1.63,2025-08-13 16:54:01.296755
+327,Esta es la pregunta 327 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.71,2025-08-13 16:54:01.296767
+328,Esta es la pregunta 328 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,1.2,2025-08-13 16:54:01.296776
+329,Esta es la pregunta 329 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.95,2025-08-13 16:54:01.296786
+330,Esta es la pregunta 330 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,1.22,2025-08-13 16:54:01.296798
+331,Esta es la pregunta 331 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,0.96,2025-08-13 16:54:01.296808
+332,Esta es la pregunta 332 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,0.85,2025-08-13 16:54:01.296817
+333,Esta es la pregunta 333 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.51,2025-08-13 16:54:01.296826
+334,Esta es la pregunta 334 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,0.99,2025-08-13 16:54:01.296856
+335,Esta es la pregunta 335 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.19,2025-08-13 16:54:01.296870
+336,Esta es la pregunta 336 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.73,2025-08-13 16:54:01.296879
+337,Esta es la pregunta 337 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,0.54,2025-08-13 16:54:01.296887
+338,Esta es la pregunta 338 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.61,2025-08-13 16:54:01.296899
+339,Esta es la pregunta 339 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,1.99,2025-08-13 16:54:01.296908
+340,Esta es la pregunta 340 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.51,2025-08-13 16:54:01.296916
+341,Esta es la pregunta 341 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,0.72,2025-08-13 16:54:01.296925
+342,Esta es la pregunta 342 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.7,2025-08-13 16:54:01.296937
+343,Esta es la pregunta 343 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.96,2025-08-13 16:54:01.296946
+344,Esta es la pregunta 344 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,0.75,2025-08-13 16:54:01.296959
+345,Esta es la pregunta 345 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,0.75,2025-08-13 16:54:01.296969
+346,Esta es la pregunta 346 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.98,2025-08-13 16:54:01.296978
+347,Esta es la pregunta 347 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.55,2025-08-13 16:54:01.296989
+348,Esta es la pregunta 348 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.59,2025-08-13 16:54:01.297001
+349,Esta es la pregunta 349 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.35,2025-08-13 16:54:01.297010
+350,Esta es la pregunta 350 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.0,2025-08-13 16:54:01.297019
+351,Esta es la pregunta 351 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,1.66,2025-08-13 16:54:01.297031
+352,Esta es la pregunta 352 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.12,2025-08-13 16:54:01.297040
+353,Esta es la pregunta 353 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.44,2025-08-13 16:54:01.297052
+354,Esta es la pregunta 354 del módulo Razonamiento Cuantitativo para el grupo Tecnología.,Tecnología,Razonamiento Cuantitativo,especifica,1.24,2025-08-13 16:54:01.297062
+355,Esta es la pregunta 355 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.57,2025-08-13 16:54:01.297071
+356,Esta es la pregunta 356 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.5,2025-08-13 16:54:01.297080
+357,Esta es la pregunta 357 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.79,2025-08-13 16:54:01.297088
+358,Esta es la pregunta 358 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.76,2025-08-13 16:54:01.297097
+359,Esta es la pregunta 359 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.98,2025-08-13 16:54:01.297109
+360,Esta es la pregunta 360 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.68,2025-08-13 16:54:01.297117
+361,Esta es la pregunta 361 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,1.98,2025-08-13 16:54:01.297126
+362,Esta es la pregunta 362 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.04,2025-08-13 16:54:01.297135
+363,Esta es la pregunta 363 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.77,2025-08-13 16:54:01.297150
+364,Esta es la pregunta 364 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.35,2025-08-13 16:54:01.297162
+365,Esta es la pregunta 365 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.85,2025-08-13 16:54:01.297171
+366,Esta es la pregunta 366 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.02,2025-08-13 16:54:01.297181
+367,Esta es la pregunta 367 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.61,2025-08-13 16:54:01.297190
+368,Esta es la pregunta 368 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.66,2025-08-13 16:54:01.297199
+369,Esta es la pregunta 369 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.76,2025-08-13 16:54:01.297208
+370,Esta es la pregunta 370 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.13,2025-08-13 16:54:01.297221
+371,Esta es la pregunta 371 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,0.63,2025-08-13 16:54:01.297232
+372,Esta es la pregunta 372 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.61,2025-08-13 16:54:01.297245
+373,Esta es la pregunta 373 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,1.85,2025-08-13 16:54:01.297254
+374,Esta es la pregunta 374 del módulo Razonamiento Cuantitativo para el grupo Salud.,Salud,Razonamiento Cuantitativo,especifica,1.83,2025-08-13 16:54:01.297263
+375,Esta es la pregunta 375 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,0.54,2025-08-13 16:54:01.297272
+376,Esta es la pregunta 376 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.58,2025-08-13 16:54:01.297281
+377,Esta es la pregunta 377 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.76,2025-08-13 16:54:01.297290
+378,Esta es la pregunta 378 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,0.54,2025-08-13 16:54:01.297300
+379,Esta es la pregunta 379 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.54,2025-08-13 16:54:01.297309
+380,Esta es la pregunta 380 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,0.91,2025-08-13 16:54:01.297322
+381,Esta es la pregunta 381 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,0.83,2025-08-13 16:54:01.297338
+382,Esta es la pregunta 382 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.39,2025-08-13 16:54:01.297347
+383,Esta es la pregunta 383 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.97,2025-08-13 16:54:01.297357
+384,Esta es la pregunta 384 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.57,2025-08-13 16:54:01.297366
+385,Esta es la pregunta 385 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.8,2025-08-13 16:54:01.297377
+386,Esta es la pregunta 386 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,0.61,2025-08-13 16:54:01.297386
+387,Esta es la pregunta 387 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.12,2025-08-13 16:54:01.297397
+388,Esta es la pregunta 388 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.25,2025-08-13 16:54:01.297406
+389,Esta es la pregunta 389 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.84,2025-08-13 16:54:01.297416
+390,Esta es la pregunta 390 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.95,2025-08-13 16:54:01.297431
+391,Esta es la pregunta 391 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,1.25,2025-08-13 16:54:01.297444
+392,Esta es la pregunta 392 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.19,2025-08-13 16:54:01.297455
+393,Esta es la pregunta 393 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,1.93,2025-08-13 16:54:01.297470
+394,Esta es la pregunta 394 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.28,2025-08-13 16:54:01.297479
+395,Esta es la pregunta 395 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.19,2025-08-13 16:54:01.297488
+396,Esta es la pregunta 396 del módulo Razonamiento Cuantitativo para el grupo Salud.,Salud,Razonamiento Cuantitativo,especifica,1.92,2025-08-13 16:54:01.297497
+397,Esta es la pregunta 397 del módulo Razonamiento Cuantitativo para el grupo Tecnología.,Tecnología,Razonamiento Cuantitativo,especifica,1.76,2025-08-13 16:54:01.297507
+398,Esta es la pregunta 398 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,1.85,2025-08-13 16:54:01.297524
+399,Esta es la pregunta 399 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,0.56,2025-08-13 16:54:01.297537
+400,Esta es la pregunta 400 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.16,2025-08-13 16:54:01.297549
+401,Esta es la pregunta 401 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.65,2025-08-13 16:54:01.297558
+402,Esta es la pregunta 402 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.52,2025-08-13 16:54:01.297571
+403,Esta es la pregunta 403 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.97,2025-08-13 16:54:01.297580
+404,Esta es la pregunta 404 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,0.93,2025-08-13 16:54:01.297590
+405,Esta es la pregunta 405 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.14,2025-08-13 16:54:01.297600
+406,Esta es la pregunta 406 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.8,2025-08-13 16:54:01.297612
+407,Esta es la pregunta 407 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.81,2025-08-13 16:54:01.297622
+408,Esta es la pregunta 408 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,1.9,2025-08-13 16:54:01.297635
+409,Esta es la pregunta 409 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,0.6,2025-08-13 16:54:01.297646
+410,Esta es la pregunta 410 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.78,2025-08-13 16:54:01.297663
+411,Esta es la pregunta 411 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.75,2025-08-13 16:54:01.297673
+412,Esta es la pregunta 412 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,1.76,2025-08-13 16:54:01.297685
+413,Esta es la pregunta 413 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.0,2025-08-13 16:54:01.297696
+414,Esta es la pregunta 414 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.97,2025-08-13 16:54:01.297704
+415,Esta es la pregunta 415 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,0.96,2025-08-13 16:54:01.297716
+416,Esta es la pregunta 416 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.42,2025-08-13 16:54:01.297725
+417,Esta es la pregunta 417 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,1.48,2025-08-13 16:54:01.297736
+418,Esta es la pregunta 418 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.06,2025-08-13 16:54:01.297744
+419,Esta es la pregunta 419 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.57,2025-08-13 16:54:01.298030
+420,Esta es la pregunta 420 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.03,2025-08-13 16:54:01.298045
+421,Esta es la pregunta 421 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.67,2025-08-13 16:54:01.298055
+422,Esta es la pregunta 422 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.28,2025-08-13 16:54:01.298064
+423,Esta es la pregunta 423 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.64,2025-08-13 16:54:01.298081
+424,Esta es la pregunta 424 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.38,2025-08-13 16:54:01.298092
+425,Esta es la pregunta 425 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.18,2025-08-13 16:54:01.298101
+426,Esta es la pregunta 426 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,1.3,2025-08-13 16:54:01.298114
+427,Esta es la pregunta 427 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.73,2025-08-13 16:54:01.298128
+428,Esta es la pregunta 428 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.51,2025-08-13 16:54:01.298139
+429,Esta es la pregunta 429 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,0.83,2025-08-13 16:54:01.298147
+430,Esta es la pregunta 430 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.93,2025-08-13 16:54:01.298157
+431,Esta es la pregunta 431 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.36,2025-08-13 16:54:01.298166
+432,Esta es la pregunta 432 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.86,2025-08-13 16:54:01.298180
+433,Esta es la pregunta 433 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.03,2025-08-13 16:54:01.298191
+434,Esta es la pregunta 434 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.56,2025-08-13 16:54:01.298200
+435,Esta es la pregunta 435 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,1.83,2025-08-13 16:54:01.298215
+436,Esta es la pregunta 436 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,1.86,2025-08-13 16:54:01.298227
+437,Esta es la pregunta 437 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.57,2025-08-13 16:54:01.298236
+438,Esta es la pregunta 438 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,1.77,2025-08-13 16:54:01.298245
+439,Esta es la pregunta 439 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.77,2025-08-13 16:54:01.298255
+440,Esta es la pregunta 440 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.78,2025-08-13 16:54:01.298264
+441,Esta es la pregunta 441 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.87,2025-08-13 16:54:01.298273
+442,Esta es la pregunta 442 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,0.58,2025-08-13 16:54:01.298283
+443,Esta es la pregunta 443 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,0.63,2025-08-13 16:54:01.298292
+444,Esta es la pregunta 444 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.87,2025-08-13 16:54:01.298307
+445,Esta es la pregunta 445 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.73,2025-08-13 16:54:01.298317
+446,Esta es la pregunta 446 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.87,2025-08-13 16:54:01.298326
+447,Esta es la pregunta 447 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.55,2025-08-13 16:54:01.298335
+448,Esta es la pregunta 448 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,0.74,2025-08-13 16:54:01.298348
+449,Esta es la pregunta 449 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.95,2025-08-13 16:54:01.298359
+450,Esta es la pregunta 450 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.51,2025-08-13 16:54:01.298368
+451,Esta es la pregunta 451 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.6,2025-08-13 16:54:01.298377
+452,Esta es la pregunta 452 del módulo Razonamiento Cuantitativo para el grupo Tecnología.,Tecnología,Razonamiento Cuantitativo,especifica,1.89,2025-08-13 16:54:01.298386
+453,Esta es la pregunta 453 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.78,2025-08-13 16:54:01.298398
+454,Esta es la pregunta 454 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.72,2025-08-13 16:54:01.298421
+455,Esta es la pregunta 455 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,1.0,2025-08-13 16:54:01.298434
+456,Esta es la pregunta 456 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.11,2025-08-13 16:54:01.298444
+457,Esta es la pregunta 457 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,1.85,2025-08-13 16:54:01.298453
+458,Esta es la pregunta 458 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.5,2025-08-13 16:54:01.298463
+459,Esta es la pregunta 459 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,0.61,2025-08-13 16:54:01.298472
+460,Esta es la pregunta 460 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.56,2025-08-13 16:54:01.298480
+461,Esta es la pregunta 461 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,1.97,2025-08-13 16:54:01.298490
+462,Esta es la pregunta 462 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.04,2025-08-13 16:54:01.298504
+463,Esta es la pregunta 463 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.1,2025-08-13 16:54:01.298555
+464,Esta es la pregunta 464 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.78,2025-08-13 16:54:01.298565
+465,Esta es la pregunta 465 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,0.53,2025-08-13 16:54:01.298579
+466,Esta es la pregunta 466 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.17,2025-08-13 16:54:01.298591
+467,Esta es la pregunta 467 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.44,2025-08-13 16:54:01.298602
+468,Esta es la pregunta 468 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.09,2025-08-13 16:54:01.298612
+469,Esta es la pregunta 469 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,0.9,2025-08-13 16:54:01.298623
+470,Esta es la pregunta 470 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.33,2025-08-13 16:54:01.298635
+471,Esta es la pregunta 471 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.27,2025-08-13 16:54:01.298648
+472,Esta es la pregunta 472 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.59,2025-08-13 16:54:01.298657
+473,Esta es la pregunta 473 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,1.57,2025-08-13 16:54:01.298669
+474,Esta es la pregunta 474 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,1.95,2025-08-13 16:54:01.298680
+475,Esta es la pregunta 475 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.84,2025-08-13 16:54:01.298690
+476,Esta es la pregunta 476 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.37,2025-08-13 16:54:01.298704
+477,Esta es la pregunta 477 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,1.25,2025-08-13 16:54:01.298713
+478,Esta es la pregunta 478 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.13,2025-08-13 16:54:01.298721
+479,Esta es la pregunta 479 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,1.39,2025-08-13 16:54:01.298730
+480,Esta es la pregunta 480 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,1.18,2025-08-13 16:54:01.298743
+481,Esta es la pregunta 481 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.73,2025-08-13 16:54:01.298752
+482,Esta es la pregunta 482 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.85,2025-08-13 16:54:01.298761
+483,Esta es la pregunta 483 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.79,2025-08-13 16:54:01.298773
+484,Esta es la pregunta 484 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,1.1,2025-08-13 16:54:01.298784
+485,Esta es la pregunta 485 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.72,2025-08-13 16:54:01.298793
+486,Esta es la pregunta 486 del módulo Razonamiento Cuantitativo para el grupo Tecnología.,Tecnología,Razonamiento Cuantitativo,especifica,0.89,2025-08-13 16:54:01.298803
+487,Esta es la pregunta 487 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.32,2025-08-13 16:54:01.298814
+488,Esta es la pregunta 488 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.81,2025-08-13 16:54:01.298823
+489,Esta es la pregunta 489 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.98,2025-08-13 16:54:01.298854
+490,Esta es la pregunta 490 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.78,2025-08-13 16:54:01.298864
+491,Esta es la pregunta 491 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.31,2025-08-13 16:54:01.298875
+492,Esta es la pregunta 492 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.46,2025-08-13 16:54:01.298884
+493,Esta es la pregunta 493 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.64,2025-08-13 16:54:01.298892
+494,Esta es la pregunta 494 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,0.91,2025-08-13 16:54:01.298902
+495,Esta es la pregunta 495 del módulo Inglés para el grupo Ingeniería.,Ingeniería,Inglés,especifica,0.78,2025-08-13 16:54:01.298911
+496,Esta es la pregunta 496 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,0.54,2025-08-13 16:54:01.298923
+497,Esta es la pregunta 497 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.23,2025-08-13 16:54:01.298937
+498,Esta es la pregunta 498 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,0.81,2025-08-13 16:54:01.298949
+499,Esta es la pregunta 499 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,0.9,2025-08-13 16:54:01.298959
+500,Esta es la pregunta 500 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.21,2025-08-13 16:54:01.298972
+501,Esta es la pregunta 501 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.74,2025-08-13 16:54:01.298981
+502,Esta es la pregunta 502 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,1.96,2025-08-13 16:54:01.298989
+503,Esta es la pregunta 503 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,1.89,2025-08-13 16:54:01.298998
+504,Esta es la pregunta 504 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,1.77,2025-08-13 16:54:01.299007
+505,Esta es la pregunta 505 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.68,2025-08-13 16:54:01.299017
+506,Esta es la pregunta 506 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,1.58,2025-08-13 16:54:01.299027
+507,Esta es la pregunta 507 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.67,2025-08-13 16:54:01.299040
+508,Esta es la pregunta 508 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,1.11,2025-08-13 16:54:01.299054
+509,Esta es la pregunta 509 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.03,2025-08-13 16:54:01.299062
+510,Esta es la pregunta 510 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.74,2025-08-13 16:54:01.299072
+511,Esta es la pregunta 511 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.43,2025-08-13 16:54:01.299082
+512,Esta es la pregunta 512 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.14,2025-08-13 16:54:01.299094
+513,Esta es la pregunta 513 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,0.6,2025-08-13 16:54:01.299104
+514,Esta es la pregunta 514 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,0.69,2025-08-13 16:54:01.299113
+515,Esta es la pregunta 515 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.46,2025-08-13 16:54:01.299124
+516,Esta es la pregunta 516 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.54,2025-08-13 16:54:01.299134
+517,Esta es la pregunta 517 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.64,2025-08-13 16:54:01.299147
+518,Esta es la pregunta 518 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.68,2025-08-13 16:54:01.299162
+519,Esta es la pregunta 519 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.87,2025-08-13 16:54:01.299171
+520,Esta es la pregunta 520 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.26,2025-08-13 16:54:01.299183
+521,Esta es la pregunta 521 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,0.91,2025-08-13 16:54:01.299192
+522,Esta es la pregunta 522 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.3,2025-08-13 16:54:01.299202
+523,Esta es la pregunta 523 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.89,2025-08-13 16:54:01.299211
+524,Esta es la pregunta 524 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.06,2025-08-13 16:54:01.299222
+525,Esta es la pregunta 525 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,0.95,2025-08-13 16:54:01.299232
+526,Esta es la pregunta 526 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.81,2025-08-13 16:54:01.299245
+527,Esta es la pregunta 527 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.1,2025-08-13 16:54:01.299256
+528,Esta es la pregunta 528 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.69,2025-08-13 16:54:01.299267
+529,Esta es la pregunta 529 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.75,2025-08-13 16:54:01.299283
+530,Esta es la pregunta 530 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.57,2025-08-13 16:54:01.299294
+531,Esta es la pregunta 531 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.44,2025-08-13 16:54:01.299304
+532,Esta es la pregunta 532 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,1.67,2025-08-13 16:54:01.299315
+533,Esta es la pregunta 533 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.93,2025-08-13 16:54:01.299329
+534,Esta es la pregunta 534 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,0.92,2025-08-13 16:54:01.299343
+535,Esta es la pregunta 535 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,0.94,2025-08-13 16:54:01.299356
+536,Esta es la pregunta 536 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,0.95,2025-08-13 16:54:01.299366
+537,Esta es la pregunta 537 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.39,2025-08-13 16:54:01.299376
+538,Esta es la pregunta 538 del módulo Razonamiento Cuantitativo para el grupo Tecnología.,Tecnología,Razonamiento Cuantitativo,especifica,1.78,2025-08-13 16:54:01.299385
+539,Esta es la pregunta 539 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.36,2025-08-13 16:54:01.299394
+540,Esta es la pregunta 540 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.02,2025-08-13 16:54:01.299439
+541,Esta es la pregunta 541 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.12,2025-08-13 16:54:01.299450
+542,Esta es la pregunta 542 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.85,2025-08-13 16:54:01.299460
+543,Esta es la pregunta 543 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.62,2025-08-13 16:54:01.299470
+544,Esta es la pregunta 544 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.98,2025-08-13 16:54:01.299484
+545,Esta es la pregunta 545 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.76,2025-08-13 16:54:01.299493
+546,Esta es la pregunta 546 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,0.7,2025-08-13 16:54:01.299503
+547,Esta es la pregunta 547 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.21,2025-08-13 16:54:01.299513
+548,Esta es la pregunta 548 del módulo Inglés para el grupo Ingeniería.,Ingeniería,Inglés,especifica,1.44,2025-08-13 16:54:01.299522
+549,Esta es la pregunta 549 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.65,2025-08-13 16:54:01.299531
+550,Esta es la pregunta 550 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,1.84,2025-08-13 16:54:01.299545
+551,Esta es la pregunta 551 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.65,2025-08-13 16:54:01.299557
+552,Esta es la pregunta 552 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,0.95,2025-08-13 16:54:01.299581
+553,Esta es la pregunta 553 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.2,2025-08-13 16:54:01.299594
+554,Esta es la pregunta 554 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.51,2025-08-13 16:54:01.299604
+555,Esta es la pregunta 555 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.09,2025-08-13 16:54:01.299616
+556,Esta es la pregunta 556 del módulo Inglés para el grupo Ingeniería.,Ingeniería,Inglés,especifica,1.01,2025-08-13 16:54:01.299627
+557,Esta es la pregunta 557 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.77,2025-08-13 16:54:01.299640
+558,Esta es la pregunta 558 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.03,2025-08-13 16:54:01.299650
+559,Esta es la pregunta 559 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,1.69,2025-08-13 16:54:01.299660
+560,Esta es la pregunta 560 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.61,2025-08-13 16:54:01.299669
+561,Esta es la pregunta 561 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,0.54,2025-08-13 16:54:01.299678
+562,Esta es la pregunta 562 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,1.12,2025-08-13 16:54:01.299688
+563,Esta es la pregunta 563 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.89,2025-08-13 16:54:01.299694
+564,Esta es la pregunta 564 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,1.7,2025-08-13 16:54:01.299700
+565,Esta es la pregunta 565 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.02,2025-08-13 16:54:01.299706
+566,Esta es la pregunta 566 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.88,2025-08-13 16:54:01.299713
+567,Esta es la pregunta 567 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.9,2025-08-13 16:54:01.299719
+568,Esta es la pregunta 568 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,1.63,2025-08-13 16:54:01.299728
+569,Esta es la pregunta 569 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,0.93,2025-08-13 16:54:01.299734
+570,Esta es la pregunta 570 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,2.0,2025-08-13 16:54:01.299745
+571,Esta es la pregunta 571 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.35,2025-08-13 16:54:01.299754
+572,Esta es la pregunta 572 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,0.54,2025-08-13 16:54:01.299762
+573,Esta es la pregunta 573 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,0.51,2025-08-13 16:54:01.299768
+574,Esta es la pregunta 574 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.97,2025-08-13 16:54:01.299775
+575,Esta es la pregunta 575 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.68,2025-08-13 16:54:01.299781
+576,Esta es la pregunta 576 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.86,2025-08-13 16:54:01.299789
+577,Esta es la pregunta 577 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.78,2025-08-13 16:54:01.299795
+578,Esta es la pregunta 578 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.03,2025-08-13 16:54:01.299800
+579,Esta es la pregunta 579 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.58,2025-08-13 16:54:01.299807
+580,Esta es la pregunta 580 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.38,2025-08-13 16:54:01.299815
+581,Esta es la pregunta 581 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,1.38,2025-08-13 16:54:01.299821
+582,Esta es la pregunta 582 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,1.24,2025-08-13 16:54:01.299845
+583,Esta es la pregunta 583 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.69,2025-08-13 16:54:01.299856
+584,Esta es la pregunta 584 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.64,2025-08-13 16:54:01.299869
+585,Esta es la pregunta 585 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,1.38,2025-08-13 16:54:01.299883
+586,Esta es la pregunta 586 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.78,2025-08-13 16:54:01.299891
+587,Esta es la pregunta 587 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.6,2025-08-13 16:54:01.299897
+588,Esta es la pregunta 588 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.67,2025-08-13 16:54:01.299903
+589,Esta es la pregunta 589 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.54,2025-08-13 16:54:01.299911
+590,Esta es la pregunta 590 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.69,2025-08-13 16:54:01.299917
+591,Esta es la pregunta 591 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.8,2025-08-13 16:54:01.299923
+592,Esta es la pregunta 592 del módulo Inglés para el grupo Ingeniería.,Ingeniería,Inglés,especifica,1.2,2025-08-13 16:54:01.299936
+593,Esta es la pregunta 593 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.09,2025-08-13 16:54:01.299945
+594,Esta es la pregunta 594 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,1.62,2025-08-13 16:54:01.299952
+595,Esta es la pregunta 595 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,0.74,2025-08-13 16:54:01.299958
+596,Esta es la pregunta 596 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,1.36,2025-08-13 16:54:01.299965
+597,Esta es la pregunta 597 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.6,2025-08-13 16:54:01.299973
+598,Esta es la pregunta 598 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.79,2025-08-13 16:54:01.299983
+599,Esta es la pregunta 599 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,2.0,2025-08-13 16:54:01.299990
+600,Esta es la pregunta 600 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.77,2025-08-13 16:54:01.299996
+601,Esta es la pregunta 601 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.0,2025-08-13 16:54:01.300002
+602,Esta es la pregunta 602 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.02,2025-08-13 16:54:01.300010
+603,Esta es la pregunta 603 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.48,2025-08-13 16:54:01.300050
+604,Esta es la pregunta 604 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.94,2025-08-13 16:54:01.300057
+605,Esta es la pregunta 605 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.49,2025-08-13 16:54:01.300063
+606,Esta es la pregunta 606 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,1.91,2025-08-13 16:54:01.300070
+607,Esta es la pregunta 607 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.57,2025-08-13 16:54:01.300083
+608,Esta es la pregunta 608 del módulo Inglés para el grupo Ingeniería.,Ingeniería,Inglés,especifica,1.89,2025-08-13 16:54:01.300092
+609,Esta es la pregunta 609 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.82,2025-08-13 16:54:01.300102
+610,Esta es la pregunta 610 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.58,2025-08-13 16:54:01.300128
+611,Esta es la pregunta 611 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,1.78,2025-08-13 16:54:01.300147
+612,Esta es la pregunta 612 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,1.09,2025-08-13 16:54:01.300159
+613,Esta es la pregunta 613 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.72,2025-08-13 16:54:01.300168
+614,Esta es la pregunta 614 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.71,2025-08-13 16:54:01.300184
+615,Esta es la pregunta 615 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.68,2025-08-13 16:54:01.300196
+616,Esta es la pregunta 616 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.2,2025-08-13 16:54:01.300210
+617,Esta es la pregunta 617 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.24,2025-08-13 16:54:01.300222
+618,Esta es la pregunta 618 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.54,2025-08-13 16:54:01.300235
+619,Esta es la pregunta 619 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.21,2025-08-13 16:54:01.300245
+620,Esta es la pregunta 620 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.18,2025-08-13 16:54:01.300252
+621,Esta es la pregunta 621 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.7,2025-08-13 16:54:01.300258
+622,Esta es la pregunta 622 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,0.89,2025-08-13 16:54:01.300265
+623,Esta es la pregunta 623 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.63,2025-08-13 16:54:01.300271
+624,Esta es la pregunta 624 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.61,2025-08-13 16:54:01.300277
+625,Esta es la pregunta 625 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.82,2025-08-13 16:54:01.300287
+626,Esta es la pregunta 626 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.27,2025-08-13 16:54:01.300293
+627,Esta es la pregunta 627 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.98,2025-08-13 16:54:01.300299
+628,Esta es la pregunta 628 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.65,2025-08-13 16:54:01.300305
+629,Esta es la pregunta 629 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.36,2025-08-13 16:54:01.300311
+630,Esta es la pregunta 630 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.77,2025-08-13 16:54:01.300317
+631,Esta es la pregunta 631 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.75,2025-08-13 16:54:01.300323
+632,Esta es la pregunta 632 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.79,2025-08-13 16:54:01.300329
+633,Esta es la pregunta 633 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.05,2025-08-13 16:54:01.300335
+634,Esta es la pregunta 634 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.5,2025-08-13 16:54:01.300343
+635,Esta es la pregunta 635 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,0.9,2025-08-13 16:54:01.300351
+636,Esta es la pregunta 636 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,0.89,2025-08-13 16:54:01.300360
+637,Esta es la pregunta 637 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.86,2025-08-13 16:54:01.300366
+638,Esta es la pregunta 638 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,1.34,2025-08-13 16:54:01.300372
+639,Esta es la pregunta 639 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.01,2025-08-13 16:54:01.300380
+640,Esta es la pregunta 640 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.4,2025-08-13 16:54:01.300388
+641,Esta es la pregunta 641 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.97,2025-08-13 16:54:01.300395
+642,Esta es la pregunta 642 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,0.66,2025-08-13 16:54:01.300402
+643,Esta es la pregunta 643 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.72,2025-08-13 16:54:01.300412
+644,Esta es la pregunta 644 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.93,2025-08-13 16:54:01.300418
+645,Esta es la pregunta 645 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.98,2025-08-13 16:54:01.300424
+646,Esta es la pregunta 646 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.98,2025-08-13 16:54:01.300432
+647,Esta es la pregunta 647 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.84,2025-08-13 16:54:01.300438
+648,Esta es la pregunta 648 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.62,2025-08-13 16:54:01.300445
+649,Esta es la pregunta 649 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.06,2025-08-13 16:54:01.300450
+650,Esta es la pregunta 650 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.17,2025-08-13 16:54:01.300456
+651,Esta es la pregunta 651 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.56,2025-08-13 16:54:01.300468
+652,Esta es la pregunta 652 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.08,2025-08-13 16:54:01.300474
+653,Esta es la pregunta 653 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.82,2025-08-13 16:54:01.300486
+654,Esta es la pregunta 654 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.04,2025-08-13 16:54:01.300492
+655,Esta es la pregunta 655 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,1.13,2025-08-13 16:54:01.300498
+656,Esta es la pregunta 656 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.4,2025-08-13 16:54:01.300504
+657,Esta es la pregunta 657 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.88,2025-08-13 16:54:01.300512
+658,Esta es la pregunta 658 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.87,2025-08-13 16:54:01.300518
+659,Esta es la pregunta 659 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,1.8,2025-08-13 16:54:01.300524
+660,Esta es la pregunta 660 del módulo Razonamiento Cuantitativo para el grupo Tecnología.,Tecnología,Razonamiento Cuantitativo,especifica,1.78,2025-08-13 16:54:01.300531
+661,Esta es la pregunta 661 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.97,2025-08-13 16:54:01.300545
+662,Esta es la pregunta 662 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.07,2025-08-13 16:54:01.300554
+663,Esta es la pregunta 663 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.61,2025-08-13 16:54:01.300563
+664,Esta es la pregunta 664 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.93,2025-08-13 16:54:01.300570
+665,Esta es la pregunta 665 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,0.51,2025-08-13 16:54:01.300576
+666,Esta es la pregunta 666 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.54,2025-08-13 16:54:01.300582
+667,Esta es la pregunta 667 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.85,2025-08-13 16:54:01.300592
+668,Esta es la pregunta 668 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.9,2025-08-13 16:54:01.300598
+669,Esta es la pregunta 669 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.41,2025-08-13 16:54:01.300604
+670,Esta es la pregunta 670 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.95,2025-08-13 16:54:01.300612
+671,Esta es la pregunta 671 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,1.18,2025-08-13 16:54:01.300621
+672,Esta es la pregunta 672 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.98,2025-08-13 16:54:01.300627
+673,Esta es la pregunta 673 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,1.67,2025-08-13 16:54:01.300634
+674,Esta es la pregunta 674 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.9,2025-08-13 16:54:01.300640
+675,Esta es la pregunta 675 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,1.63,2025-08-13 16:54:01.300646
+676,Esta es la pregunta 676 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.21,2025-08-13 16:54:01.300652
+677,Esta es la pregunta 677 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,1.4,2025-08-13 16:54:01.300663
+678,Esta es la pregunta 678 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,1.26,2025-08-13 16:54:01.300671
+679,Esta es la pregunta 679 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.14,2025-08-13 16:54:01.300679
+680,Esta es la pregunta 680 del módulo Razonamiento Cuantitativo para el grupo Salud.,Salud,Razonamiento Cuantitativo,especifica,1.3,2025-08-13 16:54:01.300692
+681,Esta es la pregunta 681 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.35,2025-08-13 16:54:01.300697
+682,Esta es la pregunta 682 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.6,2025-08-13 16:54:01.300707
+683,Esta es la pregunta 683 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,1.39,2025-08-13 16:54:01.300713
+684,Esta es la pregunta 684 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.08,2025-08-13 16:54:01.300719
+685,Esta es la pregunta 685 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.78,2025-08-13 16:54:01.300725
+686,Esta es la pregunta 686 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.4,2025-08-13 16:54:01.300731
+687,Esta es la pregunta 687 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.84,2025-08-13 16:54:01.300739
+688,Esta es la pregunta 688 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,0.62,2025-08-13 16:54:01.300747
+689,Esta es la pregunta 689 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,0.69,2025-08-13 16:54:01.300756
+690,Esta es la pregunta 690 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.8,2025-08-13 16:54:01.300762
+691,Esta es la pregunta 691 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,0.55,2025-08-13 16:54:01.300768
+692,Esta es la pregunta 692 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,0.55,2025-08-13 16:54:01.300775
+693,Esta es la pregunta 693 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.94,2025-08-13 16:54:01.300780
+694,Esta es la pregunta 694 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,1.74,2025-08-13 16:54:01.300787
+695,Esta es la pregunta 695 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,0.96,2025-08-13 16:54:01.300793
+696,Esta es la pregunta 696 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.8,2025-08-13 16:54:01.300799
+697,Esta es la pregunta 697 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,0.63,2025-08-13 16:54:01.300805
+698,Esta es la pregunta 698 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.89,2025-08-13 16:54:01.300815
+699,Esta es la pregunta 699 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,0.61,2025-08-13 16:54:01.300823
+700,Esta es la pregunta 700 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.41,2025-08-13 16:54:01.300844
+701,Esta es la pregunta 701 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.6,2025-08-13 16:54:01.300854
+702,Esta es la pregunta 702 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.56,2025-08-13 16:54:01.300864
+703,Esta es la pregunta 703 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.11,2025-08-13 16:54:01.300878
+704,Esta es la pregunta 704 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.38,2025-08-13 16:54:01.300887
+705,Esta es la pregunta 705 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.64,2025-08-13 16:54:01.300893
+706,Esta es la pregunta 706 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,0.97,2025-08-13 16:54:01.300900
+707,Esta es la pregunta 707 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.1,2025-08-13 16:54:01.300908
+708,Esta es la pregunta 708 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.37,2025-08-13 16:54:01.300914
+709,Esta es la pregunta 709 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.82,2025-08-13 16:54:01.300920
+710,Esta es la pregunta 710 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.32,2025-08-13 16:54:01.300928
+711,Esta es la pregunta 711 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.86,2025-08-13 16:54:01.300934
+712,Esta es la pregunta 712 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.46,2025-08-13 16:54:01.300940
+713,Esta es la pregunta 713 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.52,2025-08-13 16:54:01.300945
+714,Esta es la pregunta 714 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.96,2025-08-13 16:54:01.300951
+715,Esta es la pregunta 715 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,0.98,2025-08-13 16:54:01.300958
+716,Esta es la pregunta 716 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,1.45,2025-08-13 16:54:01.300968
+717,Esta es la pregunta 717 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.89,2025-08-13 16:54:01.300974
+718,Esta es la pregunta 718 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.4,2025-08-13 16:54:01.300980
+719,Esta es la pregunta 719 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,0.55,2025-08-13 16:54:01.300986
+720,Esta es la pregunta 720 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,0.56,2025-08-13 16:54:01.300994
+721,Esta es la pregunta 721 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.29,2025-08-13 16:54:01.301003
+722,Esta es la pregunta 722 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.82,2025-08-13 16:54:01.301009
+723,Esta es la pregunta 723 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.03,2025-08-13 16:54:01.301015
+724,Esta es la pregunta 724 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,1.96,2025-08-13 16:54:01.301021
+725,Esta es la pregunta 725 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.12,2025-08-13 16:54:01.301037
+726,Esta es la pregunta 726 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.03,2025-08-13 16:54:01.301043
+727,Esta es la pregunta 727 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.8,2025-08-13 16:54:01.301049
+728,Esta es la pregunta 728 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.75,2025-08-13 16:54:01.301055
+729,Esta es la pregunta 729 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,1.54,2025-08-13 16:54:01.301062
+730,Esta es la pregunta 730 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,1.99,2025-08-13 16:54:01.301068
+731,Esta es la pregunta 731 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.71,2025-08-13 16:54:01.301076
+732,Esta es la pregunta 732 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,1.17,2025-08-13 16:54:01.301082
+733,Esta es la pregunta 733 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,1.52,2025-08-13 16:54:01.301089
+734,Esta es la pregunta 734 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.23,2025-08-13 16:54:01.301097
+735,Esta es la pregunta 735 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.53,2025-08-13 16:54:01.301103
+736,Esta es la pregunta 736 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,0.72,2025-08-13 16:54:01.301109
+737,Esta es la pregunta 737 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.95,2025-08-13 16:54:01.301115
+738,Esta es la pregunta 738 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.06,2025-08-13 16:54:01.301123
+739,Esta es la pregunta 739 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.46,2025-08-13 16:54:01.301129
+740,Esta es la pregunta 740 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,1.96,2025-08-13 16:54:01.301135
+741,Esta es la pregunta 741 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.56,2025-08-13 16:54:01.301141
+742,Esta es la pregunta 742 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,0.64,2025-08-13 16:54:01.301150
+743,Esta es la pregunta 743 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.26,2025-08-13 16:54:01.301185
+744,Esta es la pregunta 744 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.46,2025-08-13 16:54:01.301191
+745,Esta es la pregunta 745 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.68,2025-08-13 16:54:01.301197
+746,Esta es la pregunta 746 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.03,2025-08-13 16:54:01.301205
+747,Esta es la pregunta 747 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.95,2025-08-13 16:54:01.301210
+748,Esta es la pregunta 748 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.15,2025-08-13 16:54:01.301216
+749,Esta es la pregunta 749 del módulo Razonamiento Cuantitativo para el grupo Salud.,Salud,Razonamiento Cuantitativo,especifica,1.43,2025-08-13 16:54:01.301223
+750,Esta es la pregunta 750 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.62,2025-08-13 16:54:01.301228
+751,Esta es la pregunta 751 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.82,2025-08-13 16:54:01.301234
+752,Esta es la pregunta 752 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.29,2025-08-13 16:54:01.301246
+753,Esta es la pregunta 753 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,0.85,2025-08-13 16:54:01.301252
+754,Esta es la pregunta 754 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,0.82,2025-08-13 16:54:01.301259
+755,Esta es la pregunta 755 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,0.62,2025-08-13 16:54:01.301285
+756,Esta es la pregunta 756 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,0.55,2025-08-13 16:54:01.301295
+757,Esta es la pregunta 757 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.86,2025-08-13 16:54:01.301413
+758,Esta es la pregunta 758 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.46,2025-08-13 16:54:01.301441
+759,Esta es la pregunta 759 del módulo Inglés para el grupo Ingeniería.,Ingeniería,Inglés,especifica,1.41,2025-08-13 16:54:01.301449
+760,Esta es la pregunta 760 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.69,2025-08-13 16:54:01.301455
+761,Esta es la pregunta 761 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.03,2025-08-13 16:54:01.301466
+762,Esta es la pregunta 762 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,1.14,2025-08-13 16:54:01.301474
+763,Esta es la pregunta 763 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.54,2025-08-13 16:54:01.301482
+764,Esta es la pregunta 764 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.93,2025-08-13 16:54:01.301488
+765,Esta es la pregunta 765 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.68,2025-08-13 16:54:01.301494
+766,Esta es la pregunta 766 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.82,2025-08-13 16:54:01.301501
+767,Esta es la pregunta 767 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,1.56,2025-08-13 16:54:01.301510
+768,Esta es la pregunta 768 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.06,2025-08-13 16:54:01.301517
+769,Esta es la pregunta 769 del módulo Razonamiento Cuantitativo para el grupo Salud.,Salud,Razonamiento Cuantitativo,especifica,0.64,2025-08-13 16:54:01.301523
+770,Esta es la pregunta 770 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,1.11,2025-08-13 16:54:01.301531
+771,Esta es la pregunta 771 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.62,2025-08-13 16:54:01.301538
+772,Esta es la pregunta 772 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.69,2025-08-13 16:54:01.301544
+773,Esta es la pregunta 773 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,0.87,2025-08-13 16:54:01.301552
+774,Esta es la pregunta 774 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,0.64,2025-08-13 16:54:01.301561
+775,Esta es la pregunta 775 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.97,2025-08-13 16:54:01.301567
+776,Esta es la pregunta 776 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.92,2025-08-13 16:54:01.301572
+777,Esta es la pregunta 777 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,1.89,2025-08-13 16:54:01.301579
+778,Esta es la pregunta 778 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.48,2025-08-13 16:54:01.301585
+779,Esta es la pregunta 779 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.48,2025-08-13 16:54:01.301597
+780,Esta es la pregunta 780 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,0.83,2025-08-13 16:54:01.301603
+781,Esta es la pregunta 781 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,0.52,2025-08-13 16:54:01.301609
+782,Esta es la pregunta 782 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.26,2025-08-13 16:54:01.301615
+783,Esta es la pregunta 783 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.58,2025-08-13 16:54:01.301621
+784,Esta es la pregunta 784 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,1.93,2025-08-13 16:54:01.301630
+785,Esta es la pregunta 785 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.29,2025-08-13 16:54:01.301636
+786,Esta es la pregunta 786 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.74,2025-08-13 16:54:01.301642
+787,Esta es la pregunta 787 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.95,2025-08-13 16:54:01.301648
+788,Esta es la pregunta 788 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.7,2025-08-13 16:54:01.301664
+789,Esta es la pregunta 789 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,0.82,2025-08-13 16:54:01.301674
+790,Esta es la pregunta 790 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.55,2025-08-13 16:54:01.301680
+791,Esta es la pregunta 791 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.66,2025-08-13 16:54:01.301686
+792,Esta es la pregunta 792 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.67,2025-08-13 16:54:01.301692
+793,Esta es la pregunta 793 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.76,2025-08-13 16:54:01.301698
+794,Esta es la pregunta 794 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,1.16,2025-08-13 16:54:01.301704
+795,Esta es la pregunta 795 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.66,2025-08-13 16:54:01.301712
+796,Esta es la pregunta 796 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.52,2025-08-13 16:54:01.301718
+797,Esta es la pregunta 797 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,1.47,2025-08-13 16:54:01.301724
+798,Esta es la pregunta 798 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.91,2025-08-13 16:54:01.301741
+799,Esta es la pregunta 799 del módulo Comunicación Escrita para el grupo Tecnología.,Tecnología,Comunicación Escrita,especifica,0.88,2025-08-13 16:54:01.301748
+800,Esta es la pregunta 800 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.71,2025-08-13 16:54:01.301754
+801,Esta es la pregunta 801 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.88,2025-08-13 16:54:01.301760
+802,Esta es la pregunta 802 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.52,2025-08-13 16:54:01.301766
+803,Esta es la pregunta 803 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.35,2025-08-13 16:54:01.301771
+804,Esta es la pregunta 804 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.26,2025-08-13 16:54:01.301777
+805,Esta es la pregunta 805 del módulo Inglés para el grupo Ingeniería.,Ingeniería,Inglés,especifica,0.74,2025-08-13 16:54:01.301786
+806,Esta es la pregunta 806 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.05,2025-08-13 16:54:01.301794
+807,Esta es la pregunta 807 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.24,2025-08-13 16:54:01.301802
+808,Esta es la pregunta 808 del módulo Razonamiento Cuantitativo para el grupo Educación.,Educación,Razonamiento Cuantitativo,especifica,1.23,2025-08-13 16:54:01.301809
+809,Esta es la pregunta 809 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.12,2025-08-13 16:54:01.301815
+810,Esta es la pregunta 810 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.81,2025-08-13 16:54:01.301823
+811,Esta es la pregunta 811 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,1.62,2025-08-13 16:54:01.301854
+812,Esta es la pregunta 812 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.42,2025-08-13 16:54:01.301865
+813,Esta es la pregunta 813 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.94,2025-08-13 16:54:01.301874
+814,Esta es la pregunta 814 del módulo Razonamiento Cuantitativo para el grupo Salud.,Salud,Razonamiento Cuantitativo,especifica,1.59,2025-08-13 16:54:01.301880
+815,Esta es la pregunta 815 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.78,2025-08-13 16:54:01.301887
+816,Esta es la pregunta 816 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.84,2025-08-13 16:54:01.301913
+817,Esta es la pregunta 817 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.8,2025-08-13 16:54:01.301920
+818,Esta es la pregunta 818 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.8,2025-08-13 16:54:01.301926
+819,Esta es la pregunta 819 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.43,2025-08-13 16:54:01.301932
+820,Esta es la pregunta 820 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.91,2025-08-13 16:54:01.301950
+821,Esta es la pregunta 821 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.39,2025-08-13 16:54:01.301960
+822,Esta es la pregunta 822 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,1.83,2025-08-13 16:54:01.301970
+823,Esta es la pregunta 823 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.46,2025-08-13 16:54:01.301983
+824,Esta es la pregunta 824 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.92,2025-08-13 16:54:01.301991
+825,Esta es la pregunta 825 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.77,2025-08-13 16:54:01.302005
+826,Esta es la pregunta 826 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.45,2025-08-13 16:54:01.302014
+827,Esta es la pregunta 827 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.55,2025-08-13 16:54:01.302025
+828,Esta es la pregunta 828 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.88,2025-08-13 16:54:01.302034
+829,Esta es la pregunta 829 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.79,2025-08-13 16:54:01.302043
+830,Esta es la pregunta 830 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.56,2025-08-13 16:54:01.302053
+831,Esta es la pregunta 831 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,0.75,2025-08-13 16:54:01.302069
+832,Esta es la pregunta 832 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.77,2025-08-13 16:54:01.302080
+833,Esta es la pregunta 833 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.6,2025-08-13 16:54:01.302087
+834,Esta es la pregunta 834 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.1,2025-08-13 16:54:01.302096
+835,Esta es la pregunta 835 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.78,2025-08-13 16:54:01.302101
+836,Esta es la pregunta 836 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.65,2025-08-13 16:54:01.302107
+837,Esta es la pregunta 837 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.45,2025-08-13 16:54:01.302116
+838,Esta es la pregunta 838 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.82,2025-08-13 16:54:01.302122
+839,Esta es la pregunta 839 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.85,2025-08-13 16:54:01.302128
+840,Esta es la pregunta 840 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.06,2025-08-13 16:54:01.302134
+841,Esta es la pregunta 841 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.03,2025-08-13 16:54:01.302143
+842,Esta es la pregunta 842 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.97,2025-08-13 16:54:01.302149
+843,Esta es la pregunta 843 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.56,2025-08-13 16:54:01.302157
+844,Esta es la pregunta 844 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.04,2025-08-13 16:54:01.302163
+845,Esta es la pregunta 845 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,0.81,2025-08-13 16:54:01.302170
+846,Esta es la pregunta 846 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.24,2025-08-13 16:54:01.302176
+847,Esta es la pregunta 847 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.71,2025-08-13 16:54:01.302182
+848,Esta es la pregunta 848 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,0.85,2025-08-13 16:54:01.302190
+849,Esta es la pregunta 849 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.88,2025-08-13 16:54:01.302196
+850,Esta es la pregunta 850 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.2,2025-08-13 16:54:01.302202
+851,Esta es la pregunta 851 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.08,2025-08-13 16:54:01.302208
+852,Esta es la pregunta 852 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.89,2025-08-13 16:54:01.302218
+853,Esta es la pregunta 853 del módulo Competencias Ciudadanas para el grupo Administración.,Administración,Competencias Ciudadanas,especifica,1.26,2025-08-13 16:54:01.302225
+854,Esta es la pregunta 854 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,0.78,2025-08-13 16:54:01.302231
+855,Esta es la pregunta 855 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.64,2025-08-13 16:54:01.302237
+856,Esta es la pregunta 856 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.47,2025-08-13 16:54:01.302246
+857,Esta es la pregunta 857 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.8,2025-08-13 16:54:01.302254
+858,Esta es la pregunta 858 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.17,2025-08-13 16:54:01.302260
+859,Esta es la pregunta 859 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.74,2025-08-13 16:54:01.302271
+860,Esta es la pregunta 860 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.65,2025-08-13 16:54:01.302277
+861,Esta es la pregunta 861 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.42,2025-08-13 16:54:01.302285
+862,Esta es la pregunta 862 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,1.8,2025-08-13 16:54:01.302292
+863,Esta es la pregunta 863 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,0.94,2025-08-13 16:54:01.302299
+864,Esta es la pregunta 864 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.97,2025-08-13 16:54:01.302304
+865,Esta es la pregunta 865 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.87,2025-08-13 16:54:01.302310
+866,Esta es la pregunta 866 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.55,2025-08-13 16:54:01.302316
+867,Esta es la pregunta 867 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.87,2025-08-13 16:54:01.302322
+868,Esta es la pregunta 868 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.25,2025-08-13 16:54:01.302328
+869,Esta es la pregunta 869 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,0.82,2025-08-13 16:54:01.302354
+870,Esta es la pregunta 870 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.97,2025-08-13 16:54:01.302363
+871,Esta es la pregunta 871 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.31,2025-08-13 16:54:01.302369
+872,Esta es la pregunta 872 del módulo Razonamiento Cuantitativo para el grupo Tecnología.,Tecnología,Razonamiento Cuantitativo,especifica,1.37,2025-08-13 16:54:01.302376
+873,Esta es la pregunta 873 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.92,2025-08-13 16:54:01.302384
+874,Esta es la pregunta 874 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.08,2025-08-13 16:54:01.302392
+875,Esta es la pregunta 875 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.85,2025-08-13 16:54:01.302398
+876,Esta es la pregunta 876 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,0.91,2025-08-13 16:54:01.302405
+877,Esta es la pregunta 877 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.68,2025-08-13 16:54:01.302412
+878,Esta es la pregunta 878 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.75,2025-08-13 16:54:01.302420
+879,Esta es la pregunta 879 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.32,2025-08-13 16:54:01.302428
+880,Esta es la pregunta 880 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,0.64,2025-08-13 16:54:01.302436
+881,Esta es la pregunta 881 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.24,2025-08-13 16:54:01.302443
+882,Esta es la pregunta 882 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,0.96,2025-08-13 16:54:01.302449
+883,Esta es la pregunta 883 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.27,2025-08-13 16:54:01.302455
+884,Esta es la pregunta 884 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.63,2025-08-13 16:54:01.302529
+885,Esta es la pregunta 885 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.53,2025-08-13 16:54:01.302537
+886,Esta es la pregunta 886 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,0.52,2025-08-13 16:54:01.302543
+887,Esta es la pregunta 887 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,0.74,2025-08-13 16:54:01.302549
+888,Esta es la pregunta 888 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.55,2025-08-13 16:54:01.302559
+889,Esta es la pregunta 889 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.0,2025-08-13 16:54:01.302565
+890,Esta es la pregunta 890 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.08,2025-08-13 16:54:01.302574
+891,Esta es la pregunta 891 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.26,2025-08-13 16:54:01.302582
+892,Esta es la pregunta 892 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.04,2025-08-13 16:54:01.302588
+893,Esta es la pregunta 893 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.94,2025-08-13 16:54:01.302594
+894,Esta es la pregunta 894 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,2.0,2025-08-13 16:54:01.302601
+895,Esta es la pregunta 895 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,1.48,2025-08-13 16:54:01.302609
+896,Esta es la pregunta 896 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,0.9,2025-08-13 16:54:01.302616
+897,Esta es la pregunta 897 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.94,2025-08-13 16:54:01.302624
+898,Esta es la pregunta 898 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,0.52,2025-08-13 16:54:01.302630
+899,Esta es la pregunta 899 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.5,2025-08-13 16:54:01.302636
+900,Esta es la pregunta 900 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,0.64,2025-08-13 16:54:01.302642
+901,Esta es la pregunta 901 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.07,2025-08-13 16:54:01.302650
+902,Esta es la pregunta 902 del módulo Inglés para el grupo Ingeniería.,Ingeniería,Inglés,especifica,1.51,2025-08-13 16:54:01.302663
+903,Esta es la pregunta 903 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.67,2025-08-13 16:54:01.302669
+904,Esta es la pregunta 904 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.61,2025-08-13 16:54:01.302676
+905,Esta es la pregunta 905 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.73,2025-08-13 16:54:01.302681
+906,Esta es la pregunta 906 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.53,2025-08-13 16:54:01.302689
+907,Esta es la pregunta 907 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,1.81,2025-08-13 16:54:01.302696
+908,Esta es la pregunta 908 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.82,2025-08-13 16:54:01.302702
+909,Esta es la pregunta 909 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.13,2025-08-13 16:54:01.302710
+910,Esta es la pregunta 910 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.33,2025-08-13 16:54:01.302716
+911,Esta es la pregunta 911 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,1.44,2025-08-13 16:54:01.302722
+912,Esta es la pregunta 912 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.15,2025-08-13 16:54:01.302735
+913,Esta es la pregunta 913 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,1.64,2025-08-13 16:54:01.302746
+914,Esta es la pregunta 914 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,0.61,2025-08-13 16:54:01.302755
+915,Esta es la pregunta 915 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,0.72,2025-08-13 16:54:01.302767
+916,Esta es la pregunta 916 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.81,2025-08-13 16:54:01.302789
+917,Esta es la pregunta 917 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.8,2025-08-13 16:54:01.302798
+918,Esta es la pregunta 918 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.53,2025-08-13 16:54:01.302807
+919,Esta es la pregunta 919 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.09,2025-08-13 16:54:01.302815
+920,Esta es la pregunta 920 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,1.1,2025-08-13 16:54:01.302826
+921,Esta es la pregunta 921 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.34,2025-08-13 16:54:01.302851
+922,Esta es la pregunta 922 del módulo Razonamiento Cuantitativo para el grupo Ingeniería.,Ingeniería,Razonamiento Cuantitativo,especifica,1.31,2025-08-13 16:54:01.302868
+923,Esta es la pregunta 923 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.04,2025-08-13 16:54:01.302878
+924,Esta es la pregunta 924 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,0.85,2025-08-13 16:54:01.302889
+925,Esta es la pregunta 925 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.59,2025-08-13 16:54:01.302897
+926,Esta es la pregunta 926 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.64,2025-08-13 16:54:01.302903
+927,Esta es la pregunta 927 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.61,2025-08-13 16:54:01.302924
+928,Esta es la pregunta 928 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,1.2,2025-08-13 16:54:01.302935
+929,Esta es la pregunta 929 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.85,2025-08-13 16:54:01.302944
+930,Esta es la pregunta 930 del módulo Competencias Ciudadanas para el grupo Salud.,Salud,Competencias Ciudadanas,especifica,1.3,2025-08-13 16:54:01.302954
+931,Esta es la pregunta 931 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.44,2025-08-13 16:54:01.302969
+932,Esta es la pregunta 932 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.84,2025-08-13 16:54:01.303130
+933,Esta es la pregunta 933 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,1.71,2025-08-13 16:54:01.303168
+934,Esta es la pregunta 934 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.99,2025-08-13 16:54:01.303182
+935,Esta es la pregunta 935 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.52,2025-08-13 16:54:01.303195
+936,Esta es la pregunta 936 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,0.9,2025-08-13 16:54:01.303208
+937,Esta es la pregunta 937 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.19,2025-08-13 16:54:01.303222
+938,Esta es la pregunta 938 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.71,2025-08-13 16:54:01.303230
+939,Esta es la pregunta 939 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.68,2025-08-13 16:54:01.303236
+940,Esta es la pregunta 940 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.54,2025-08-13 16:54:01.303242
+941,Esta es la pregunta 941 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,1.72,2025-08-13 16:54:01.303249
+942,Esta es la pregunta 942 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.59,2025-08-13 16:54:01.303258
+943,Esta es la pregunta 943 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.88,2025-08-13 16:54:01.303266
+944,Esta es la pregunta 944 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.5,2025-08-13 16:54:01.303275
+945,Esta es la pregunta 945 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.1,2025-08-13 16:54:01.303283
+946,Esta es la pregunta 946 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,1.77,2025-08-13 16:54:01.303290
+947,Esta es la pregunta 947 del módulo Comunicación Escrita para el grupo Administración.,Administración,Comunicación Escrita,especifica,0.52,2025-08-13 16:54:01.303297
+948,Esta es la pregunta 948 del módulo Competencias Ciudadanas para el grupo Ingeniería.,Ingeniería,Competencias Ciudadanas,especifica,1.86,2025-08-13 16:54:01.303304
+949,Esta es la pregunta 949 del módulo Lectura Crítica para el grupo Ingeniería.,Ingeniería,Lectura Crítica,especifica,1.92,2025-08-13 16:54:01.303310
+950,Esta es la pregunta 950 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,1.23,2025-08-13 16:54:01.303317
+951,Esta es la pregunta 951 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.54,2025-08-13 16:54:01.303357
+952,Esta es la pregunta 952 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.62,2025-08-13 16:54:01.303367
+953,Esta es la pregunta 953 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.64,2025-08-13 16:54:01.303377
+954,Esta es la pregunta 954 del módulo Inglés para el grupo Educación.,Educación,Inglés,especifica,0.78,2025-08-13 16:54:01.303387
+955,Esta es la pregunta 955 del módulo Comunicación Escrita para el grupo Salud.,Salud,Comunicación Escrita,especifica,1.37,2025-08-13 16:54:01.303393
+956,Esta es la pregunta 956 del módulo Razonamiento Cuantitativo para el grupo Tecnología.,Tecnología,Razonamiento Cuantitativo,especifica,1.28,2025-08-13 16:54:01.303399
+957,Esta es la pregunta 957 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,0.75,2025-08-13 16:54:01.303406
+958,Esta es la pregunta 958 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,1.09,2025-08-13 16:54:01.303414
+959,Esta es la pregunta 959 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,1.38,2025-08-13 16:54:01.303423
+960,Esta es la pregunta 960 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.08,2025-08-13 16:54:01.303429
+961,Esta es la pregunta 961 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.93,2025-08-13 16:54:01.303437
+962,Esta es la pregunta 962 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.85,2025-08-13 16:54:01.303443
+963,Esta es la pregunta 963 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,0.58,2025-08-13 16:54:01.303449
+964,Esta es la pregunta 964 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,1.52,2025-08-13 16:54:01.303456
+965,Esta es la pregunta 965 del módulo Razonamiento Cuantitativo para el grupo Salud.,Salud,Razonamiento Cuantitativo,especifica,1.36,2025-08-13 16:54:01.303465
+966,Esta es la pregunta 966 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,0.53,2025-08-13 16:54:01.303471
+967,Esta es la pregunta 967 del módulo Inglés para el grupo Ingeniería.,Ingeniería,Inglés,especifica,1.06,2025-08-13 16:54:01.303478
+968,Esta es la pregunta 968 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.65,2025-08-13 16:54:01.303484
+969,Esta es la pregunta 969 del módulo Razonamiento Cuantitativo para el grupo Administración.,Administración,Razonamiento Cuantitativo,especifica,0.67,2025-08-13 16:54:01.303526
+970,Esta es la pregunta 970 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.75,2025-08-13 16:54:01.303553
+971,Esta es la pregunta 971 del módulo Lectura Crítica para el grupo Salud.,Salud,Lectura Crítica,especifica,1.05,2025-08-13 16:54:01.303564
+972,Esta es la pregunta 972 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.67,2025-08-13 16:54:01.303721
+973,Esta es la pregunta 973 del módulo Comunicación Escrita para el grupo Educación.,Educación,Comunicación Escrita,especifica,1.0,2025-08-13 16:54:01.303743
+974,Esta es la pregunta 974 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.59,2025-08-13 16:54:01.303757
+975,Esta es la pregunta 975 del módulo Lectura Crítica para el grupo Educación.,Educación,Lectura Crítica,especifica,1.24,2025-08-13 16:54:01.303773
+976,Esta es la pregunta 976 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,1.06,2025-08-13 16:54:01.303784
+977,Esta es la pregunta 977 del módulo Lectura Crítica para el grupo Administración.,Administración,Lectura Crítica,especifica,1.99,2025-08-13 16:54:01.303798
+978,Esta es la pregunta 978 del módulo Lectura Crítica para el grupo Tecnología.,Tecnología,Lectura Crítica,especifica,0.71,2025-08-13 16:54:01.303809
+979,Esta es la pregunta 979 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,0.53,2025-08-13 16:54:01.303822
+980,Esta es la pregunta 980 del módulo Comunicación Escrita para el grupo Ingeniería.,Ingeniería,Comunicación Escrita,especifica,0.83,2025-08-13 16:54:01.303854
+981,Esta es la pregunta 981 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.8,2025-08-13 16:54:01.303864
+982,Esta es la pregunta 982 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.31,2025-08-13 16:54:01.303874
+983,Esta es la pregunta 983 del módulo Competencias Ciudadanas para el grupo Tecnología.,Tecnología,Competencias Ciudadanas,especifica,1.87,2025-08-13 16:54:01.303884
+984,Esta es la pregunta 984 del módulo Inglés para el grupo Administración.,Administración,Inglés,especifica,1.84,2025-08-13 16:54:01.303894
+985,Esta es la pregunta 985 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.21,2025-08-13 16:54:01.303905
+986,Esta es la pregunta 986 del módulo Inglés para el grupo Salud.,Salud,Inglés,especifica,1.2,2025-08-13 16:54:01.303922
+987,Esta es la pregunta 987 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,0.74,2025-08-13 16:54:01.303932
+988,Esta es la pregunta 988 del módulo Inglés para el grupo Tecnología.,Tecnología,Inglés,especifica,1.11,2025-08-13 16:54:01.303947
+989,Esta es la pregunta 989 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.77,2025-08-13 16:54:01.303957
+990,Esta es la pregunta 990 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,0.92,2025-08-13 16:54:01.303967
+991,Esta es la pregunta 991 del módulo Comunicación Escrita para el grupo Todos.,Todos,Comunicación Escrita,generica,1.99,2025-08-13 16:54:01.303974
+992,Esta es la pregunta 992 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,0.75,2025-08-13 16:54:01.303980
+993,Esta es la pregunta 993 del módulo Competencias Ciudadanas para el grupo Educación.,Educación,Competencias Ciudadanas,especifica,1.33,2025-08-13 16:54:01.303989
+994,Esta es la pregunta 994 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.7,2025-08-13 16:54:01.303999
+995,Esta es la pregunta 995 del módulo Competencias Ciudadanas para el grupo Todos.,Todos,Competencias Ciudadanas,generica,0.8,2025-08-13 16:54:01.304009
+996,Esta es la pregunta 996 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.4,2025-08-13 16:54:01.304041
+997,Esta es la pregunta 997 del módulo Razonamiento Cuantitativo para el grupo Todos.,Todos,Razonamiento Cuantitativo,generica,1.95,2025-08-13 16:54:01.304056
+998,Esta es la pregunta 998 del módulo Lectura Crítica para el grupo Todos.,Todos,Lectura Crítica,generica,1.76,2025-08-13 16:54:01.304063
+999,Esta es la pregunta 999 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.3,2025-08-13 16:54:01.304070
+1000,Esta es la pregunta 1000 del módulo Inglés para el grupo Todos.,Todos,Inglés,generica,1.07,2025-08-13 16:54:01.304076
