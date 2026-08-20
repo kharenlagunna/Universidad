@@ -202,7 +202,9 @@ form label {
 
 form input[type="file"],
 form input[type="text"],
-form input[type="password"] {
+form input[type="password"],
+form input[type="number"],
+form select {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -210,14 +212,26 @@ form input[type="password"] {
     border: 1.5px solid #ccc;
     box-sizing: border-box;
     font-size: 15px;
+    font-family: inherit;
+    background-color: #fff;
+    color: #333;
     transition: border-color 0.3s ease;
 }
 
 form input[type="file"]:focus,
 form input[type="text"]:focus,
-form input[type="password"]:focus {
+form input[type="password"]:focus,
+form input[type="number"]:focus,
+form select:focus {
     border-color: #0073e6;
     outline: none;
+}
+
+form select:disabled,
+form input[readonly] {
+    background-color: #f1f3f5;
+    color: #666;
+    cursor: not-allowed;
 }
 
 /* ====== Estilo tabla indicadores ====== */
