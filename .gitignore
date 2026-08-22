@@ -1,0 +1,5 @@
+# Archivos del sistema operativo
+.DS_Store
+
+# Credenciales reales de correo (usa mail_config.example.php como plantilla)
+mail_config.php
