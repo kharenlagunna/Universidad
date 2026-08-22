@@ -13,13 +13,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 <link rel="stylesheet" href="estilos.css" />
 </head>
 <body>
-    <div class="sidebar">
-        <h2>Panel Admin</h2>
-        <a href="dashboard_admin.php">🏠 Dashboard</a>
-        <a href="cargar_informacion.php" class="active">📂 Cargar Información</a>
-        <a href="analisis_grafico.php">📊 Análisis Gráfico</a>
-        <a href="logout.php" class="logout">🚪 Cerrar Sesión</a>
-    </div>
+    <?php require __DIR__ . '/sidebar.php'; ?>
 
     <div class="content">
         <div class="contenedor-derecho">

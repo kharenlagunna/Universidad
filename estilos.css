@@ -80,7 +80,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Sidebar común */
+/* Sidebar común: marca arriba, módulos en medio, usuario abajo */
 .sidebar {
     position: fixed;
     top: 0;
@@ -88,22 +88,58 @@ body {
     width: 240px; /* ancho ajustado */
     height: 100%;
     background-color: #1e272e;
-    padding-top: 25px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
-.sidebar h2 {
+/* --- Encabezado: nombre del programa --- */
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 22px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+}
+
+.sidebar-brand .brand-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background-color: #0fbcf9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.sidebar-brand .brand-name {
     color: #fff;
-    text-align: center;
-    margin-bottom: 30px;
     font-weight: 700;
-    font-size: 22px;
+    font-size: 16px;
+    line-height: 1.3;
 }
 
-.sidebar a {
-    display: block;
+.sidebar-brand .brand-sub {
+    color: #8395a7;
+    font-size: 12px;
+}
+
+/* --- Módulos --- */
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 0;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     color: #d2dae2;
-    padding: 14px 20px;
+    padding: 12px 20px;
     text-decoration: none;
     font-weight: 600;
     font-size: 14px;
@@ -113,19 +149,125 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.sidebar a:hover {
+.sidebar-nav a .nav-icon {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.sidebar-nav a:hover {
     background-color: #485460;
     color: white;
 }
 
-.sidebar a.active {
+.sidebar-nav a.active {
     background-color: #0fbcf9;
     color: white;
 }
 
-.sidebar a.logout:hover {
-    background-color: #ff4d4d;
-    color: white;
+/* --- Pie: usuario + menú de cuenta --- */
+.sidebar-user {
+    position: relative;
+    flex-shrink: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.sidebar-user:hover {
+    background-color: #24313c;
+}
+
+.sidebar-user .user-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: #0056b3;
+    color: #fff;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sidebar-user .user-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.sidebar-user .user-name {
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-user .user-role {
+    color: #8395a7;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-user .user-chevron {
+    color: #8395a7;
+    font-size: 12px;
+    transition: transform 0.2s ease;
+}
+
+.sidebar-user.open .user-chevron {
+    transform: rotate(180deg);
+}
+
+.user-menu {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 14px;
+    right: 14px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    z-index: 20;
+}
+
+.sidebar-user.open .user-menu {
+    display: block;
+}
+
+.user-menu-header {
+    padding: 12px 16px;
+    font-weight: 700;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.user-menu a {
+    display: block;
+    padding: 12px 16px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.user-menu a:hover {
+    background-color: #f1f3f5;
+}
+
+.user-menu a.user-menu-logout {
+    color: #e74c3c;
 }
 
 /* Contenido principal */
@@ -270,4 +412,24 @@ form input[readonly] {
 
 .tabla-indicadores tbody tr:last-child {
     border-bottom: none;
+}
+
+/* ====== Badges de estado (historial de simulacros) ====== */
+
+.estado-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    white-space: nowrap;
+}
+
+.estado-badge.estado-manual {
+    background-color: #e74c3c;
+}
+
+.estado-badge.estado-normal {
+    background-color: #27ae60;
 }

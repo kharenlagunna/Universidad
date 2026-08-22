@@ -15,17 +15,7 @@ $rol = $_SESSION['rol'];
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>Panel <?php echo ($rol === 'admin') ? 'Admin' : 'Visor'; ?></h2>
-        <?php if($rol === 'admin'): ?>
-            <a href="dashboard_admin.php">🏠 Dashboard</a>
-            <a href="cargar_informacion.php">📂 Cargar Información</a>
-        <?php else: ?>
-            <a href="dashboard_visor.php">🏠 Dashboard</a>
-        <?php endif; ?>
-        <a href="analisis_grafico.php" class="active">📊 Análisis Gráfico</a>
-        <a href="logout.php" class="logout">🚪 Cerrar Sesión</a>
-    </div>
+    <?php require __DIR__ . '/sidebar.php'; ?>
 
     <div class="content">
         <div class="container">

@@ -72,19 +72,7 @@ document.addEventListener("DOMContentLoaded", function(){
 </script>
 </head>
 <body>
-<div class="sidebar">
-    <h2>Panel <?php echo ($rol==='admin')?'Admin':'Visor'; ?></h2>
-    <?php if($rol==='admin'): ?>
-        <a href="dashboard_admin.php">🏠 Dashboard</a>
-        <a href="cargar_informacion.php">📂 Cargar BD Saber Pro T&T</a>
-        <a href="admin_cargar_preguntas.php">📝 Cargar Preguntas</a>
-    <?php else: ?>
-        <a href="dashboard_visor.php">🏠 Dashboard</a>
-    <?php endif; ?>
-    <a href="analisis_grafico.php">📊 Análisis Gráfico</a>
-    <a href="simulacro_inicio.php" class="active">🧪 Simulador Prueba SaberPro T&T</a>
-    <a href="logout.php" class="logout">🚪 Cerrar Sesión</a>
-</div>
+<?php require __DIR__ . '/sidebar.php'; ?>
 
 <div class="content">
     <div class="contenedor-derecho" style="max-width:820px">

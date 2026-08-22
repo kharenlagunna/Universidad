@@ -8,6 +8,7 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 $usuario = $_SESSION['usuario'];
+$rol = $_SESSION['rol'] ?? 'visor';
 
 $stmt = $conn->prepare("
     SELECT si.id, si.fecha_inicio, si.fecha_fin, si.finalizado_manual,
@@ -30,72 +31,53 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <title>Historial de Simulacros</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        body { display: flex; min-height: 100vh; }
-        .sidebar {
-            width: 230px; background-color: #2c3e50; color: white;
-            padding: 20px; display: flex; flex-direction: column;
-        }
-        .sidebar h4 { color: #ecf0f1; margin-bottom: 20px; }
-        .sidebar a {
-            color: white; text-decoration: none; margin: 8px 0;
-            padding: 8px; border-radius: 5px; display: block;
-        }
-        .sidebar a:hover { background-color: #34495e; }
-        .content { flex: 1; padding: 20px; }
-        .badge-manual { background-color: #e74c3c; }
-        .badge-normal { background-color: #27ae60; }
-    </style>
+    <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-    <div class="sidebar">
-        <h4>📘 Menú</h4>
-        <a href="simulacro_inicio.php">▶️ Iniciar Simulacro</a>
-        <a href="simulacro_historial.php">📊 Historial</a>
-        <a href="logout.php">🚪 Cerrar Sesión</a>
-    </div>
+    <?php require __DIR__ . '/sidebar.php'; ?>
 
     <div class="content">
-        <h2>📊 Historial de Simulacros</h2>
-        <table class="table table-bordered mt-3">
-            <thead class="table-dark">
-                <tr>
-                    <th>#</th>
-                    <th>Fecha Inicio</th>
-                    <th>Fecha Fin</th>
-                    <th>Preguntas</th>
-                    <th>Respondidas</th>
-                    <th>Correctas</th>
-                    <th>Estado</th>
-                    <th>Ver Detalles</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
-                $i = 1;
-                while ($row = $result->fetch_assoc()): ?>
+        <div class="contenedor-derecho">
+            <h2>📊 Historial de Simulacros</h2>
+            <table class="tabla-indicadores">
+                <thead>
                     <tr>
-                        <td><?= $i++ ?></td>
-                        <td><?= $row['fecha_inicio'] ?></td>
-                        <td><?= $row['fecha_fin'] ?? '-' ?></td>
-                        <td><?= $row['total_preguntas'] ?></td>
-                        <td><?= $row['respondidas'] ?></td>
-                        <td><?= $row['correctas'] ?></td>
-                        <td>
-                            <?php if ($row['finalizado_manual']): ?>
-                                <span class="badge badge-manual">Finalizado manualmente</span>
-                            <?php else: ?>
-                                <span class="badge badge-normal">Completado</span>
-                            <?php endif; ?>
-                        </td>
-                        <td>
-                            <a href="simulacro_resultados.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-primary">Ver</a>
-                        </td>
+                        <th>#</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Preguntas</th>
+                        <th>Respondidas</th>
+                        <th>Correctas</th>
+                        <th>Estado</th>
+                        <th>Ver Detalles</th>
                     </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php
+                    $i = 1;
+                    while ($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?= $i++ ?></td>
+                            <td><?= htmlspecialchars($row['fecha_inicio']) ?></td>
+                            <td><?= htmlspecialchars($row['fecha_fin'] ?? '-') ?></td>
+                            <td><?= $row['total_preguntas'] ?></td>
+                            <td><?= $row['respondidas'] ?></td>
+                            <td><?= $row['correctas'] ?></td>
+                            <td>
+                                <?php if ($row['finalizado_manual']): ?>
+                                    <span class="estado-badge estado-manual">Finalizado manualmente</span>
+                                <?php else: ?>
+                                    <span class="estado-badge estado-normal">Completado</span>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <a href="simulacro_resultados.php?intento_id=<?= $row['id'] ?>" class="btn" style="padding:8px 16px;font-size:14px;">Ver</a>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>

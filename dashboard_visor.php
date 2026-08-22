@@ -13,13 +13,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'visor') {
 <link rel="stylesheet" href="estilos.css" />
 </head>
 <body>
-    <div class="sidebar">
-        <h2>Panel Visor</h2>
-        <a href="dashboard_visor.php" class="active">🏠 Dashboard</a>
-        <a href="analisis_grafico.php">📊 Análisis Gráfico</a>
-	<a href="simulacro_inicio.php">🧪 Simulacro</a>
-        <a href="logout.php" class="logout">🚪 Cerrar Sesión</a>
-    </div>
+    <?php require __DIR__ . '/sidebar.php'; ?>
 
     <div class="content">
         <div class="container">
