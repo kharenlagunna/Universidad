@@ -37,7 +37,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION['usuario']    = $row['usuario'];
         $_SESSION['rol']        = $row['rol'];
 
-        if ($row['rol'] === 'admin') {
+        // "Recordarme": extiende la cookie de sesión a 30 días en vez de
+        // expirar al cerrar el navegador.
+        if (!empty($_POST['recordar'])) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), session_id(), [
+                'expires'  => time() + 60 * 60 * 24 * 30,
+                'path'     => $params['path'],
+                'domain'   => $params['domain'],
+                'secure'   => $params['secure'],
+                'httponly' => true,
+                'samesite' => 'Lax',
+            ]);
+        }
+
+        if (empty($row['email'])) {
+            // Sin correo registrado todavía: no podría recuperar su
+            // contraseña más adelante, así que se lo pedimos primero.
+            header("Location: completar_perfil.php");
+        } elseif ($row['rol'] === 'admin') {
             header("Location: dashboard_admin.php");
         } elseif ($row['rol'] === 'visor') {
             header("Location: dashboard_visor.php");
@@ -57,23 +75,45 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Login - Universidad</title>
     <link rel="stylesheet" href="estilos.css" />
 </head>
-<body class="login-body">
-    <div class="login-container">
-        <h2>Portal Universitario pruebas Saber Pro y T&T</h2>
+<body class="login-page">
+    <div class="login-wrap">
+        <div class="login-brand">
+            <div class="login-logo">🎓</div>
+            <h1>Universidad</h1>
+            <p class="login-tagline">Inicia sesión en tu cuenta</p>
+        </div>
 
-        <?php if (!empty($error)) : ?>
-            <p class="error"><?php echo htmlspecialchars($error); ?></p>
-        <?php endif; ?>
+        <div class="login-card">
+            <?php if (!empty($error)) : ?>
+                <p class="error"><?php echo htmlspecialchars($error); ?></p>
+            <?php endif; ?>
 
-        <form method="post" action="">
-            <label for="usuario">Usuario:</label>
-            <input type="text" id="usuario" name="usuario" required />
+            <form method="post" action="">
+                <label for="usuario">Usuario</label>
+                <div class="input-icon">
+                    <span class="input-icon-glyph">👤</span>
+                    <input type="text" id="usuario" name="usuario" autocomplete="username" required autofocus />
+                </div>
 
-            <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" name="contrasena" required />
+                <label for="contrasena">Contraseña</label>
+                <div class="input-icon">
+                    <span class="input-icon-glyph">🔒</span>
+                    <input type="password" id="contrasena" name="contrasena" autocomplete="current-password" required />
+                </div>
 
-            <button type="submit" class="btn">Ingresar</button>
-        </form>
+                <div class="login-row">
+                    <label class="remember">
+                        <input type="checkbox" name="recordar" value="1" />
+                        Recordarme
+                    </label>
+                    <a href="recuperar_contrasena.php" class="forgot-link">¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <button type="submit" class="login-submit">Iniciar sesión</button>
+            </form>
+        </div>
+
+        <p class="login-footer">© <?php echo date('Y'); ?> Universidad. Todos los derechos reservados.</p>
     </div>
 </body>
 </html>

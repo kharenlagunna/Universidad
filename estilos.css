@@ -1,69 +1,157 @@
-/* ====== Fondo login ====== */
-body.login-body {
-    background: url('img/fac_tecno.jpg') no-repeat center center fixed;
-    background-size: cover;
+/* ====== Login ====== */
+body.login-page {
     margin: 0;
+    min-height: 100vh;
     font-family: Arial, sans-serif;
+    background: radial-gradient(circle at 25% 15%, #eaf0ff 0%, #f7f9fc 55%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+    box-sizing: border-box;
 }
 
-/* Fondo semitransparente para el formulario login */
-.login-container {
-    background-color: rgba(255, 255, 255, 0.85);
-    max-width: 360px;
-    margin: 100px auto;
-    padding: 30px 40px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+.login-wrap {
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-brand {
     text-align: center;
+    margin-bottom: 28px;
 }
 
-.login-container h2 {
-    margin-bottom: 25px;
+.login-logo {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #0073e6, #0056b3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    box-shadow: 0 8px 20px rgba(0, 86, 179, 0.3);
+}
+
+.login-brand h1 {
+    margin: 0 0 6px;
+    font-size: 26px;
     font-weight: 700;
-    color: #333;
+    color: #1a1a2e;
 }
 
-.login-container label {
+.login-tagline {
+    margin: 0;
+    color: #6b7280;
+    font-size: 15px;
+}
+
+.login-card {
+    background-color: #fff;
+    border-radius: 16px;
+    border: 1px solid #eef0f4;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+.login-card label {
     display: block;
-    margin: 12px 0 6px 0;
+    margin: 0 0 6px;
     font-weight: 600;
-    color: #555;
+    color: #333;
+    font-size: 14px;
     text-align: left;
 }
 
-.login-container input[type="text"],
-.login-container input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1.5px solid #ccc;
-    border-radius: 4px;
-    font-size: 15px;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
+.login-card .input-icon {
+    position: relative;
+    margin-bottom: 18px;
 }
 
-.login-container input[type="text"]:focus,
-.login-container input[type="password"]:focus {
+.login-card .input-icon-glyph {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.login-card .input-icon input {
+    width: 100%;
+    padding: 12px 14px 12px 42px;
+    background-color: #eef2fb;
+    border: 1.5px solid transparent;
+    border-radius: 10px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.login-card .input-icon input:focus {
     border-color: #0073e6;
+    background-color: #fff;
     outline: none;
 }
 
-.login-container .btn {
-    width: 100%;
-    padding: 12px;
-    margin-top: 20px;
-    background-color: #0056b3;
-    border: none;
-    color: white;
-    font-size: 17px;
-    font-weight: 700;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.login-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
-.login-container .btn:hover {
-    background-color: #003d80;
+.login-row .remember {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #444;
+    cursor: pointer;
+}
+
+.login-row .remember input {
+    margin: 0;
+}
+
+.login-row .forgot-link {
+    font-size: 14px;
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-row .forgot-link:hover {
+    text-decoration: underline;
+}
+
+.login-submit {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, #0073e6, #0056b3);
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.login-submit:hover {
+    opacity: 0.9;
+}
+
+.login-footer {
+    text-align: center;
+    color: #9aa1ac;
+    font-size: 13px;
+    margin-top: 26px;
 }
 
 .error {
