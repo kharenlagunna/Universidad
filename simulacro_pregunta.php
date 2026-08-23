@@ -84,6 +84,9 @@ $opcion_elegida = $respuesta_existente ? $respuesta_existente['opcion_elegida'] 
 <meta charset="UTF-8">
 <title>Pregunta <?= $pregunta_index + 1 ?> / <?= $total_preguntas ?></title>
 <link rel="stylesheet" href="estilos.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script>
 let tiempoRestante = <?= $tiempo_restante ?>;
 function actualizarTimer() {

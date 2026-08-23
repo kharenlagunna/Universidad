@@ -16,6 +16,9 @@ $usuario = $_SESSION['usuario'];
 <meta charset="UTF-8" />
 <title>Simulacro - Inicio</title>
 <link rel="stylesheet" href="estilos.css" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script>
 document.addEventListener("DOMContentLoaded", function(){
     const grupoSelect = document.getElementById("grupo_referencia");

@@ -11,6 +11,9 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'visor') {
 <meta charset="UTF-8" />
 <title>Dashboard - Visor</title>
 <link rel="stylesheet" href="estilos.css" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
     <?php require __DIR__ . '/sidebar.php'; ?>

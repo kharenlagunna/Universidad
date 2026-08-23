@@ -32,6 +32,9 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <title>Historial de Simulacros</title>
     <link rel="stylesheet" href="estilos.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="alternate icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
     <?php require __DIR__ . '/sidebar.php'; ?>

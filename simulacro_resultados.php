@@ -43,6 +43,9 @@ $finalizado_manual = $intento['finalizado_manual'] == 1;
 <meta charset="UTF-8">
 <title>Resultados del Simulacro</title>
 <link rel="stylesheet" href="estilos.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>

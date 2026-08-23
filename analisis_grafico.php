@@ -12,6 +12,9 @@ $rol = $_SESSION['rol'];
 <meta charset="UTF-8" />
 <title>Análisis Gráfico</title>
 <link rel="stylesheet" href="estilos.css" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
