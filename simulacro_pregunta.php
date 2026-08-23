@@ -19,7 +19,13 @@ $intento_id = intval($_GET['intento_id']);
 $pregunta_index = intval($_GET['pregunta_index']);
 
 // Info del intento (solo si pertenece al usuario logueado)
-$stmt = $conn->prepare("SELECT fecha_inicio, duracion_minutos FROM simulacros_intentos WHERE id = ? AND usuario = ?");
+$stmt = $conn->prepare("
+    SELECT si.fecha_inicio, si.duracion_minutos, tp.nombre AS tipo_prueba, c.nombre AS competencia
+    FROM simulacros_intentos si
+    LEFT JOIN tipos_prueba tp ON tp.id = si.tipo_prueba_id
+    LEFT JOIN competencias c ON c.id = si.competencia_id
+    WHERE si.id = ? AND si.usuario = ?
+");
 $stmt->bind_param("is", $intento_id, $usuario);
 $stmt->execute();
 $res_intento = $stmt->get_result()->fetch_assoc();
@@ -37,6 +43,10 @@ $ahora = time();
 $tiempo_restante = $tiempo_fin - $ahora;
 
 if ($tiempo_restante <= 0) {
+    // Se acabó el tiempo: marcar fecha_fin si todavía no estaba marcada
+    $stmt = $conn->prepare("UPDATE simulacros_intentos SET fecha_fin = NOW() WHERE id = ? AND fecha_fin IS NULL");
+    $stmt->bind_param("i", $intento_id);
+    $stmt->execute();
     header("Location: simulacro_resultados.php?intento_id=$intento_id");
     exit();
 }
@@ -111,6 +121,9 @@ window.onload = actualizarTimer;
 <div class="content">
     <div class="contenedor-derecho">
         <h2>Pregunta <?= $pregunta_index + 1 ?> de <?= $total_preguntas ?></h2>
+        <p style="margin-top:-14px;color:#777;font-size:14px;">
+            <?= htmlspecialchars($res_intento['tipo_prueba'] ?? '—') ?> · <?= htmlspecialchars($res_intento['competencia'] ?? '—') ?>
+        </p>
         <p class="enunciado"><?= htmlspecialchars($pregunta_actual['enunciado']) ?></p>
 
         <div class="timer-box">

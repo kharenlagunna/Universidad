@@ -12,12 +12,15 @@ $rol = $_SESSION['rol'] ?? 'visor';
 
 $stmt = $conn->prepare("
     SELECT si.id, si.fecha_inicio, si.fecha_fin, si.finalizado_manual,
+           tp.nombre AS tipo_prueba, c.nombre AS competencia,
            COUNT(sr.id) AS total_preguntas,
            SUM(CASE WHEN sr.opcion_elegida IS NOT NULL THEN 1 ELSE 0 END) AS respondidas,
            SUM(CASE WHEN o.es_correcta = 1 AND sr.opcion_elegida = o.etiqueta THEN 1 ELSE 0 END) AS correctas
     FROM simulacros_intentos si
     LEFT JOIN simulacros_respuestas sr ON si.id = sr.intento_id
     LEFT JOIN opciones o ON sr.pregunta_id = o.pregunta_id AND sr.opcion_elegida = o.etiqueta
+    LEFT JOIN tipos_prueba tp ON tp.id = si.tipo_prueba_id
+    LEFT JOIN competencias c ON c.id = si.competencia_id
     WHERE si.usuario = ?
     GROUP BY si.id
     ORDER BY si.fecha_inicio DESC
@@ -46,6 +49,8 @@ $result = $stmt->get_result();
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Tipo de Prueba</th>
+                        <th>Competencia</th>
                         <th>Fecha Inicio</th>
                         <th>Fecha Fin</th>
                         <th>Preguntas</th>
@@ -61,6 +66,8 @@ $result = $stmt->get_result();
                     while ($row = $result->fetch_assoc()): ?>
                         <tr>
                             <td><?= $i++ ?></td>
+                            <td><?= htmlspecialchars($row['tipo_prueba'] ?? '—') ?></td>
+                            <td><?= htmlspecialchars($row['competencia'] ?? '—') ?></td>
                             <td><?= htmlspecialchars($row['fecha_inicio']) ?></td>
                             <td><?= htmlspecialchars($row['fecha_fin'] ?? '-') ?></td>
                             <td><?= $row['total_preguntas'] ?></td>

@@ -9,6 +9,9 @@ if (!isset($_SESSION['usuario']) || !in_array($_SESSION['rol'], ['admin', 'visor
 
 $rol = $_SESSION['rol'];
 $usuario = $_SESSION['usuario'];
+
+$tiposPrueba = $conn->query("SELECT id, nombre FROM tipos_prueba ORDER BY nombre ASC");
+$competencias = $conn->query("SELECT id, nombre FROM competencias ORDER BY nombre ASC");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -20,57 +23,39 @@ $usuario = $_SESSION['usuario'];
 <link rel="alternate icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script>
-document.addEventListener("DOMContentLoaded", function(){
-    const grupoSelect = document.getElementById("grupo_referencia");
-    const moduloSelect = document.getElementById("modulo");
-    const tipoSelect = document.getElementById("tipo_prueba");
+document.addEventListener("DOMContentLoaded", function () {
+    const tipoSelect = document.getElementById("tipo_prueba_id");
+    const competenciaSelect = document.getElementById("competencia_id");
     const cantidadInput = document.getElementById("cantidad");
     const tiempoInput = document.getElementById("tiempo");
+    const avisoSinPreguntas = document.getElementById("avisoSinPreguntas");
+    const botonIniciar = document.getElementById("botonIniciar");
 
-    grupoSelect.addEventListener("change", function(){
-        moduloSelect.innerHTML = '<option value="">-- Cargando... --</option>';
-        tipoSelect.innerHTML = '<option value="">-- Seleccione módulo primero --</option>';
+    function consultarDisponibilidad() {
         cantidadInput.value = "";
         tiempoInput.value = "";
+        avisoSinPreguntas.style.display = "none";
+        botonIniciar.disabled = true;
 
-        fetch("obtener_opciones.php?grupo=" + encodeURIComponent(this.value))
-        .then(res => res.json())
-        .then(data => {
-            moduloSelect.innerHTML = '<option value="">-- Seleccione --</option>';
-            data.forEach(op => {
-                moduloSelect.innerHTML += `<option value="${op}">${op}</option>`;
+        if (!tipoSelect.value || !competenciaSelect.value) {
+            return;
+        }
+
+        fetch("obtener_cantidad_max.php?tipo_prueba_id=" + encodeURIComponent(tipoSelect.value) + "&competencia_id=" + encodeURIComponent(competenciaSelect.value))
+            .then(res => res.json())
+            .then(data => {
+                if (data.max && data.max > 0) {
+                    cantidadInput.value = data.max;
+                    tiempoInput.value = data.duracion_minutos + " minutos";
+                    botonIniciar.disabled = false;
+                } else {
+                    avisoSinPreguntas.style.display = "block";
+                }
             });
-        });
-    });
+    }
 
-    moduloSelect.addEventListener("change", function(){
-        tipoSelect.innerHTML = '<option value="">-- Cargando... --</option>';
-        cantidadInput.value = "";
-        tiempoInput.value = "";
-
-        fetch("obtener_opciones.php?grupo=" + encodeURIComponent(grupoSelect.value) + "&modulo=" + encodeURIComponent(this.value))
-        .then(res => res.json())
-        .then(data => {
-            tipoSelect.innerHTML = '<option value="">-- Seleccione --</option>';
-            data.forEach(op => {
-                tipoSelect.innerHTML += `<option value="${op}">${op}</option>`;
-            });
-        });
-    });
-
-    tipoSelect.addEventListener("change", function(){
-        cantidadInput.value = "";
-        tiempoInput.value = "";
-
-        fetch("obtener_cantidad_max.php?grupo=" + encodeURIComponent(grupoSelect.value) + "&modulo=" + encodeURIComponent(moduloSelect.value) + "&tipo_prueba=" + encodeURIComponent(this.value))
-        .then(res => res.json())
-        .then(data => {
-            if(data.max){
-                cantidadInput.value = data.max;
-                tiempoInput.value = data.max + " minutos";
-            }
-        });
-    });
+    tipoSelect.addEventListener("change", consultarDisponibilidad);
+    competenciaSelect.addEventListener("change", consultarDisponibilidad);
 });
 </script>
 </head>
@@ -79,38 +64,37 @@ document.addEventListener("DOMContentLoaded", function(){
 
 <div class="content">
     <div class="contenedor-derecho">
-        <h2>Simulacro Saber Pro y TyT</h2>
-        <p>Configura tu simulacro. Selecciona filtros y el sistema asignará la cantidad máxima de preguntas y el tiempo (1 minuto por cada pregunta).</p>
+        <h2>Simulacro Saber Pro y T&T</h2>
+        <p>Elige el tipo de prueba y la competencia que quieres presentar. El sistema te mostrará cuántas preguntas y cuánto tiempo tendrás antes de iniciar.</p>
 
         <form action="procesar_simulacro.php" method="post">
-            <label for="grupo_referencia">Grupo de referencia:</label>
-            <select id="grupo_referencia" name="grupo_referencia" required>
+            <label for="tipo_prueba_id">Tipo de prueba:</label>
+            <select id="tipo_prueba_id" name="tipo_prueba_id" required>
                 <option value="">-- Seleccione --</option>
-                <?php
-                $result = $conn->query("SELECT DISTINCT grupo_referencia FROM preguntas WHERE grupo_referencia <> '' ORDER BY grupo_referencia ASC");
-                while ($row = $result->fetch_assoc()) {
-                    echo '<option value="'.htmlspecialchars($row['grupo_referencia']).'">'.htmlspecialchars($row['grupo_referencia']).'</option>';
-                }
-                ?>
+                <?php while ($tipo = $tiposPrueba->fetch_assoc()): ?>
+                    <option value="<?= (int)$tipo['id'] ?>"><?= htmlspecialchars($tipo['nombre']) ?></option>
+                <?php endwhile; ?>
             </select>
 
-            <label for="modulo">Módulo:</label>
-            <select id="modulo" name="modulo" required>
-                <option value="">-- Seleccione grupo primero --</option>
-            </select>
-
-            <label for="tipo_prueba">Tipo de prueba:</label>
-            <select id="tipo_prueba" name="tipo_prueba" required>
-                <option value="">-- Seleccione módulo primero --</option>
+            <label for="competencia_id">Competencia:</label>
+            <select id="competencia_id" name="competencia_id" required>
+                <option value="">-- Seleccione --</option>
+                <?php while ($competencia = $competencias->fetch_assoc()): ?>
+                    <option value="<?= (int)$competencia['id'] ?>"><?= htmlspecialchars($competencia['nombre']) ?></option>
+                <?php endwhile; ?>
             </select>
 
             <label for="cantidad">Cantidad de preguntas:</label>
             <input type="number" id="cantidad" name="cantidad" readonly required>
 
-            <label for="tiempo">Tiempo límite:</label>
+            <label for="tiempo">Tiempo asignado:</label>
             <input type="text" id="tiempo" name="tiempo" readonly required>
 
-            <button type="submit" class="btn">Iniciar simulacro</button>
+            <p id="avisoSinPreguntas" class="error" style="display:none;">
+                Todavía no hay preguntas cargadas para esa combinación de tipo de prueba y competencia.
+            </p>
+
+            <button type="submit" class="btn" id="botonIniciar" disabled>Iniciar simulacro</button>
         </form>
     </div>
 </div>

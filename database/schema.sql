@@ -39,18 +39,71 @@ INSERT INTO `usuarioss` (`usuario`, `contrasena`, `rol`, `email`) VALUES
   ('admin', '$2y$10$jAQq8nfUpIrWKRCDQaDC6.WjA8hQw6T7c5M7zUwmowscCtRGjROxm', 'admin', NULL);
 
 -- ---------------------------------------------------------------------
--- preguntas: banco de preguntas del simulacro
+-- tipos_prueba / competencias: catálogos fijos del simulacro
+-- ---------------------------------------------------------------------
+DROP TABLE IF EXISTS `tipos_prueba`;
+CREATE TABLE `tipos_prueba` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_tipos_prueba_nombre` (`nombre`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `tipos_prueba` (`nombre`) VALUES ('Saber Pro'), ('Saber TyT');
+
+DROP TABLE IF EXISTS `competencias`;
+CREATE TABLE `competencias` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_competencias_nombre` (`nombre`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `competencias` (`nombre`) VALUES
+  ('Razonamiento cuantitativo'),
+  ('Lectura crítica'),
+  ('Competencias ciudadanas'),
+  ('Comunicación escrita'),
+  ('Inglés');
+
+-- ---------------------------------------------------------------------
+-- configuracion_pruebas: tiempo y cantidad de preguntas por cada
+-- combinación Tipo de Prueba x Competencia (editable desde
+-- admin_configuracion_pruebas.php)
+-- ---------------------------------------------------------------------
+DROP TABLE IF EXISTS `configuracion_pruebas`;
+CREATE TABLE `configuracion_pruebas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo_prueba_id` int(11) NOT NULL,
+  `competencia_id` int(11) NOT NULL,
+  `duracion_minutos` int(11) NOT NULL DEFAULT 45,
+  `cantidad_preguntas` int(11) DEFAULT NULL COMMENT 'NULL = usar todas las disponibles',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_config_tipo_competencia` (`tipo_prueba_id`, `competencia_id`),
+  KEY `idx_config_competencia` (`competencia_id`),
+  CONSTRAINT `fk_config_tipo` FOREIGN KEY (`tipo_prueba_id`) REFERENCES `tipos_prueba` (`id`),
+  CONSTRAINT `fk_config_competencia` FOREIGN KEY (`competencia_id`) REFERENCES `competencias` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `configuracion_pruebas` (`tipo_prueba_id`, `competencia_id`, `duracion_minutos`, `cantidad_preguntas`)
+SELECT tp.id, c.id, 45, NULL
+FROM `tipos_prueba` tp CROSS JOIN `competencias` c;
+
+-- ---------------------------------------------------------------------
+-- preguntas: banco de preguntas del simulacro, clasificado por
+-- Tipo de Prueba + Competencia
 -- ---------------------------------------------------------------------
 DROP TABLE IF EXISTS `preguntas`;
 CREATE TABLE `preguntas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `enunciado` text NOT NULL,
-  `componente` varchar(100) DEFAULT NULL,
-  `grupo_referencia` varchar(100) DEFAULT NULL,
-  `modulo` varchar(100) DEFAULT NULL,
-  `tipo_prueba` varchar(50) DEFAULT NULL,
+  `tipo_prueba_id` int(11) NOT NULL,
+  `competencia_id` int(11) NOT NULL,
   `puntaje` decimal(5,2) DEFAULT 1.00,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_preguntas_competencia` (`competencia_id`),
+  CONSTRAINT `fk_preguntas_tipo` FOREIGN KEY (`tipo_prueba_id`) REFERENCES `tipos_prueba` (`id`),
+  CONSTRAINT `fk_preguntas_competencia` FOREIGN KEY (`competencia_id`) REFERENCES `competencias` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ---------------------------------------------------------------------
@@ -64,7 +117,8 @@ CREATE TABLE `opciones` (
   `texto` text NOT NULL,
   `es_correcta` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `idx_opciones_pregunta` (`pregunta_id`)
+  KEY `idx_opciones_pregunta` (`pregunta_id`),
+  CONSTRAINT `fk_opciones_pregunta` FOREIGN KEY (`pregunta_id`) REFERENCES `preguntas` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ---------------------------------------------------------------------
@@ -74,6 +128,8 @@ DROP TABLE IF EXISTS `simulacros_intentos`;
 CREATE TABLE `simulacros_intentos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `usuario` varchar(100) NOT NULL,
+  `tipo_prueba_id` int(11) DEFAULT NULL,
+  `competencia_id` int(11) DEFAULT NULL,
   `fecha_inicio` datetime NOT NULL,
   `fecha_fin` datetime DEFAULT NULL,
   `total_preguntas` int(11) NOT NULL,
@@ -85,7 +141,10 @@ CREATE TABLE `simulacros_intentos` (
   `duracion_minutos` int(11) NOT NULL DEFAULT 60,
   `finalizado_manual` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `idx_intentos_usuario` (`usuario`)
+  KEY `idx_intentos_usuario` (`usuario`),
+  KEY `idx_intentos_competencia` (`competencia_id`),
+  CONSTRAINT `fk_intentos_tipo` FOREIGN KEY (`tipo_prueba_id`) REFERENCES `tipos_prueba` (`id`),
+  CONSTRAINT `fk_intentos_competencia` FOREIGN KEY (`competencia_id`) REFERENCES `competencias` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ---------------------------------------------------------------------

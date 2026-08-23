@@ -5,66 +5,97 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
     exit();
 }
 require_once 'conexion.php';
+require_once 'lector_xlsx.php';
+
+function volverConError(string $mensaje): void
+{
+    $_SESSION['flash_error'] = $mensaje;
+    header("Location: admin_cargar_preguntas.php");
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: admin_cargar_preguntas.php");
+    exit();
+}
+
+$tipoPruebaId = intval($_POST['tipo_prueba_id'] ?? 0);
+$competenciaId = intval($_POST['competencia_id'] ?? 0);
+
+if (!$tipoPruebaId || !$competenciaId) {
+    volverConError("Selecciona el tipo de prueba y la competencia.");
+}
 
 if (!isset($_FILES['archivo']) || $_FILES['archivo']['error'] !== UPLOAD_ERR_OK) {
-    die("Error: No se subió ningún archivo válido.");
+    volverConError("No se subió ningún archivo válido.");
 }
-
-require 'vendor/autoload.php';
-use PhpOffice\PhpSpreadsheet\IOFactory;
-
-$archivoTmp = $_FILES['archivo']['tmp_name'];
 
 try {
-    $spreadsheet = IOFactory::load($archivoTmp);
-    $hoja = $spreadsheet->getActiveSheet();
-    $filas = $hoja->toArray(null, true, true, true);
-} catch (Exception $e) {
-    die("Error al leer el archivo: " . $e->getMessage());
+    $filas = leerFilasXlsx($_FILES['archivo']['tmp_name']);
+} catch (RuntimeException $e) {
+    volverConError("Error al leer el archivo: " . $e->getMessage());
 }
 
-$esperados = ['Enunciado','GrupoReferencia','Modulo','TipoPrueba','OpcionA','OpcionB','OpcionC','OpcionD','Correcta','Puntaje'];
-$encabezadosArchivo = array_map('trim', array_values($filas[1] ?? []));
-
-if ($encabezadosArchivo !== $esperados) {
-    die("Error: Encabezados inválidos. Usa la plantilla proporcionada.");
+$esperados = ['Enunciado', 'OpcionA', 'OpcionB', 'OpcionC', 'OpcionD', 'Correcta'];
+$encabezados = array_map('trim', $filas[0] ?? []);
+// Solo compara las primeras 6 columnas: si el admin dejó una columna extra
+// (por ejemplo Puntaje) no rompe la validación.
+if (array_slice($encabezados, 0, 6) !== $esperados) {
+    volverConError("Encabezados inválidos. La primera fila debe ser: " . implode(', ', $esperados));
 }
 
-$insPregunta = $conn->prepare("INSERT INTO preguntas (enunciado, grupo_referencia, modulo, tipo_prueba, puntaje) VALUES (?, ?, ?, ?, ?)");
-$insOpcion   = $conn->prepare("INSERT INTO opciones (pregunta_id, etiqueta, texto, es_correcta) VALUES (?, ?, ?, ?)");
+// Reemplaza solo las preguntas de esta combinación Tipo de Prueba + Competencia
+// (el borrado de sus opciones es automático por la FK ON DELETE CASCADE).
+$stmt = $conn->prepare("DELETE FROM preguntas WHERE tipo_prueba_id = ? AND competencia_id = ?");
+$stmt->bind_param("ii", $tipoPruebaId, $competenciaId);
+$stmt->execute();
+
+$insPregunta = $conn->prepare("INSERT INTO preguntas (enunciado, tipo_prueba_id, competencia_id, puntaje) VALUES (?, ?, ?, 1.0)");
+$insOpcion = $conn->prepare("INSERT INTO opciones (pregunta_id, etiqueta, texto, es_correcta) VALUES (?, ?, ?, ?)");
 
 $insertadas = 0;
-for ($i = 2; $i <= count($filas); $i++) {
+$filasOmitidas = 0;
+
+for ($i = 1; $i < count($filas); $i++) {
     $f = $filas[$i];
-    if (!isset($f['A']) || trim($f['A']) === '') continue; // enunciado obligatorio
+    $enunciado = trim($f[0] ?? '');
+    if ($enunciado === '') {
+        continue; // fila vacía
+    }
 
-    $enunciado = trim($f['A']);
-    $grupo = trim($f['B']);
-    $modulo = trim($f['C']);
-    $tipo = strtolower(trim($f['D']));
-    if (!in_array($tipo, ['generica','especifica'])) $tipo = 'generica';
+    $opA = trim($f[1] ?? '');
+    $opB = trim($f[2] ?? '');
+    $opC = trim($f[3] ?? '');
+    $opD = trim($f[4] ?? '');
+    $correcta = strtoupper(trim($f[5] ?? ''));
 
-    $A = trim($f['E']); $B = trim($f['F']); $C = trim($f['G']); $D = trim($f['H']);
-    $correcta = strtoupper(trim($f['I']));
-    $puntaje = is_numeric($f['J']) ? (float)$f['J'] : 1.0;
+    if (!in_array($correcta, ['A', 'B', 'C', 'D'], true)) {
+        $filasOmitidas++;
+        continue;
+    }
 
-    // Insertar pregunta
-    $insPregunta->bind_param("ssssd", $enunciado, $grupo, $modulo, $tipo, $puntaje);
+    $insPregunta->bind_param("sii", $enunciado, $tipoPruebaId, $competenciaId);
     $insPregunta->execute();
     $pid = $insPregunta->insert_id;
 
-    // Insertar opciones
-    $opcs = ['A'=>$A,'B'=>$B,'C'=>$C,'D'=>$D];
-    foreach ($opcs as $etq=>$txt) {
-        if ($txt === '') $txt = '-';
-        $ok = ($etq === $correcta) ? 1 : 0;
-        $insOpcion->bind_param("issi", $pid, $etq, $txt, $ok);
+    $opciones = ['A' => $opA, 'B' => $opB, 'C' => $opC, 'D' => $opD];
+    foreach ($opciones as $etiqueta => $texto) {
+        if ($texto === '') {
+            $texto = '-';
+        }
+        $esCorrecta = ($etiqueta === $correcta) ? 1 : 0;
+        $insOpcion->bind_param("issi", $pid, $etiqueta, $texto, $esCorrecta);
         $insOpcion->execute();
     }
 
     $insertadas++;
 }
 
-echo "<h2>¡Carga completa!</h2>";
-echo "<p>Preguntas insertadas: <strong>{$insertadas}</strong></p>";
-echo "<a href='admin_cargar_preguntas.php'>Volver</a>";
+$mensaje = "Se cargaron $insertadas preguntas.";
+if ($filasOmitidas > 0) {
+    $mensaje .= " Se omitieron $filasOmitidas filas con una respuesta correcta inválida (debe ser A, B, C o D).";
+}
+
+$_SESSION['flash_ok'] = $mensaje;
+header("Location: admin_cargar_preguntas.php");
+exit();

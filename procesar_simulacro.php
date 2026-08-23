@@ -15,47 +15,59 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-// Recibir filtros
-$grupo_referencia = $_POST['grupo_referencia'] ?? '';
-$modulo = $_POST['modulo'] ?? '';
-$tipo_prueba = $_POST['tipo_prueba'] ?? '';
-$cantidad = intval($_POST['cantidad'] ?? 0);
-$duracion_minutos = intval($_POST['cantidad'] ?? 0); // 1 min por pregunta
+$tipo_prueba_id = intval($_POST['tipo_prueba_id'] ?? 0);
+$competencia_id = intval($_POST['competencia_id'] ?? 0);
 
-if (!$grupo_referencia || !$modulo || !$tipo_prueba || $cantidad <= 0) {
-    $_SESSION['error_simulacro'] = "Selecciona todos los filtros correctamente.";
+if (!$tipo_prueba_id || !$competencia_id) {
+    $_SESSION['error_simulacro'] = "Selecciona el tipo de prueba y la competencia.";
     header("Location: simulacro_inicio.php");
     exit();
 }
 
-// Obtener preguntas según filtros
-$stmt = $conn->prepare("
-    SELECT id 
-    FROM preguntas 
-    WHERE grupo_referencia = ? AND modulo = ? AND tipo_prueba = ? 
-    ORDER BY RAND() 
-    LIMIT ?
-");
-$stmt->bind_param("sssi", $grupo_referencia, $modulo, $tipo_prueba, $cantidad);
+// Configuración del admin para esta combinación (tiempo y tope de preguntas)
+$stmt = $conn->prepare("SELECT duracion_minutos, cantidad_preguntas FROM configuracion_pruebas WHERE tipo_prueba_id = ? AND competencia_id = ?");
+$stmt->bind_param("ii", $tipo_prueba_id, $competencia_id);
 $stmt->execute();
-$result = $stmt->get_result();
-$preguntas = $result->fetch_all(MYSQLI_ASSOC);
+$config = $stmt->get_result()->fetch_assoc();
+
+if (!$config) {
+    $_SESSION['error_simulacro'] = "Esta combinación de tipo de prueba y competencia no está configurada.";
+    header("Location: simulacro_inicio.php");
+    exit();
+}
+
+$duracion_minutos = (int) $config['duracion_minutos'];
+$tope = $config['cantidad_preguntas'];
+
+// Obtener preguntas disponibles para esa competencia y tipo de prueba
+$sql = "SELECT id FROM preguntas WHERE tipo_prueba_id = ? AND competencia_id = ? ORDER BY RAND()";
+if ($tope !== null && (int)$tope > 0) {
+    $sql .= " LIMIT ?";
+    $stmt = $conn->prepare($sql);
+    $limite = (int)$tope;
+    $stmt->bind_param("iii", $tipo_prueba_id, $competencia_id, $limite);
+} else {
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $tipo_prueba_id, $competencia_id);
+}
+$stmt->execute();
+$preguntas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
 if (count($preguntas) === 0) {
-    $_SESSION['error_simulacro'] = "No hay preguntas disponibles para los filtros seleccionados.";
+    $_SESSION['error_simulacro'] = "No hay preguntas disponibles para esa combinación de tipo de prueba y competencia.";
     header("Location: simulacro_inicio.php");
     exit();
 }
 
 // Crear intento
 $stmt = $conn->prepare("
-    INSERT INTO simulacros_intentos 
-    (usuario, fecha_inicio, total_preguntas, duracion_minutos, filtro_grupo_referencia, filtro_modulo, filtro_tipo_prueba) 
-    VALUES (?,?,?, ?, ?, ?, ?)
+    INSERT INTO simulacros_intentos
+    (usuario, tipo_prueba_id, competencia_id, fecha_inicio, total_preguntas, duracion_minutos)
+    VALUES (?, ?, ?, ?, ?, ?)
 ");
 $fecha_inicio = date('Y-m-d H:i:s');
 $total_preguntas = count($preguntas);
-$stmt->bind_param("ssiiiss", $usuario, $fecha_inicio, $total_preguntas, $duracion_minutos, $grupo_referencia, $modulo, $tipo_prueba);
+$stmt->bind_param("siisii", $usuario, $tipo_prueba_id, $competencia_id, $fecha_inicio, $total_preguntas, $duracion_minutos);
 $stmt->execute();
 $intento_id = $conn->insert_id;
 
@@ -69,4 +81,3 @@ foreach ($preguntas as $p) {
 // Redirigir a la primera pregunta
 header("Location: simulacro_pregunta.php?intento_id=$intento_id&pregunta_index=0");
 exit();
-?>

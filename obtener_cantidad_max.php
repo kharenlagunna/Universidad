@@ -7,24 +7,31 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
-$grupo = $_GET['grupo'] ?? '';
-$modulo = $_GET['modulo'] ?? '';
-$tipo = $_GET['tipo_prueba'] ?? '';
+$tipoPruebaId = intval($_GET['tipo_prueba_id'] ?? 0);
+$competenciaId = intval($_GET['competencia_id'] ?? 0);
 
 $max = 0;
+$duracionMinutos = 0;
 
-if($grupo && $modulo && $tipo){
-    $stmt = $conn->prepare("SELECT COUNT(*) AS total FROM preguntas 
-                            WHERE grupo_referencia = ? 
-                              AND modulo = ? 
-                              AND tipo_prueba = ?");
-    $stmt->bind_param("sss", $grupo, $modulo, $tipo);
+if ($tipoPruebaId && $competenciaId) {
+    // Cuántas preguntas hay realmente cargadas para esta combinación
+    $stmt = $conn->prepare("SELECT COUNT(*) AS total FROM preguntas WHERE tipo_prueba_id = ? AND competencia_id = ?");
+    $stmt->bind_param("ii", $tipoPruebaId, $competenciaId);
     $stmt->execute();
-    $result = $stmt->get_result();
-    if($row = $result->fetch_assoc()){
-        $max = (int)$row['total'];
+    $disponibles = (int) $stmt->get_result()->fetch_assoc()['total'];
+
+    // Configuración del admin para esta combinación (tiempo y tope de preguntas)
+    $stmt = $conn->prepare("SELECT duracion_minutos, cantidad_preguntas FROM configuracion_pruebas WHERE tipo_prueba_id = ? AND competencia_id = ?");
+    $stmt->bind_param("ii", $tipoPruebaId, $competenciaId);
+    $stmt->execute();
+    $config = $stmt->get_result()->fetch_assoc();
+
+    if ($config) {
+        $duracionMinutos = (int) $config['duracion_minutos'];
+        $tope = $config['cantidad_preguntas'];
+        $max = ($tope !== null && (int)$tope > 0) ? min((int)$tope, $disponibles) : $disponibles;
     }
 }
 
 header('Content-Type: application/json');
-echo json_encode(["max" => $max]);
+echo json_encode(["max" => $max, "duracion_minutos" => $duracionMinutos]);

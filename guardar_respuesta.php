@@ -28,14 +28,39 @@ if (!$stmt->get_result()->fetch_assoc()) {
     exit();
 }
 
+// Determinar si la opción elegida es la correcta y cuánto puntaje aplica
+$es_correcta = 0;
+$puntaje_obtenido = 0;
+
+if ($opcion_elegida) {
+    $stmt = $conn->prepare("
+        SELECT o.es_correcta, p.puntaje
+        FROM opciones o
+        INNER JOIN preguntas p ON p.id = o.pregunta_id
+        WHERE o.pregunta_id = ? AND o.etiqueta = ?
+    ");
+    $stmt->bind_param("is", $pregunta_id, $opcion_elegida);
+    $stmt->execute();
+    $opcion = $stmt->get_result()->fetch_assoc();
+
+    if ($opcion && (int)$opcion['es_correcta'] === 1) {
+        $es_correcta = 1;
+        $puntaje_obtenido = (float) $opcion['puntaje'];
+    }
+}
+
 // Guardar respuesta
-$stmt = $conn->prepare("UPDATE simulacros_respuestas SET opcion_elegida = ? WHERE intento_id = ? AND pregunta_id = ?");
-$stmt->bind_param("sii", $opcion_elegida, $intento_id, $pregunta_id);
+$stmt = $conn->prepare("
+    UPDATE simulacros_respuestas
+    SET opcion_elegida = ?, es_correcta = ?, puntaje_obtenido = ?
+    WHERE intento_id = ? AND pregunta_id = ?
+");
+$stmt->bind_param("sidii", $opcion_elegida, $es_correcta, $puntaje_obtenido, $intento_id, $pregunta_id);
 $stmt->execute();
 
 // Finalizar manualmente
 if ($accion === "finalizar") {
-    $stmt = $conn->prepare("UPDATE simulacros_intentos SET finalizado_manual = 1 WHERE id = ?");
+    $stmt = $conn->prepare("UPDATE simulacros_intentos SET finalizado_manual = 1, fecha_fin = NOW() WHERE id = ?");
     $stmt->bind_param("i", $intento_id);
     $stmt->execute();
     header("Location: simulacro_resultados.php?intento_id=$intento_id");
@@ -50,6 +75,10 @@ $stmt->execute();
 $total_preguntas = $stmt->get_result()->fetch_assoc()['total'];
 
 if ($siguiente_index >= $total_preguntas) {
+    // Se respondieron todas las preguntas: se considera finalizado
+    $stmt = $conn->prepare("UPDATE simulacros_intentos SET fecha_fin = NOW() WHERE id = ? AND fecha_fin IS NULL");
+    $stmt->bind_param("i", $intento_id);
+    $stmt->execute();
     header("Location: simulacro_resultados.php?intento_id=$intento_id");
 } else {
     header("Location: simulacro_pregunta.php?intento_id=$intento_id&pregunta_index=$siguiente_index");

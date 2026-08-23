@@ -53,9 +53,11 @@ PHP plano (sin framework) + MySQL. Cada página es un archivo `.php` que se abre
 ```
 universidad/
 ├── database/
-│   └── schema.sql              # Estructura completa de la BD + usuario admin semilla
+│   ├── schema.sql                    # Estructura completa de la BD + usuario admin semilla
+│   └── migracion_competencias.sql    # Migración ya aplicada: agrega tipos_prueba/competencias/
+│                                      # configuracion_pruebas y archiva el banco de preguntas viejo
 ├── vendor/phpmailer/           # PHPMailer instalado a mano (sin Composer)
-├── templates/                  # Plantillas .xlsx/.csv para cargar preguntas/datos
+├── templates/                  # Plantillas .xlsx/.csv para cargar preguntas
 ├── img/                        # Imágenes estáticas
 ├── conexion.php                # Configuración de conexión a MySQL
 ├── mail_config.example.php     # Plantilla pública de configuración SMTP
@@ -73,7 +75,7 @@ No hay build step ni framework: cada `.php` de la raíz es una página que se ab
 
 | Rol | Puede hacer |
 |---|---|
-| `admin` | Todo lo del visor, más: cargar banco de preguntas, cargar información general, gestionar usuarios (crear/editar/eliminar) |
+| `admin` | Todo lo del visor, más: cargar banco de preguntas, gestionar usuarios (crear/editar/eliminar), configurar tiempo/cantidad por Tipo de Prueba × Competencia, y ver el historial de simulacros de todos los usuarios |
 | `visor` | Presentar simulacros, ver su propio historial y resultados, ver análisis gráfico |
 
 El rol se guarda en `usuarioss.rol` y se valida en cada página (`if ($_SESSION['rol'] !== 'admin') { ... }`).
@@ -108,20 +110,27 @@ El rol se guarda en `usuarioss.rol` y se valida en cada página (`if ($_SESSION[
 ### Banco de preguntas (solo admin)
 | Archivo | Qué hace |
 |---|---|
-| `admin_cargar_preguntas.php` / `procesar_carga_preguntas.php` | Sube un Excel con preguntas y las inserta en la BD. |
-| `cargar_preguntas.php` | Reemplaza *todo* el banco de preguntas desde `templates/preguntas.csv`. Uso puntual/manual. |
-| `descargar_plantilla_preguntas.php` | Descarga la plantilla Excel de preguntas. |
-| `cargar_informacion.php` / `procesar_carga.php` | Carga general de datos vía Excel. **`procesar_carga.php` está incompleto** (inserta en una tabla llamada literalmente `tu_tabla`, ver Limitaciones). |
-| `descargar_plantilla.php` | Descarga la plantilla Excel general. |
+| `cargar_preguntas.php` | Reemplaza *todo* el banco de preguntas desde `templates/preguntas.csv` (columnas: Enunciado, TipoPrueba, Competencia, OpcionA-D, Correcta, Puntaje). Para una recarga masiva completa. |
+| `admin_cargar_preguntas.php` / `procesar_carga_preguntas.php` | Carga por Excel, **por competencia**: el admin elige Tipo de Prueba + Competencia y sube un `.xlsx` (columnas: Enunciado, OpcionA-D, Correcta); reemplaza solo las preguntas de esa combinación, sin tocar las demás. Usa `lector_xlsx.php` (ver abajo), no PhpSpreadsheet. |
+| `lector_xlsx.php` | Lector de `.xlsx` propio y sin dependencias (usa `ZipArchive` + `SimpleXML`, ambas extensiones nativas de PHP). Un `.xlsx` es un `.zip` con XML adentro; esta función solo lee valores de celdas de la primera hoja — no fórmulas, estilos ni múltiples hojas. Se eligió en vez de instalar PhpSpreadsheet a mano porque esa librería tiene ~150 archivos interdependientes y un autoload generado por Composer, difícil de recrear de forma confiable sin Composer. |
+| `descargar_plantilla_preguntas.php` | Descarga `templates/plantilla_preguntas.xlsx` (encabezados: Enunciado, OpcionA-D, Correcta). |
 
-### Simulacro
+### Configuración de pruebas (solo admin)
 | Archivo | Qué hace |
 |---|---|
-| `simulacro_inicio.php` / `procesar_simulacro.php` | Elige filtros (grupo, módulo, tipo de prueba) e inicia un intento. |
-| `simulacro_pregunta.php` / `guardar_respuesta.php` | Muestra cada pregunta con temporizador y guarda la respuesta elegida. |
-| `simulacro_resultados.php` | Resultado final de un intento (correctas/incorrectas, gráfico). |
-| `simulacro_historial.php` | Historial de todos los intentos del usuario logueado. |
-| `obtener_opciones.php` / `obtener_cantidad_max.php` | Endpoints AJAX que alimentan los `<select>` en cascada de `simulacro_inicio.php`. |
+| `admin_configuracion_pruebas.php` / `admin_configuracion_guardar.php` | Define cuántos minutos y cuántas preguntas se presentan por cada combinación Tipo de Prueba × Competencia (10 combinaciones fijas: 2 tipos × 5 competencias). |
+
+### Simulacro
+El simulacro se organiza en dos dimensiones: **Tipo de Prueba** (Saber Pro / Saber TyT) y **Competencia** (Razonamiento cuantitativo, Lectura crítica, Competencias ciudadanas, Comunicación escrita, Inglés) — catálogos en las tablas `tipos_prueba` y `competencias`.
+
+| Archivo | Qué hace |
+|---|---|
+| `simulacro_inicio.php` / `procesar_simulacro.php` | Elige Tipo de Prueba y Competencia, muestra cuántas preguntas y cuánto tiempo (según `configuracion_pruebas`) e inicia el intento. |
+| `simulacro_pregunta.php` / `guardar_respuesta.php` | Muestra cada pregunta con temporizador; al guardar cada respuesta calcula si es correcta y su puntaje. Marca `fecha_fin` al finalizar (manual, por tiempo agotado, o al responder la última pregunta). |
+| `simulacro_resultados.php` | Resultado del intento: tipo de prueba, competencia, tiempo utilizado, correctas/incorrectas, gráfico y una retroalimentación según el % de aciertos. |
+| `simulacro_historial.php` | Historial propio del usuario logueado. |
+| `admin_historial_simulacros.php` | Historial de **todos** los usuarios (solo admin), con buscador y paginación. |
+| `obtener_cantidad_max.php` | Endpoint AJAX: dado un Tipo de Prueba + Competencia, devuelve cuántas preguntas hay disponibles y la duración configurada. |
 | `analisis_grafico.php` | Gráfico de ejemplo (Chart.js). |
 
 ---
@@ -138,8 +147,9 @@ El rol se guarda en `usuarioss.rol` y se valida en cada página (`if ($_SESSION[
 
 ## Limitaciones conocidas / pendientes
 
-- **`procesar_carga.php`** inserta en una tabla llamada `tu_tabla`, que no existe — es un placeholder que quedó sin terminar. El botón "Cargar Archivo" en `cargar_informacion.php` fallará hasta que se complete.
 - **`preguntas_old`, `resultados`, `calendario`** son tablas heredadas que ningún código activo usa hoy. Se conservan en `schema.sql` solo por si tienen datos históricos de valor; son candidatas a eliminarse en una limpieza futura.
+- **`preguntas_legado`, `opciones_legado`** son el banco de preguntas anterior (clasificado por grupo/módulo), archivado al migrar a Tipo de Prueba + Competencia. Nadie los consulta hoy; se conservan solo como respaldo histórico.
+- Los 45 intentos de simulacro anteriores a esta migración no tienen Tipo de Prueba ni Competencia asociados (columnas `NULL`) — se muestran como "—" en los historiales.
 - No hay una suite de tests automatizados.
 
 ---

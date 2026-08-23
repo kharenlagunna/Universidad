@@ -15,12 +15,13 @@ $paginaActual  = basename($_SERVER['SCRIPT_NAME']);
 $sidebarModulos = [
     ['href' => 'dashboard_admin.php',        'icono' => '🏠', 'texto' => 'Dashboard',            'roles' => ['admin']],
     ['href' => 'dashboard_visor.php',        'icono' => '🏠', 'texto' => 'Dashboard',            'roles' => ['visor']],
-    ['href' => 'cargar_informacion.php',     'icono' => '📂', 'texto' => 'Cargar Información',   'roles' => ['admin']],
     ['href' => 'admin_cargar_preguntas.php', 'icono' => '📝', 'texto' => 'Cargar Preguntas',     'roles' => ['admin']],
     ['href' => 'admin_usuarios.php',         'icono' => '👥', 'texto' => 'Gestión de Usuarios', 'roles' => ['admin']],
+    ['href' => 'admin_configuracion_pruebas.php', 'icono' => '⚙️', 'texto' => 'Configuración de Pruebas', 'roles' => ['admin']],
     ['href' => 'analisis_grafico.php',       'icono' => '📊', 'texto' => 'Análisis Gráfico',     'roles' => ['admin', 'visor']],
     ['href' => 'simulacro_inicio.php',       'icono' => '🧪', 'texto' => 'Simulacro',            'roles' => ['admin', 'visor']],
     ['href' => 'simulacro_historial.php',    'icono' => '📜', 'texto' => 'Historial',            'roles' => ['admin', 'visor']],
+    ['href' => 'admin_historial_simulacros.php', 'icono' => '🗂️', 'texto' => 'Historial General', 'roles' => ['admin']],
 ];
 ?>
 <div class="sidebar">
