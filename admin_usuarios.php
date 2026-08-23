@@ -40,7 +40,7 @@ $listado = $conn->query("SELECT id, usuario, rol, email FROM usuarioss ORDER BY 
     <?php require __DIR__ . '/sidebar.php'; ?>
 
     <div class="content">
-        <div class="contenedor-derecho" style="max-width:1000px">
+        <div class="contenedor-derecho">
             <h2 style="margin:0;">Usuarios del sistema</h2>
 
             <?php if ($flashOk): ?>

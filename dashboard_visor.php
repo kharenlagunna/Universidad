@@ -19,8 +19,8 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'visor') {
     <?php require __DIR__ . '/sidebar.php'; ?>
 
     <div class="content">
-        <div class="container">
-            <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION['usuario']); ?> (Visor)</h1>
+        <div class="contenedor-derecho">
+            <h2>Bienvenido, <?php echo htmlspecialchars($_SESSION['usuario']); ?> (Visor)</h2>
             <p>Solo puedes acceder a las opciones de visualización.</p>
 
             <h2>Indicadores de Contact Center</h2>

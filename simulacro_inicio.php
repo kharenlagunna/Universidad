@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <?php require __DIR__ . '/sidebar.php'; ?>
 
 <div class="content">
-    <div class="contenedor-derecho" style="max-width:820px">
+    <div class="contenedor-derecho">
         <h2>Simulacro Saber Pro y TyT</h2>
         <p>Configura tu simulacro. Selecciona filtros y el sistema asignará la cantidad máxima de preguntas y el tiempo (1 minuto por cada pregunta).</p>
 

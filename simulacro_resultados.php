@@ -52,7 +52,7 @@ $finalizado_manual = $intento['finalizado_manual'] == 1;
 <?php require __DIR__ . '/sidebar.php'; ?>
 
 <div class="content">
-    <div class="contenedor-derecho" style="max-width:820px">
+    <div class="contenedor-derecho">
         <h2>Resultados del Simulacro</h2>
         <p><strong>Fecha:</strong> <?= htmlspecialchars($intento['fecha_inicio']) ?></p>
         <p><strong>Total de Preguntas:</strong> <?= $intento['total_preguntas'] ?></p>

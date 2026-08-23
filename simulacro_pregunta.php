@@ -109,11 +109,11 @@ window.onload = actualizarTimer;
 <?php require __DIR__ . '/sidebar.php'; ?>
 
 <div class="content">
-    <div class="contenedor-derecho" style="max-width:820px">
+    <div class="contenedor-derecho">
         <h2>Pregunta <?= $pregunta_index + 1 ?> de <?= $total_preguntas ?></h2>
         <p class="enunciado"><?= htmlspecialchars($pregunta_actual['enunciado']) ?></p>
 
-        <div class="timer-box" style="margin-bottom:15px;">
+        <div class="timer-box">
             ⏳ Tiempo restante: <span id="timer"></span>
         </div>
 
@@ -133,7 +133,7 @@ window.onload = actualizarTimer;
                 </div>
             <?php endforeach; ?>
 
-            <div class="acciones" style="margin-top:15px;">
+            <div class="acciones">
                 <button type="submit" name="accion" value="guardar" class="btn">💾 Guardar y continuar</button>
                 <button type="submit" name="accion" value="finalizar" class="btn-peligro">🚪 Guardar y finalizar</button>
             </div>

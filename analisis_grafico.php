@@ -21,8 +21,8 @@ $rol = $_SESSION['rol'];
     <?php require __DIR__ . '/sidebar.php'; ?>
 
     <div class="content">
-        <div class="container">
-            <h1>Análisis Gráfico</h1>
+        <div class="contenedor-derecho">
+            <h2>Análisis Gráfico</h2>
             <p>Gráfico de llamadas atendidas en la última semana.</p>
 
             <canvas id="llamadasChart" width="800" height="400"></canvas>
