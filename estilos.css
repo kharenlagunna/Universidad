@@ -422,6 +422,25 @@ body {
     background-color: #003d80;
 }
 
+/* Variante de botón para acciones destructivas (eliminar, finalizar, etc.) */
+.btn-peligro {
+    padding: 12px 24px;
+    background-color: #e74c3c;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-peligro:hover {
+    background-color: #c0392b;
+}
+
 /* Formularios */
 form label {
     font-weight: 600;
@@ -520,4 +539,202 @@ form input[readonly] {
 
 .estado-badge.estado-normal {
     background-color: #27ae60;
+}
+
+/* ====== Modal ====== */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.5);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 100;
+}
+
+.modal-overlay.open {
+    display: flex;
+}
+
+.modal-box {
+    position: relative;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    padding: 32px;
+    width: 100%;
+    max-width: 460px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    line-height: 1;
+    color: #777;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.modal-close:hover {
+    color: #000;
+}
+
+/* ====== Gestión de usuarios: barra de búsqueda ====== */
+
+.usuarios-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.buscador-usuarios {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+}
+
+.buscador-usuarios .buscador-icono {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.5;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.buscador-usuarios input {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    border-radius: 10px;
+    border: 1.5px solid #e5e7eb;
+    background-color: #f8f9fb;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.buscador-usuarios input:focus {
+    outline: none;
+    border-color: #0073e6;
+    background-color: #fff;
+}
+
+/* ====== Gestión de usuarios: celda de usuario y badge de rol ====== */
+
+.usuario-nombre {
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.usuario-correo {
+    color: #777;
+    font-size: 13px;
+    margin-top: 2px;
+}
+
+.rol-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    background-color: #eef2f7;
+    color: #444;
+}
+
+.rol-badge.rol-admin {
+    background-color: #e7f0ff;
+    color: #0056b3;
+}
+
+/* ====== Gestión de usuarios: botones de acción con ícono ====== */
+
+.icon-btn {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background-color 0.2s ease;
+}
+
+.icon-btn.icon-editar {
+    background-color: #eaf2ff;
+}
+
+.icon-btn.icon-editar:hover {
+    background-color: #d7e6ff;
+}
+
+.icon-btn.icon-eliminar {
+    background-color: #fdecea;
+}
+
+.icon-btn.icon-eliminar:hover {
+    background-color: #fadbd8;
+}
+
+/* ====== Gestión de usuarios: paginación ====== */
+
+.tabla-paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+    font-size: 14px;
+    color: #555;
+}
+
+.tabla-paginacion .controles {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tabla-paginacion .paginacion-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1.5px solid #e5e7eb;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.tabla-paginacion .paginacion-btn:hover:not(:disabled) {
+    background-color: #f1f3f5;
+}
+
+.tabla-paginacion .paginacion-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.tabla-paginacion .pagina-actual {
+    width: 44px;
+    text-align: center;
+    padding: 7px 4px;
+    border-radius: 8px;
+    border: 1.5px solid #e5e7eb;
+    font-size: 14px;
 }

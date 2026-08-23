@@ -17,6 +17,7 @@ $sidebarModulos = [
     ['href' => 'dashboard_visor.php',        'icono' => '🏠', 'texto' => 'Dashboard',            'roles' => ['visor']],
     ['href' => 'cargar_informacion.php',     'icono' => '📂', 'texto' => 'Cargar Información',   'roles' => ['admin']],
     ['href' => 'admin_cargar_preguntas.php', 'icono' => '📝', 'texto' => 'Cargar Preguntas',     'roles' => ['admin']],
+    ['href' => 'admin_usuarios.php',         'icono' => '👥', 'texto' => 'Gestión de Usuarios', 'roles' => ['admin']],
     ['href' => 'analisis_grafico.php',       'icono' => '📊', 'texto' => 'Análisis Gráfico',     'roles' => ['admin', 'visor']],
     ['href' => 'simulacro_inicio.php',       'icono' => '🧪', 'texto' => 'Simulacro',            'roles' => ['admin', 'visor']],
     ['href' => 'simulacro_historial.php',    'icono' => '📜', 'texto' => 'Historial',            'roles' => ['admin', 'visor']],
