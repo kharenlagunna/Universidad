@@ -20,23 +20,32 @@ PHP plano (sin framework) + MySQL. Cada página es un archivo `.php` que se abre
    htdocs/universidad/
    ```
 
-2. **Crea la base de datos** ejecutando el script incluido:
+2. **Crea las bases de datos** ejecutando el script incluido:
    ```bash
    mysql -u root < database/schema.sql
    ```
-   Esto crea la base `proyecto_saber_pro_tyt` con todas las tablas y un usuario administrador de arranque:
-   - **Usuario:** `admin`
-   - **Contraseña:** `changeme123`
+   Esto crea **dos** bases de datos:
+   - `proyecto_saber_pro_tyt` — la de la app (simulacros, usuarios, etc.), con todas las tablas y un usuario administrador de arranque:
+     - **Usuario:** `admin`
+     - **Contraseña:** `changeme123`
 
-   ⚠️ Cámbiala apenas entres, desde *Gestión de Usuarios* dentro de la app.
+     ⚠️ Cámbiala apenas entres, desde *Gestión de Usuarios* dentro de la app.
 
-3. **Configura la conexión a la base de datos** en [`conexion.php`](conexion.php) si tu MySQL no usa `root` sin contraseña (por defecto de XAMPP):
-   ```php
-   $servername = "localhost";
-   $username_db = "root";
-   $password_db = "";
-   $dbname = "proyecto_saber_pro_tyt";
-   ```
+   - `resultados_saber_pro_tyt` — datos agregados oficiales del ICFES (Saber Pro/T&T 2015-2024), de solo lectura, usados para comparar resultados desde el dashboard. `schema.sql` solo crea su **estructura** (51 tablas/vistas); los datos (~456 MB) no se versionan en git. Para cargarlos:
+     ```bash
+     mysql -u root resultados_saber_pro_tyt < database/resultados_saber_pro_tyt_dump_completo.sql
+     ```
+     Ese archivo está en `.gitignore` por su tamaño — consíguelo con quien te compartió el proyecto si no lo tienes en `database/`.
+
+3. **Configura la conexión a las bases de datos** si tu MySQL no usa `root` sin contraseña (por defecto de XAMPP):
+   - [`conexion.php`](conexion.php) → `proyecto_saber_pro_tyt` (la app):
+     ```php
+     $servername = "localhost";
+     $username_db = "root";
+     $password_db = "";
+     $dbname = "proyecto_saber_pro_tyt";
+     ```
+   - [`conexion_resultados.php`](conexion_resultados.php) → `resultados_saber_pro_tyt` (datos ICFES). Mismo patrón, variable de conexión distinta (`$connResultados`, no `$conn`) para poder incluir ambos archivos en una misma página sin que se pisen.
 
 4. **Configura el envío de correo** (necesario solo para "Olvidé mi contraseña"):
    ```bash
@@ -59,13 +68,16 @@ universidad/
 ├── simulacro/      # Compartido admin+visor: presentar el simulacro, resultados, historial propio
 ├── auth/           # Login, logout, recuperación de contraseña
 ├── database/
-│   ├── schema.sql                    # Estructura completa de la BD + usuario admin semilla
-│   └── migracion_competencias.sql    # Migración ya aplicada: agrega tipos_prueba/competencias/
-│                                      # configuracion_pruebas y archiva el banco de preguntas viejo
+│   ├── schema.sql                                # Estructura de AMBAS bases + usuario admin semilla
+│   ├── migracion_competencias.sql                # Migración ya aplicada: agrega tipos_prueba/competencias/
+│   │                                              # configuracion_pruebas y archiva el banco de preguntas viejo
+│   └── resultados_saber_pro_tyt_dump_completo.sql  # Dump completo (datos) de resultados_saber_pro_tyt.
+│                                                  # NO se versiona (472 MB, ver .gitignore)
 ├── vendor/phpmailer/           # PHPMailer instalado a mano (sin Composer)
 ├── templates/                  # Plantillas .xlsx/.csv para cargar preguntas
 ├── img/                        # Imágenes estáticas
-├── conexion.php                # Configuración de conexión a MySQL
+├── conexion.php                # Conexión a proyecto_saber_pro_tyt (la app)
+├── conexion_resultados.php     # Conexión a resultados_saber_pro_tyt (datos ICFES, de solo lectura)
 ├── mail_config.example.php     # Plantilla pública de configuración SMTP
 ├── mail_config.php             # Configuración SMTP real (NO se versiona)
 ├── sidebar.php                 # Menú lateral compartido por todas las páginas
@@ -153,10 +165,11 @@ El simulacro se organiza en dos dimensiones: **Tipo de Prueba** (Saber Pro / Sab
 
 ## Limitaciones conocidas / pendientes
 
-- **`preguntas_old`, `resultados`, `calendario`** son tablas heredadas que ningún código activo usa hoy. Se conservan en `schema.sql` solo por si tienen datos históricos de valor; son candidatas a eliminarse en una limpieza futura.
-- **`preguntas_legado`, `opciones_legado`** son el banco de preguntas anterior (clasificado por grupo/módulo), archivado al migrar a Tipo de Prueba + Competencia. Nadie los consulta hoy; se conservan solo como respaldo histórico.
+- **`calendario`** es una tabla heredada que ningún código activo usa hoy. Se conserva en `schema.sql` solo por si tiene datos históricos de valor; es candidata a eliminarse en una limpieza futura.
+- **`preguntas_old`, `resultados`, `preguntas_legado`, `opciones_legado`** ya se eliminaron de la base de datos real y de `schema.sql` (no las usaba ningún código activo).
 - Los 45 intentos de simulacro anteriores a esta migración no tienen Tipo de Prueba ni Competencia asociados (columnas `NULL`) — se muestran como "—" en los historiales.
 - No hay una suite de tests automatizados.
+- **`resultados_saber_pro_tyt`** (datos ICFES) está creada e importada, con `conexion_resultados.php` listo para usarse, pero **todavía ningún dashboard la consulta** — es infraestructura preparada para una funcionalidad futura de comparar resultados. Sus 51 tablas/vistas vienen con nombres tal como los generó el import original del ICFES (con espacios, paréntesis e incluso `.csv` en el nombre); revisa `database/schema.sql` para la lista completa antes de construir algo sobre ellas.
 
 ---
 

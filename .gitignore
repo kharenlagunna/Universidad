@@ -3,3 +3,8 @@
 
 # Credenciales reales de correo (usa mail_config.example.php como plantilla)
 mail_config.php
+
+# Dump completo de resultados_saber_pro_tyt (472 MB, datos abiertos del ICFES):
+# demasiado pesado para versionar. La estructura sí está documentada en
+# database/schema.sql; este archivo es solo para volver a cargar los datos.
+database/resultados_saber_pro_tyt_dump_completo.sql
