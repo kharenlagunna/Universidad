@@ -164,32 +164,11 @@ CREATE TABLE `simulacros_respuestas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ---------------------------------------------------------------------
--- Tablas heredadas que el código actual ya NO usa. Se conservan solo
--- por si algún reporte externo o dato histórico depende de ellas.
+-- Tabla heredada que el código actual ya NO usa. Se conserva solo
+-- por si algún reporte externo o dato histórico depende de ella.
+-- (preguntas_old, resultados, opciones_legado y preguntas_legado ya
+-- se depuraron de la base real y de este esquema.)
 -- ---------------------------------------------------------------------
-DROP TABLE IF EXISTS `preguntas_old`;
-CREATE TABLE `preguntas_old` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `enunciado` text NOT NULL,
-  `grupo_referencia` varchar(100) NOT NULL,
-  `modulo` varchar(100) NOT NULL,
-  `tipo_prueba` enum('generica','especifica') NOT NULL,
-  `puntaje` decimal(5,2) NOT NULL DEFAULT 1.00,
-  `creado_en` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-DROP TABLE IF EXISTS `resultados`;
-CREATE TABLE `resultados` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `usuario_id` int(11) NOT NULL,
-  `pregunta_id` int(11) NOT NULL,
-  `respuesta` enum('A','B','C','D') DEFAULT NULL,
-  `es_correcta` tinyint(1) DEFAULT NULL,
-  `fecha` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 DROP TABLE IF EXISTS `calendario`;
 CREATE TABLE `calendario` (
   `fecha` date NOT NULL,

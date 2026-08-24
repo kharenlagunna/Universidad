@@ -165,8 +165,8 @@ El simulacro se organiza en dos dimensiones: **Tipo de Prueba** (Saber Pro / Sab
 
 ## Limitaciones conocidas / pendientes
 
-- **`preguntas_old`, `resultados`, `calendario`** son tablas heredadas que ningún código activo usa hoy. Se conservan en `schema.sql` solo por si tienen datos históricos de valor; son candidatas a eliminarse en una limpieza futura.
-- **`preguntas_legado`, `opciones_legado`** son el banco de preguntas anterior (clasificado por grupo/módulo), archivado al migrar a Tipo de Prueba + Competencia. Nadie los consulta hoy; se conservan solo como respaldo histórico.
+- **`calendario`** es una tabla heredada que ningún código activo usa hoy. Se conserva en `schema.sql` solo por si tiene datos históricos de valor; es candidata a eliminarse en una limpieza futura.
+- **`preguntas_old`, `resultados`, `preguntas_legado`, `opciones_legado`** ya se eliminaron de la base de datos real y de `schema.sql` (no las usaba ningún código activo).
 - Los 45 intentos de simulacro anteriores a esta migración no tienen Tipo de Prueba ni Competencia asociados (columnas `NULL`) — se muestran como "—" en los historiales.
 - No hay una suite de tests automatizados.
 - **`resultados_saber_pro_tyt`** (datos ICFES) está creada e importada, con `conexion_resultados.php` listo para usarse, pero **todavía ningún dashboard la consulta** — es infraestructura preparada para una funcionalidad futura de comparar resultados. Sus 51 tablas/vistas vienen con nombres tal como los generó el import original del ICFES (con espacios, paréntesis e incluso `.csv` en el nombre); revisa `database/schema.sql` para la lista completa antes de construir algo sobre ellas.
