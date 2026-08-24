@@ -1,5 +1,5 @@
 <?php
-$rutaArchivo = __DIR__ . "/templates/plantilla_preguntas.xlsx";
+$rutaArchivo = __DIR__ . "/../templates/plantilla_preguntas.xlsx";
 
 if (file_exists($rutaArchivo)) {
     header('Content-Description: File Transfer');

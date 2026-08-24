@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 ?>
@@ -10,13 +10,13 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 <head>
 <meta charset="UTF-8" />
 <title>Dashboard - Administrador</title>
-<link rel="stylesheet" href="estilos.css" />
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="alternate icon" href="favicon.ico">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="../estilos.css" />
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="../favicon.ico">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
 </head>
 <body>
-    <?php require __DIR__ . '/sidebar.php'; ?>
+    <?php require __DIR__ . '/../sidebar.php'; ?>
 
     <div class="content">
         <div class="contenedor-derecho">

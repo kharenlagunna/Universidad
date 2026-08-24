@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'conexion.php';
+require __DIR__ . '/../conexion.php';
 
 $error = '';
 
@@ -56,9 +56,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // contraseña más adelante, así que se lo pedimos primero.
             header("Location: completar_perfil.php");
         } elseif ($row['rol'] === 'admin') {
-            header("Location: dashboard_admin.php");
+            header("Location: ../admin/dashboard_admin.php");
         } elseif ($row['rol'] === 'visor') {
-            header("Location: dashboard_visor.php");
+            header("Location: ../visor/dashboard_visor.php");
         } else {
             $error = "Rol no reconocido.";
         }
@@ -73,10 +73,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8" />
     <title>Login - Universidad</title>
-    <link rel="stylesheet" href="estilos.css" />
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="alternate icon" href="favicon.ico">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="../estilos.css" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="alternate icon" href="../favicon.ico">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 </head>
 <body class="login-page">
     <div class="login-wrap">

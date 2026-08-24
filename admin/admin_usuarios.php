@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once "conexion.php";
+require_once __DIR__ . '/../conexion.php';
 
 if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 
@@ -31,13 +31,13 @@ $listado = $conn->query("SELECT id, usuario, rol, email FROM usuarioss ORDER BY 
 <head>
 <meta charset="UTF-8" />
 <title>Gestión de Usuarios</title>
-<link rel="stylesheet" href="estilos.css" />
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="alternate icon" href="favicon.ico">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="../estilos.css" />
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="../favicon.ico">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
 </head>
 <body>
-    <?php require __DIR__ . '/sidebar.php'; ?>
+    <?php require __DIR__ . '/../sidebar.php'; ?>
 
     <div class="content">
         <div class="contenedor-derecho">

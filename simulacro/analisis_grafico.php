@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario']) || !in_array($_SESSION['rol'], ['admin','visor'])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 $rol = $_SESSION['rol'];
@@ -11,14 +11,14 @@ $rol = $_SESSION['rol'];
 <head>
 <meta charset="UTF-8" />
 <title>Análisis Gráfico</title>
-<link rel="stylesheet" href="estilos.css" />
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="alternate icon" href="favicon.ico">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="../estilos.css" />
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="../favicon.ico">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <?php require __DIR__ . '/sidebar.php'; ?>
+    <?php require __DIR__ . '/../sidebar.php'; ?>
 
     <div class="content">
         <div class="contenedor-derecho">

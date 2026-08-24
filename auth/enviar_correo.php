@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/vendor/phpmailer/autoload.php';
+require_once __DIR__ . '/../vendor/phpmailer/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
@@ -11,7 +11,7 @@ use PHPMailer\PHPMailer\Exception as PHPMailerException;
  */
 function enviarCorreoRecuperacion(string $emailDestino, string $usuarioDestino, string $enlace): array
 {
-    $config = require __DIR__ . '/mail_config.php';
+    $config = require __DIR__ . '/../mail_config.php';
 
     $mail = new PHPMailer(true);
     try {

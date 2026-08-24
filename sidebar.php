@@ -4,7 +4,11 @@
  * Requiere que la página que lo incluye ya haya hecho session_start()
  * y tenga en sesión $_SESSION['usuario'] y $_SESSION['rol'].
  *
- * Uso:  require __DIR__ . '/sidebar.php';
+ * Este archivo vive en la raíz del proyecto, pero lo incluyen páginas
+ * que están 1 nivel abajo (admin/, visor/, simulacro/), por eso los
+ * href de abajo empiezan con "../".
+ *
+ * Uso:  require __DIR__ . '/../sidebar.php';
  */
 
 $rolActual     = $_SESSION['rol'] ?? '';
@@ -13,15 +17,15 @@ $paginaActual  = basename($_SERVER['SCRIPT_NAME']);
 
 // Módulos del menú. 'roles' controla quién ve cada uno.
 $sidebarModulos = [
-    ['href' => 'dashboard_admin.php',        'icono' => '🏠', 'texto' => 'Dashboard',            'roles' => ['admin']],
-    ['href' => 'dashboard_visor.php',        'icono' => '🏠', 'texto' => 'Dashboard',            'roles' => ['visor']],
-    ['href' => 'admin_cargar_preguntas.php', 'icono' => '📝', 'texto' => 'Cargar Preguntas',     'roles' => ['admin']],
-    ['href' => 'admin_usuarios.php',         'icono' => '👥', 'texto' => 'Gestión de Usuarios', 'roles' => ['admin']],
-    ['href' => 'admin_configuracion_pruebas.php', 'icono' => '⚙️', 'texto' => 'Configuración de Pruebas', 'roles' => ['admin']],
-    ['href' => 'analisis_grafico.php',       'icono' => '📊', 'texto' => 'Análisis Gráfico',     'roles' => ['admin', 'visor']],
-    ['href' => 'simulacro_inicio.php',       'icono' => '🧪', 'texto' => 'Simulacro',            'roles' => ['admin', 'visor']],
-    ['href' => 'simulacro_historial.php',    'icono' => '📜', 'texto' => 'Historial',            'roles' => ['admin', 'visor']],
-    ['href' => 'admin_historial_simulacros.php', 'icono' => '🗂️', 'texto' => 'Historial General', 'roles' => ['admin']],
+    ['href' => '../admin/dashboard_admin.php',            'icono' => '🏠', 'texto' => 'Dashboard',                'roles' => ['admin']],
+    ['href' => '../visor/dashboard_visor.php',             'icono' => '🏠', 'texto' => 'Dashboard',                'roles' => ['visor']],
+    ['href' => '../admin/admin_cargar_preguntas.php',      'icono' => '📝', 'texto' => 'Cargar Preguntas',         'roles' => ['admin']],
+    ['href' => '../admin/admin_usuarios.php',              'icono' => '👥', 'texto' => 'Gestión de Usuarios',     'roles' => ['admin']],
+    ['href' => '../admin/admin_configuracion_pruebas.php', 'icono' => '⚙️', 'texto' => 'Configuración de Pruebas', 'roles' => ['admin']],
+    ['href' => '../simulacro/analisis_grafico.php',        'icono' => '📊', 'texto' => 'Análisis Gráfico',         'roles' => ['admin', 'visor']],
+    ['href' => '../simulacro/simulacro_inicio.php',        'icono' => '🧪', 'texto' => 'Simulacro',                'roles' => ['admin', 'visor']],
+    ['href' => '../simulacro/simulacro_historial.php',     'icono' => '📜', 'texto' => 'Historial',                'roles' => ['admin', 'visor']],
+    ['href' => '../admin/admin_historial_simulacros.php',  'icono' => '🗂️', 'texto' => 'Historial General',        'roles' => ['admin']],
 ];
 ?>
 <div class="sidebar">
@@ -37,7 +41,7 @@ $sidebarModulos = [
         <?php foreach ($sidebarModulos as $modulo): ?>
             <?php if (in_array($rolActual, $modulo['roles'], true)): ?>
                 <a href="<?= htmlspecialchars($modulo['href']) ?>"
-                   class="<?= $paginaActual === $modulo['href'] ? 'active' : '' ?>">
+                   class="<?= $paginaActual === basename($modulo['href']) ? 'active' : '' ?>">
                     <span class="nav-icon"><?= $modulo['icono'] ?></span><?= htmlspecialchars($modulo['texto']) ?>
                 </a>
             <?php endif; ?>
@@ -54,7 +58,7 @@ $sidebarModulos = [
 
         <div class="user-menu">
             <div class="user-menu-header">Mi cuenta</div>
-            <a href="logout.php" class="user-menu-logout">🚪 Cerrar sesión</a>
+            <a href="../auth/logout.php" class="user-menu-logout">🚪 Cerrar sesión</a>
         </div>
     </div>
 </div>

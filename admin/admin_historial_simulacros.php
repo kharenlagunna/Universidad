@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once "conexion.php";
+require_once __DIR__ . '/../conexion.php';
 
 if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 
@@ -26,13 +26,13 @@ $listado = $conn->query("
 <head>
 <meta charset="UTF-8" />
 <title>Historial General de Simulacros</title>
-<link rel="stylesheet" href="estilos.css" />
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="alternate icon" href="favicon.ico">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="../estilos.css" />
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="../favicon.ico">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
 </head>
 <body>
-    <?php require __DIR__ . '/sidebar.php'; ?>
+    <?php require __DIR__ . '/../sidebar.php'; ?>
 
     <div class="content">
         <div class="contenedor-derecho">
@@ -91,7 +91,7 @@ $listado = $conn->query("
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <a href="simulacro_resultados.php?intento_id=<?= (int)$fila['id'] ?>" class="btn" style="padding:8px 14px;font-size:13px;">Ver</a>
+                                <a href="../simulacro/simulacro_resultados.php?intento_id=<?= (int)$fila['id'] ?>" class="btn" style="padding:8px 14px;font-size:13px;">Ver</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>

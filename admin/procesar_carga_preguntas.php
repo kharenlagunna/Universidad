@@ -1,11 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
-require_once 'conexion.php';
-require_once 'lector_xlsx.php';
+require_once __DIR__ . '/../conexion.php';
+require_once __DIR__ . '/../lector_xlsx.php';
 
 function volverConError(string $mensaje): void
 {

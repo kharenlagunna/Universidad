@@ -1,12 +1,12 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
-require_once "conexion.php";
+require_once __DIR__ . '/../conexion.php';
 
-$archivoCSV = __DIR__ . "/templates/preguntas.csv";
+$archivoCSV = __DIR__ . "/../templates/preguntas.csv";
 $delimitador = ",";
 
 // Validar si existe el archivo

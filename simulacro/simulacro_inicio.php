@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once "conexion.php";
+require_once __DIR__ . '/../conexion.php';
 
 if (!isset($_SESSION['usuario']) || !in_array($_SESSION['rol'], ['admin', 'visor'])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 
@@ -18,10 +18,10 @@ $competencias = $conn->query("SELECT id, nombre FROM competencias ORDER BY nombr
 <head>
 <meta charset="UTF-8" />
 <title>Simulacro - Inicio</title>
-<link rel="stylesheet" href="estilos.css" />
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="alternate icon" href="favicon.ico">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="../estilos.css" />
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="../favicon.ico">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const tipoSelect = document.getElementById("tipo_prueba_id");
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 </head>
 <body>
-<?php require __DIR__ . '/sidebar.php'; ?>
+<?php require __DIR__ . '/../sidebar.php'; ?>
 
 <div class="content">
     <div class="contenedor-derecho">

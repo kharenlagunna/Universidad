@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once "conexion.php";
+require_once __DIR__ . '/../conexion.php';
 
 if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 
