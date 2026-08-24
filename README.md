@@ -20,7 +20,7 @@ PHP plano (sin framework) + MySQL. Cada página es un archivo `.php` que se abre
    htdocs/universidad/
    ```
 
-2. **Crea las bases de datos** ejecutando el script incluido:
+2. **Crea las bases de datos** ejecutando el script incluido — es el **único** paso de base de datos que necesitas, no hay migraciones separadas que correr:
    ```bash
    mysql -u root < database/schema.sql
    ```
@@ -68,11 +68,9 @@ universidad/
 ├── simulacro/      # Compartido admin+visor: presentar el simulacro, resultados, historial propio
 ├── auth/           # Login, logout, recuperación de contraseña
 ├── database/
-│   ├── schema.sql                                # Estructura de AMBAS bases + usuario admin semilla
-│   ├── migracion_competencias.sql                # Migración ya aplicada: agrega tipos_prueba/competencias/
-│   │                                              # configuracion_pruebas y archiva el banco de preguntas viejo
+│   ├── schema.sql                                  # Estructura de AMBAS bases + usuario admin semilla
 │   └── resultados_saber_pro_tyt_dump_completo.sql  # Dump completo (datos) de resultados_saber_pro_tyt.
-│                                                  # NO se versiona (472 MB, ver .gitignore)
+│                                                    # NO se versiona (472 MB, ver .gitignore)
 ├── vendor/phpmailer/           # PHPMailer instalado a mano (sin Composer)
 ├── templates/                  # Plantillas .xlsx/.csv para cargar preguntas
 ├── img/                        # Imágenes estáticas
@@ -96,7 +94,7 @@ No hay build step ni framework. La infraestructura transversal (`conexion.php`, 
 | `admin` | Todo lo del visor, más: cargar banco de preguntas, gestionar usuarios (crear/editar/eliminar), configurar tiempo/cantidad por Tipo de Prueba × Competencia, y ver el historial de simulacros de todos los usuarios |
 | `visor` | Presentar simulacros, ver su propio historial y resultados, ver análisis gráfico |
 
-El rol se guarda en `usuarioss.rol` y se valida en cada página (`if ($_SESSION['rol'] !== 'admin') { ... }`).
+El rol se guarda en `usuarios.rol` y se valida en cada página (`if ($_SESSION['rol'] !== 'admin') { ... }`).
 
 ---
 
@@ -178,3 +176,4 @@ El simulacro se organiza en dos dimensiones: **Tipo de Prueba** (Saber Pro / Sab
 - El repo vive en `universidad/.git` (no en la raíz de `htdocs`), con remoto en GitHub. Revisa `git remote -v` y `git branch` antes de hacer push.
 - PHPMailer está vendorizado a mano en `vendor/phpmailer/` (sin Composer). Si necesitas actualizarlo, reemplaza los 3 archivos en `vendor/phpmailer/src/` por los de la versión que quieras desde el repo oficial de PHPMailer.
 - `estilos.css` es la única hoja de estilos del proyecto; todas las páginas la comparten. Antes de crear una clase nueva, revisa si ya existe algo parecido (`.btn`, `.btn-peligro`, `.tabla-indicadores`, `.modal-*`, etc.) para mantener la interfaz uniforme.
+- **Convención de base de datos:** este proyecto no usa una carpeta de migraciones numeradas — `database/schema.sql` es un único script que siempre refleja el estado final actual de ambas bases de datos. Si necesitas cambiar el esquema (agregar una tabla, una columna, etc.), edita `schema.sql` directamente para que siga siendo "lo único que un dev nuevo corre" y aplica el mismo cambio a mano en la base de datos real con `ALTER`/`CREATE`.

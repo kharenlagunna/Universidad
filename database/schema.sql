@@ -1,14 +1,28 @@
 -- =====================================================================
 -- Esquema de base de datos - Proyecto Universidad (Simulacro Saber Pro y T&T)
 --
--- Uso:
---   1. Crea la base de datos (o usa la existente).
---   2. Ejecuta este script completo (phpMyAdmin > Importar, o por CLI:
---      mysql -u root proyecto_saber_pro_tyt < database/schema.sql)
---   3. Queda creado un usuario administrador de arranque:
+-- ÚNICO paso de base de datos que necesita un desarrollador nuevo.
+-- No hace falta crear ninguna base de datos a mano primero: este script
+-- las crea él mismo (usa CREATE DATABASE IF NOT EXISTS).
+--
+-- Uso (CLI):
+--   mysql -u root < database/schema.sql
+-- o desde phpMyAdmin: pestaña SQL (de cualquier base) > pegar el
+-- contenido completo de este archivo > Continuar.
+--
+-- Qué crea:
+--   1. `proyecto_saber_pro_tyt`      — la base de la app, con todas sus
+--      tablas y un usuario administrador de arranque:
 --        usuario:    admin
 --        contraseña: changeme123   <-- cámbiala apenas entres, desde
 --                                      Gestión de Usuarios (admin_usuarios.php)
+--   2. `resultados_saber_pro_tyt`    — solo la ESTRUCTURA (51 tablas/vistas)
+--      de los datos agregados del ICFES. Los datos (~456 MB) no van aquí
+--      por su tamaño; se cargan aparte con:
+--        mysql -u root resultados_saber_pro_tyt < database/resultados_saber_pro_tyt_dump_completo.sql
+--
+-- Los demás archivos .sql en database/ (backup_*.sql) son respaldos
+-- puntuales de la base de datos real — NO hace falta correrlos.
 -- =====================================================================
 
 CREATE DATABASE IF NOT EXISTS proyecto_saber_pro_tyt
@@ -19,10 +33,10 @@ USE proyecto_saber_pro_tyt;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ---------------------------------------------------------------------
--- usuarioss: cuentas del sistema (admin / visor)
+-- usuarios: cuentas del sistema (admin / visor)
 -- ---------------------------------------------------------------------
-DROP TABLE IF EXISTS `usuarioss`;
-CREATE TABLE `usuarioss` (
+DROP TABLE IF EXISTS `usuarios`;
+CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `usuario` varchar(50) NOT NULL,
   `contrasena` varchar(255) NOT NULL,
@@ -31,11 +45,11 @@ CREATE TABLE `usuarioss` (
   `reset_token_hash` varchar(64) DEFAULT NULL,
   `reset_token_expira` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uq_usuarioss_email` (`email`)
+  UNIQUE KEY `uq_usuarios_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Usuario administrador de arranque (contraseña: changeme123)
-INSERT INTO `usuarioss` (`usuario`, `contrasena`, `rol`, `email`) VALUES
+INSERT INTO `usuarios` (`usuario`, `contrasena`, `rol`, `email`) VALUES
   ('admin', '$2y$10$jAQq8nfUpIrWKRCDQaDC6.WjA8hQw6T7c5M7zUwmowscCtRGjROxm', 'admin', NULL);
 
 -- ---------------------------------------------------------------------

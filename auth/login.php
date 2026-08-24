@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $usuario = $_POST['usuario'] ?? '';
     $contrasena = $_POST['contrasena'] ?? '';
 
-    $sql = "SELECT * FROM usuarioss WHERE usuario = ?";
+    $sql = "SELECT * FROM usuarios WHERE usuario = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $usuario);
     $stmt->execute();
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } elseif (hash_equals($row['contrasena'], $contrasena)) {
             $credencialesValidas = true;
             $nuevoHash = password_hash($contrasena, PASSWORD_DEFAULT);
-            $upd = $conn->prepare("UPDATE usuarioss SET contrasena = ? WHERE id = ?");
+            $upd = $conn->prepare("UPDATE usuarios SET contrasena = ? WHERE id = ?");
             $upd->bind_param("si", $nuevoHash, $row['id']);
             $upd->execute();
         }

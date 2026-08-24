@@ -39,7 +39,7 @@ if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 $idParaComparar = $id ?? 0;
 
 // Nombre de usuario único (sin contar al propio registro si estamos editando).
-$stmt = $conn->prepare("SELECT id FROM usuarioss WHERE usuario = ? AND id <> ?");
+$stmt = $conn->prepare("SELECT id FROM usuarios WHERE usuario = ? AND id <> ?");
 $stmt->bind_param("si", $usuario, $idParaComparar);
 $stmt->execute();
 if ($stmt->get_result()->fetch_assoc()) {
@@ -48,7 +48,7 @@ if ($stmt->get_result()->fetch_assoc()) {
 
 // Correo único (si se indicó uno).
 if ($email !== '') {
-    $stmt = $conn->prepare("SELECT id FROM usuarioss WHERE email = ? AND id <> ?");
+    $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ? AND id <> ?");
     $stmt->bind_param("si", $email, $idParaComparar);
     $stmt->execute();
     if ($stmt->get_result()->fetch_assoc()) {
@@ -65,14 +65,14 @@ if ($id === null) {
     }
     $hash = password_hash($contrasena, PASSWORD_DEFAULT);
 
-    $stmt = $conn->prepare("INSERT INTO usuarioss (usuario, contrasena, rol, email) VALUES (?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO usuarios (usuario, contrasena, rol, email) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $usuario, $hash, $rol, $emailParam);
     $stmt->execute();
 
     $_SESSION['flash_ok'] = "Usuario \"$usuario\" creado correctamente.";
 } else {
     // ----- Editar usuario existente -----
-    $stmt = $conn->prepare("SELECT rol FROM usuarioss WHERE id = ?");
+    $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $actual = $stmt->get_result()->fetch_assoc();
@@ -82,7 +82,7 @@ if ($id === null) {
 
     // No permitir quitarle el rol de admin al último administrador del sistema.
     if ($actual['rol'] === 'admin' && $rol !== 'admin') {
-        $stmt = $conn->prepare("SELECT COUNT(*) AS total FROM usuarioss WHERE rol = 'admin'");
+        $stmt = $conn->prepare("SELECT COUNT(*) AS total FROM usuarios WHERE rol = 'admin'");
         $stmt->execute();
         $totalAdmins = $stmt->get_result()->fetch_assoc()['total'];
         if ($totalAdmins <= 1) {
@@ -96,13 +96,13 @@ if ($id === null) {
         }
         $hash = password_hash($contrasena, PASSWORD_DEFAULT);
         $stmt = $conn->prepare("
-            UPDATE usuarioss
+            UPDATE usuarios
             SET usuario = ?, email = ?, rol = ?, contrasena = ?, reset_token_hash = NULL, reset_token_expira = NULL
             WHERE id = ?
         ");
         $stmt->bind_param("ssssi", $usuario, $emailParam, $rol, $hash, $id);
     } else {
-        $stmt = $conn->prepare("UPDATE usuarioss SET usuario = ?, email = ?, rol = ? WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE usuarios SET usuario = ?, email = ?, rol = ? WHERE id = ?");
         $stmt->bind_param("sssi", $usuario, $emailParam, $rol, $id);
     }
     $stmt->execute();
