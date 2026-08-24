@@ -15,7 +15,7 @@ unset($_SESSION['flash_ok'], $_SESSION['flash_error']);
 $usuarioEditar = null;
 if (isset($_GET['editar'])) {
     $idEditar = intval($_GET['editar']);
-    $stmt = $conn->prepare("SELECT id, usuario, rol, email FROM usuarioss WHERE id = ?");
+    $stmt = $conn->prepare("SELECT id, usuario, rol, email FROM usuarios WHERE id = ?");
     $stmt->bind_param("i", $idEditar);
     $stmt->execute();
     $usuarioEditar = $stmt->get_result()->fetch_assoc();
@@ -24,7 +24,7 @@ if (isset($_GET['editar'])) {
     }
 }
 
-$listado = $conn->query("SELECT id, usuario, rol, email FROM usuarioss ORDER BY usuario ASC");
+$listado = $conn->query("SELECT id, usuario, rol, email FROM usuarios ORDER BY usuario ASC");
 ?>
 <!DOCTYPE html>
 <html lang="es">

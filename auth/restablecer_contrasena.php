@@ -11,7 +11,7 @@ function buscarUsuarioPorToken($conn, string $token)
         return null;
     }
     $tokenHash = hash('sha256', $token);
-    $stmt = $conn->prepare("SELECT id, usuario FROM usuarioss WHERE reset_token_hash = ? AND reset_token_expira > NOW()");
+    $stmt = $conn->prepare("SELECT id, usuario FROM usuarios WHERE reset_token_hash = ? AND reset_token_expira > NOW()");
     $stmt->bind_param("s", $tokenHash);
     $stmt->execute();
     return $stmt->get_result()->fetch_assoc();
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Las contraseñas no coinciden.";
     } else {
         $hash = password_hash($nueva, PASSWORD_DEFAULT);
-        $upd = $conn->prepare("UPDATE usuarioss SET contrasena = ?, reset_token_hash = NULL, reset_token_expira = NULL WHERE id = ?");
+        $upd = $conn->prepare("UPDATE usuarios SET contrasena = ?, reset_token_hash = NULL, reset_token_expira = NULL WHERE id = ?");
         $upd->bind_param("si", $hash, $usuarioToken['id']);
         $upd->execute();
         $exito = true;

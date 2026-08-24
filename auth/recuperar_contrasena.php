@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Ingresa un correo válido.";
     } else {
-        $stmt = $conn->prepare("SELECT id, usuario FROM usuarioss WHERE email = ?");
+        $stmt = $conn->prepare("SELECT id, usuario FROM usuarios WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $usuario = $stmt->get_result()->fetch_assoc();
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tokenHash = hash('sha256', $token);
             $expira = date('Y-m-d H:i:s', time() + 3600); // 1 hora
 
-            $upd = $conn->prepare("UPDATE usuarioss SET reset_token_hash = ?, reset_token_expira = ? WHERE id = ?");
+            $upd = $conn->prepare("UPDATE usuarios SET reset_token_hash = ?, reset_token_expira = ? WHERE id = ?");
             $upd->bind_param("ssi", $tokenHash, $expira, $usuario['id']);
             $upd->execute();
 

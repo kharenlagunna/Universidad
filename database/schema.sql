@@ -33,10 +33,10 @@ USE proyecto_saber_pro_tyt;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ---------------------------------------------------------------------
--- usuarioss: cuentas del sistema (admin / visor)
+-- usuarios: cuentas del sistema (admin / visor)
 -- ---------------------------------------------------------------------
-DROP TABLE IF EXISTS `usuarioss`;
-CREATE TABLE `usuarioss` (
+DROP TABLE IF EXISTS `usuarios`;
+CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `usuario` varchar(50) NOT NULL,
   `contrasena` varchar(255) NOT NULL,
@@ -45,11 +45,11 @@ CREATE TABLE `usuarioss` (
   `reset_token_hash` varchar(64) DEFAULT NULL,
   `reset_token_expira` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uq_usuarioss_email` (`email`)
+  UNIQUE KEY `uq_usuarios_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Usuario administrador de arranque (contraseña: changeme123)
-INSERT INTO `usuarioss` (`usuario`, `contrasena`, `rol`, `email`) VALUES
+INSERT INTO `usuarios` (`usuario`, `contrasena`, `rol`, `email`) VALUES
   ('admin', '$2y$10$jAQq8nfUpIrWKRCDQaDC6.WjA8hQw6T7c5M7zUwmowscCtRGjROxm', 'admin', NULL);
 
 -- ---------------------------------------------------------------------

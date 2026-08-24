@@ -94,7 +94,7 @@ No hay build step ni framework. La infraestructura transversal (`conexion.php`, 
 | `admin` | Todo lo del visor, más: cargar banco de preguntas, gestionar usuarios (crear/editar/eliminar), configurar tiempo/cantidad por Tipo de Prueba × Competencia, y ver el historial de simulacros de todos los usuarios |
 | `visor` | Presentar simulacros, ver su propio historial y resultados, ver análisis gráfico |
 
-El rol se guarda en `usuarioss.rol` y se valida en cada página (`if ($_SESSION['rol'] !== 'admin') { ... }`).
+El rol se guarda en `usuarios.rol` y se valida en cada página (`if ($_SESSION['rol'] !== 'admin') { ... }`).
 
 ---
 

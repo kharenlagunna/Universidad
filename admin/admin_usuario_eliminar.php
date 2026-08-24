@@ -20,7 +20,7 @@ if ($id === (int)($_SESSION['usuario_id'] ?? 0)) {
     exit();
 }
 
-$stmt = $conn->prepare("SELECT usuario, rol FROM usuarioss WHERE id = ?");
+$stmt = $conn->prepare("SELECT usuario, rol FROM usuarios WHERE id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $usuario = $stmt->get_result()->fetch_assoc();
@@ -33,7 +33,7 @@ if (!$usuario) {
 
 // No permitir eliminar al último administrador del sistema.
 if ($usuario['rol'] === 'admin') {
-    $stmt = $conn->prepare("SELECT COUNT(*) AS total FROM usuarioss WHERE rol = 'admin'");
+    $stmt = $conn->prepare("SELECT COUNT(*) AS total FROM usuarios WHERE rol = 'admin'");
     $stmt->execute();
     $totalAdmins = $stmt->get_result()->fetch_assoc()['total'];
     if ($totalAdmins <= 1) {
@@ -43,7 +43,7 @@ if ($usuario['rol'] === 'admin') {
     }
 }
 
-$stmt = $conn->prepare("DELETE FROM usuarioss WHERE id = ?");
+$stmt = $conn->prepare("DELETE FROM usuarios WHERE id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 

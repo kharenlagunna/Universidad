@@ -10,7 +10,7 @@ if (!isset($_SESSION['usuario'], $_SESSION['usuario_id'])) {
 $destino = ($_SESSION['rol'] === 'admin') ? 'dashboard_admin.php' : 'dashboard_visor.php';
 
 // Si ya tiene correo registrado, no necesita pasar por aquí.
-$stmt = $conn->prepare("SELECT email FROM usuarioss WHERE id = ?");
+$stmt = $conn->prepare("SELECT email FROM usuarios WHERE id = ?");
 $stmt->bind_param("i", $_SESSION['usuario_id']);
 $stmt->execute();
 $row = $stmt->get_result()->fetch_assoc();
@@ -29,13 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Ingresa un correo válido.";
     } else {
         // Verificar que ningún otro usuario ya use este correo.
-        $stmt = $conn->prepare("SELECT id FROM usuarioss WHERE email = ? AND id <> ?");
+        $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ? AND id <> ?");
         $stmt->bind_param("si", $email, $_SESSION['usuario_id']);
         $stmt->execute();
         if ($stmt->get_result()->fetch_assoc()) {
             $error = "Ese correo ya está registrado con otra cuenta.";
         } else {
-            $upd = $conn->prepare("UPDATE usuarioss SET email = ? WHERE id = ?");
+            $upd = $conn->prepare("UPDATE usuarios SET email = ? WHERE id = ?");
             $upd->bind_param("si", $email, $_SESSION['usuario_id']);
             $upd->execute();
             header("Location: $destino");
