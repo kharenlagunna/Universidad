@@ -120,15 +120,23 @@ window.onload = actualizarTimer;
 
 <div class="content">
     <div class="contenedor-derecho">
-        <h2>Pregunta <?= $pregunta_index + 1 ?> de <?= $total_preguntas ?></h2>
-        <p style="margin-top:-14px;color:#777;font-size:14px;">
-            <?= htmlspecialchars($res_intento['tipo_prueba'] ?? '—') ?> · <?= htmlspecialchars($res_intento['competencia'] ?? '—') ?>
-        </p>
-        <p class="enunciado"><?= htmlspecialchars($pregunta_actual['enunciado']) ?></p>
+        <div class="pregunta-encabezado">
+            <div>
+                <h2 style="margin-bottom:4px;">Pregunta <?= $pregunta_index + 1 ?> de <?= $total_preguntas ?></h2>
+                <p style="margin:0;color:#777;font-size:14px;">
+                    <?= htmlspecialchars($res_intento['tipo_prueba'] ?? '—') ?> · <?= htmlspecialchars($res_intento['competencia'] ?? '—') ?>
+                </p>
+            </div>
 
-        <div class="timer-box">
-            ⏳ Tiempo restante: <span id="timer"></span>
+            <div class="timer-box"
+                 data-tiempo-restante="<?= $tiempo_restante ?>"
+                 data-intento-id="<?= $intento_id ?>"
+                 data-pregunta-index="<?= $pregunta_index ?>">
+                ⏳ Tiempo restante: <span id="timer"></span>
+            </div>
         </div>
+
+        <p class="enunciado"><?= htmlspecialchars($pregunta_actual['enunciado']) ?></p>
 
         <form method="post" action="guardar_respuesta.php" class="form-pregunta">
             <input type="hidden" name="intento_id" value="<?= $intento_id ?>">

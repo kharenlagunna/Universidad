@@ -539,6 +539,67 @@ form input[readonly] {
     background-color: #27ae60;
 }
 
+/* ====== Simulacro: inicio (selección + botón en una fila) ====== */
+
+.fila-horizontal {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: end;
+    gap: 16px;
+}
+
+.fila-horizontal .campo-form label {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.fila-horizontal .campo-form select {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.fila-horizontal .btn {
+    width: 100%;
+}
+
+@media (max-width: 700px) {
+    .fila-horizontal {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Cantidad de preguntas / tiempo asignado: solo informativos, no editables */
+.info-simulacro {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.info-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 18px;
+    background-color: #eef2fb;
+    border: 1.5px solid #d7e6ff;
+    border-radius: 10px;
+    min-width: 180px;
+}
+
+.info-stat-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0056b3;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.info-stat-valor {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
 /* ====== Presentación del simulacro (pregunta a pregunta) ====== */
 
 .enunciado {
@@ -559,6 +620,16 @@ form input[readonly] {
     color: #0056b3;
     font-size: 15px;
     width: fit-content;
+    flex-shrink: 0;
+}
+
+/* Encabezado de la pregunta: título/competencia a la izquierda, cronómetro a la derecha */
+.pregunta-encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
 .opcion {
@@ -610,6 +681,34 @@ form input[readonly] {
     padding: 12px 16px;
     border-radius: 8px;
     font-weight: 600;
+}
+
+/* ====== Resultados del simulacro: información a la izquierda, gráfico a la derecha ====== */
+
+.resultado-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 24px;
+}
+
+.resultado-info p {
+    margin: 0 0 10px;
+}
+
+.resultado-grafico {
+    display: flex;
+    justify-content: center;
+}
+
+.resultado-grafico canvas {
+    max-width: 320px;
+}
+
+@media (max-width: 700px) {
+    .resultado-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ====== Modal ====== */
