@@ -105,7 +105,9 @@ if ($porcentaje >= 80) {
             <div class="resultado-grafico"
                  data-correctas="<?= (int)$intento['correctas'] ?>"
                  data-incorrectas="<?= (int)$incorrectas ?>">
-                <canvas id="resultadoChart"></canvas>
+                <div class="grafico-envoltorio">
+                    <canvas id="resultadoChart"></canvas>
+                </div>
             </div>
         </div>
 
@@ -126,7 +128,7 @@ new Chart(ctx, {
             backgroundColor: ['#4CAF50', '#F44336']
         }]
     },
-    options: { responsive: true }
+    options: { responsive: true, maintainAspectRatio: false }
 });
 </script>
 </body>

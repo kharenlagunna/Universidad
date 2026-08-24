@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     backgroundColor: ["#4CAF50", "#F44336"]
                 }]
             },
-            options: { responsive: true }
+            options: { responsive: true, maintainAspectRatio: false }
         });
     }
 

@@ -687,8 +687,8 @@ form input[readonly] {
 
 .resultado-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
+    grid-template-columns: 1.4fr 1fr;
+    align-items: center;
     gap: 24px;
 }
 
@@ -699,10 +699,17 @@ form input[readonly] {
 .resultado-grafico {
     display: flex;
     justify-content: center;
+    align-items: center;
+    background-color: #f8f9fb;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
 }
 
-.resultado-grafico canvas {
-    max-width: 320px;
+.grafico-envoltorio {
+    position: relative;
+    width: 190px;
+    height: 190px;
 }
 
 @media (max-width: 700px) {
