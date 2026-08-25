@@ -683,6 +683,23 @@ form input[readonly] {
     font-weight: 600;
 }
 
+/* ====== Dashboard de Resultados: cada bloque de filtro + gráfico/tabla
+   va en su propio recuadro, para que quede claro que un filtro solo
+   afecta lo que tiene dentro de su misma caja, no toda la página ====== */
+
+.panel-dashboard {
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+    padding: 20px 22px;
+    margin: 18px 0;
+}
+
+.panel-dashboard > h2:first-child {
+    margin-top: 0;
+}
+
 /* ====== Resultados del simulacro: información a la izquierda, gráfico a la derecha ====== */
 
 .resultado-grid {
