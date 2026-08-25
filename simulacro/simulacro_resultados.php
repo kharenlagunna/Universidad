@@ -83,27 +83,36 @@ if ($porcentaje >= 80) {
 <div class="content">
     <div class="contenedor-derecho">
         <h2>Resultados del Simulacro</h2>
-        <p><strong>Tipo de Prueba:</strong> <?= htmlspecialchars($intento['tipo_prueba'] ?? '—') ?></p>
-        <p><strong>Competencia:</strong> <?= htmlspecialchars($intento['competencia'] ?? '—') ?></p>
-        <p><strong>Fecha:</strong> <?= htmlspecialchars($intento['fecha_inicio']) ?></p>
-        <p><strong>Tiempo asignado:</strong> <?= (int)$intento['duracion_minutos'] ?> minutos</p>
-        <p><strong>Tiempo utilizado:</strong> <?= htmlspecialchars($tiempoUtilizado) ?></p>
-        <p><strong>Total de Preguntas:</strong> <?= $intento['total_preguntas'] ?></p>
-        <p><strong>Correctas:</strong> <?= $intento['correctas'] ?></p>
-        <p><strong>Incorrectas:</strong> <?= $incorrectas ?></p>
 
-        <?php if ($finalizado_manual): ?>
-            <div class="alert-warning">
-                ⚠️ Este simulacro fue finalizado manualmente por el usuario.
+        <div class="resultado-grid">
+            <div class="resultado-info">
+                <p><strong>Tipo de Prueba:</strong> <?= htmlspecialchars($intento['tipo_prueba'] ?? '—') ?></p>
+                <p><strong>Competencia:</strong> <?= htmlspecialchars($intento['competencia'] ?? '—') ?></p>
+                <p><strong>Fecha:</strong> <?= htmlspecialchars($intento['fecha_inicio']) ?></p>
+                <p><strong>Tiempo asignado:</strong> <?= (int)$intento['duracion_minutos'] ?> minutos</p>
+                <p><strong>Tiempo utilizado:</strong> <?= htmlspecialchars($tiempoUtilizado) ?></p>
+                <p><strong>Total de Preguntas:</strong> <?= $intento['total_preguntas'] ?></p>
+                <p><strong>Correctas:</strong> <?= $intento['correctas'] ?></p>
+                <p><strong>Incorrectas:</strong> <?= $incorrectas ?></p>
+
+                <?php if ($finalizado_manual): ?>
+                    <div class="alert-warning">
+                        ⚠️ Este simulacro fue finalizado manualmente por el usuario.
+                    </div>
+                <?php endif; ?>
             </div>
-        <?php endif; ?>
+
+            <div class="resultado-grafico"
+                 data-correctas="<?= (int)$intento['correctas'] ?>"
+                 data-incorrectas="<?= (int)$incorrectas ?>">
+                <div class="grafico-envoltorio">
+                    <canvas id="resultadoChart"></canvas>
+                </div>
+            </div>
+        </div>
 
         <div class="alert-warning" style="background-color:#eef2fb;border-color:#d7e6ff;color:#0056b3;">
             📋 <strong>Retroalimentación:</strong> <?= htmlspecialchars($retroalimentacion) ?>
-        </div>
-
-        <div style="width: 400px; margin-top: 20px;">
-            <canvas id="resultadoChart"></canvas>
         </div>
     </div>
 </div>
@@ -119,7 +128,7 @@ new Chart(ctx, {
             backgroundColor: ['#4CAF50', '#F44336']
         }]
     },
-    options: { responsive: true }
+    options: { responsive: true, maintainAspectRatio: false }
 });
 </script>
 </body>

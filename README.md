@@ -37,6 +37,11 @@ PHP plano (sin framework) + MySQL. Cada página es un archivo `.php` que se abre
      ```
      Ese archivo está en `.gitignore` por su tamaño — consíguelo con quien te compartió el proyecto si no lo tienes en `database/`.
 
+     Después de cargar los datos, ejecuta también las vistas del Dashboard de Resultados (homologan las tablas del ICFES, que tienen esquemas distintos entre años, a columnas comunes):
+     ```bash
+     mysql -u root resultados_saber_pro_tyt < database/vistas_dashboard_resultados.sql
+     ```
+
 3. **Configura la conexión a las bases de datos** si tu MySQL no usa `root` sin contraseña (por defecto de XAMPP):
    - [`conexion.php`](conexion.php) → `proyecto_saber_pro_tyt` (la app):
      ```php
@@ -69,6 +74,7 @@ universidad/
 ├── auth/           # Login, logout, recuperación de contraseña
 ├── database/
 │   ├── schema.sql                                  # Estructura de AMBAS bases + usuario admin semilla
+│   ├── vistas_dashboard_resultados.sql              # Vistas homologadas + cruce T&T↔Pro para el Dashboard de Resultados
 │   └── resultados_saber_pro_tyt_dump_completo.sql  # Dump completo (datos) de resultados_saber_pro_tyt.
 │                                                    # NO se versiona (472 MB, ver .gitignore)
 ├── vendor/phpmailer/           # PHPMailer instalado a mano (sin Composer)
@@ -136,6 +142,13 @@ El rol se guarda en `usuarios.rol` y se valida en cada página (`if ($_SESSION['
 |---|---|
 | `admin/admin_configuracion_pruebas.php` / `admin/admin_configuracion_guardar.php` | Define cuántos minutos y cuántas preguntas se presentan por cada combinación Tipo de Prueba × Competencia (10 combinaciones fijas: 2 tipos × 5 competencias). |
 
+### Dashboard de Resultados — `admin/` (solo admin)
+Usa `conexion_resultados.php` (la base `resultados_saber_pro_tyt`, datos reales del ICFES), no `conexion.php`.
+
+| Archivo | Qué hace |
+|---|---|
+| `admin/dashboard_resultados.php` | Compara los resultados históricos reales de Saber Pro y Saber T&T (2015-2024): tendencia por año, comparación por área homologada (genérica o específica), comparación por región (con filtro de año), ranking de mejores/peores 10 instituciones y de mejores/peores 10 programas académicos (filtrables por año, tipo de prueba, tipo de módulo y módulo), KPIs de mínimo/máximo al lado de cada gráfico, y conclusiones calculadas a partir de los datos. Ver `database/vistas_dashboard_resultados.sql` para cómo se homologan las tablas del ICFES (que cambian de esquema entre años) antes de graficarlas. |
+
 ### Simulacro — `simulacro/` (compartido admin + visor)
 El simulacro se organiza en dos dimensiones: **Tipo de Prueba** (Saber Pro / Saber TyT) y **Competencia** (Razonamiento cuantitativo, Lectura crítica, Competencias ciudadanas, Comunicación escrita, Inglés) — catálogos en las tablas `tipos_prueba` y `competencias`.
 
@@ -167,7 +180,16 @@ El simulacro se organiza en dos dimensiones: **Tipo de Prueba** (Saber Pro / Sab
 - **`preguntas_old`, `resultados`, `preguntas_legado`, `opciones_legado`** ya se eliminaron de la base de datos real y de `schema.sql` (no las usaba ningún código activo).
 - Los 45 intentos de simulacro anteriores a esta migración no tienen Tipo de Prueba ni Competencia asociados (columnas `NULL`) — se muestran como "—" en los historiales.
 - No hay una suite de tests automatizados.
-- **`resultados_saber_pro_tyt`** (datos ICFES) está creada e importada, con `conexion_resultados.php` listo para usarse, pero **todavía ningún dashboard la consulta** — es infraestructura preparada para una funcionalidad futura de comparar resultados. Sus 51 tablas/vistas vienen con nombres tal como los generó el import original del ICFES (con espacios, paréntesis e incluso `.csv` en el nombre); revisa `database/schema.sql` para la lista completa antes de construir algo sobre ellas.
+- Las 51 tablas/vistas originales de `resultados_saber_pro_tyt` vienen con nombres tal como los generó el import original del ICFES (con espacios, paréntesis e incluso `.csv` en el nombre) y muchas son tablas "cubo" (columnas `AGREGACION`/`MEDIDA_AGREGACION` que hay que filtrar). El Dashboard de Resultados no las consulta directo: usa las vistas homologadas de `database/vistas_dashboard_resultados.sql` (ver sección de abajo).
+- El cruce Saber T&T → Saber Pro por área (`tabla_equivalencia_areas`) es un criterio propio — no existe ninguna columna en los datos del ICFES que relacione las categorías de una prueba con la otra. Es editable si no calza con tu criterio.
+- `tabla_departamento_region` (28 departamentos → 6 regiones: Amazonía, Andina, Caribe, Insular, Orinoquia, Pacífica) se extrajo de la propia columna `NOMBRE_REGION` del cubo `agregados_saber_tyt_2024` del ICFES, no es un criterio inventado. Alimenta `vista_resultados_region` (agrega `vista_resultados_institucion` por región) para la comparación por región del dashboard.
+- `vista_resultados_institucion` homologa institución × módulo (colapsando grupo de referencia con `SUM`/promedio ponderado cuando la tabla origen viene más granular) para 2015/2016/2017/2018 Saber Pro y 2016/2017/2018/2024 Saber T&T. El ranking de "Top de instituciones" del dashboard filtra con un mínimo de 30 evaluados para no mostrar casos con muestras estadísticamente irrelevantes.
+- Las 51 tablas originales se identificaron y clasificaron por **su propio nombre** (no hay ninguna columna que lo diga explícitamente): "gener"/"generi" = módulos genéricos (las 5 competencias comunes a todos: Lectura Crítica, Razonamiento Cuantitativo, Competencias Ciudadanas, Comunicación Escrita, Inglés) vs. "especif"/"especi" = módulos específicos (propios de cada carrera, ej. "Formulación y Evaluación de Proyectos" en Administración); y por nivel de agregación: "grup_ref"/"grupo referencia" (carrera en general), "insti"/"institución", "prog"/"programa académico". Esa clasificación es la base de los filtros "Tipo de módulo" y "Nivel de agregación" del dashboard.
+- `vista_resultados_especificas_grupo_referencia` es la contraparte específica de `vista_resultados_grupo_referencia` (mismo grano, pero módulos propios de cada carrera en vez de los 5 genéricos). No tiene una lista fija de módulos —depende de la carrera— así que en el dashboard el filtro de módulo no aplica cuando se elige "Específica": se promedian todos los módulos específicos de cada área homologada.
+- `vista_resultados_programa` es el nivel de agregación más fino (institución × programa académico × módulo), e incluye tanto módulos genéricos como específicos (columna `tipo_modulo`). Cubre Saber Pro 2015-2018 y Saber T&T 2016/2018; no incluye Saber T&T 2017 ni 2024 a este nivel (esas tablas cubo tienen un nivel de programa, pero mezclado con otras dimensiones y sin cantidad de evaluados confiable a ese detalle — queda pendiente). Alimenta el ranking "Top de programas académicos" del dashboard (mínimo 20 evaluados por combinación).
+- No hay forma de dar seguimiento al mismo estudiante en el tiempo con estos datos (son agregados, no registros individuales) — el Dashboard de Resultados compara por cohorte/año, no por persona. Ver el aviso dentro de la propia página.
+- La tabla cubo de Saber T&T 2017 trae, para algunas carreras, cruces con módulos específicos que no les corresponden (ej. una carrera de "Agropecuario" cruzada con un módulo típico de "Industria y Minas"), con un solo valor y sin cantidad de evaluados. Es un artefacto de la fuente original del ICFES, no un error de las vistas; puede hacer que el promedio de un área para 2017 se vea con un valor atípico puntual. No se filtró para no descartar datos reales sin poder distinguir señal de ruido.
+- El ranking "Top de programas académicos" no cubre Saber T&T 2017 ni 2024 (esas tablas cubo sí tienen un nivel de programa, pero mezclado con otras dimensiones y sin cantidad de evaluados confiable a ese detalle).
 
 ---
 

@@ -22,6 +22,7 @@ $sidebarModulos = [
     ['href' => '../admin/admin_cargar_preguntas.php',      'icono' => '📝', 'texto' => 'Cargar Preguntas',         'roles' => ['admin']],
     ['href' => '../admin/admin_usuarios.php',              'icono' => '👥', 'texto' => 'Gestión de Usuarios',     'roles' => ['admin']],
     ['href' => '../admin/admin_configuracion_pruebas.php', 'icono' => '⚙️', 'texto' => 'Configuración de Pruebas', 'roles' => ['admin']],
+    ['href' => '../admin/dashboard_resultados.php',        'icono' => '📈', 'texto' => 'Dashboard de Resultados',  'roles' => ['admin']],
     ['href' => '../simulacro/analisis_grafico.php',        'icono' => '📊', 'texto' => 'Análisis Gráfico',         'roles' => ['admin', 'visor']],
     ['href' => '../simulacro/simulacro_inicio.php',        'icono' => '🧪', 'texto' => 'Simulacro',                'roles' => ['admin', 'visor']],
     ['href' => '../simulacro/simulacro_historial.php',     'icono' => '📜', 'texto' => 'Historial',                'roles' => ['admin', 'visor']],
