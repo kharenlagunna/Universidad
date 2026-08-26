@@ -438,7 +438,8 @@ body {
 }
 
 /* Formularios */
-form label {
+form label,
+.campo-form label {
     font-weight: 600;
     color: #333;
     display: block;
@@ -450,7 +451,8 @@ form input[type="text"],
 form input[type="password"],
 form input[type="number"],
 form input[type="email"],
-form select {
+form select,
+.campo-form select {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -469,13 +471,15 @@ form input[type="text"]:focus,
 form input[type="password"]:focus,
 form input[type="number"]:focus,
 form input[type="email"]:focus,
-form select:focus {
+form select:focus,
+.campo-form select:focus {
     border-color: #0073e6;
     outline: none;
 }
 
 form select:disabled,
-form input[readonly] {
+form input[readonly],
+.campo-form select:disabled {
     background-color: #f1f3f5;
     color: #666;
     cursor: not-allowed;
@@ -698,6 +702,201 @@ form input[readonly] {
 
 .panel-dashboard > h2:first-child {
     margin-top: 0;
+}
+
+/* Filtro principal de año: barra destacada arriba del dashboard que
+   controla, a la vez, todos los cuadros que dependen de un año específico */
+.panel-filtro-principal {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    border-left: 4px solid #0073e6;
+}
+
+/* Multiselect de checkboxes (filtro principal de año): un desplegable
+   con casillas, cada clic marca/desmarca sin necesitar Ctrl/Cmd */
+.multiselect {
+    position: relative;
+}
+
+.multiselect-boton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1.5px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    font-size: 15px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.multiselect-boton:hover,
+.multiselect.abierto .multiselect-boton {
+    border-color: #0073e6;
+}
+
+.multiselect-flecha {
+    color: #777;
+    font-size: 12px;
+    transition: transform 0.2s ease;
+}
+
+.multiselect.abierto .multiselect-flecha {
+    transform: rotate(180deg);
+}
+
+.multiselect-panel {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 100%;
+    max-height: 260px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+    padding: 6px;
+    z-index: 20;
+}
+
+.multiselect.abierto .multiselect-panel {
+    display: block;
+}
+
+/* Especificidad reforzada (.multiselect-panel .multiselect-opcion) a
+   propósito: estas etiquetas viven dentro de .campo-form, cuya regla
+   ".campo-form label" (más abajo) necesita quedar por debajo en cascada. */
+.multiselect-panel .multiselect-opcion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    margin-bottom: 0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.multiselect-opcion:hover {
+    background-color: #eef2fb;
+}
+
+.multiselect-opcion input[type="checkbox"] {
+    accent-color: #0073e6;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.multiselect-panel .multiselect-opcion-todos {
+    font-weight: 700;
+}
+
+.multiselect-separador {
+    height: 1px;
+    background-color: #e5e7eb;
+    margin: 4px 2px;
+}
+
+/* Botón secundario: acciones no destructivas de bajo énfasis (p. ej. limpiar filtros) */
+.btn-secundario {
+    padding: 12px 24px;
+    background-color: #fff;
+    border: 1.5px solid #0073e6;
+    border-radius: 6px;
+    color: #0056b3;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-secundario:hover {
+    background-color: #eef2fb;
+}
+
+/* Paneles con gráfico: título + descripción + filtros + contadores a la
+   izquierda, gráfico a la derecha (mismo criterio que .resultado-grid).
+   La columna de texto es flexible (1fr) para aprovechar todo el ancho del
+   panel; la del gráfico queda fija y por eso siempre termina pegada al
+   borde derecho, en vez de flotar con espacio vacío a su lado. */
+.panel-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr minmax(280px, 420px);
+    align-items: center;
+    gap: 28px;
+}
+
+.panel-dashboard-info h2 {
+    margin-top: 0;
+}
+
+.panel-dashboard-filtros {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 14px 0;
+}
+
+.panel-dashboard-filtros .campo-form select {
+    margin-bottom: 0;
+}
+
+.panel-dashboard-grafico {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    height: 260px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: box-shadow 0.2s ease;
+}
+
+.panel-dashboard-grafico:hover {
+    box-shadow: 0 0 0 3px #d7e6ff;
+}
+
+.panel-dashboard-grafico:hover .grafico-ampliar-icono {
+    opacity: 1;
+}
+
+.grafico-ampliar-icono {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #d7e6ff;
+    border-radius: 6px;
+    color: #0056b3;
+    font-size: 14px;
+    opacity: 0.6;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+@media (max-width: 900px) {
+    .panel-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ====== Resultados del simulacro: información a la izquierda, gráfico a la derecha ====== */
@@ -931,4 +1130,100 @@ form input[readonly] {
     border-radius: 8px;
     border: 1.5px solid #e5e7eb;
     font-size: 14px;
+}
+
+/* ====== Spinner de carga: se muestra mientras un filtro recarga datos
+   del servidor (dashboard de resultados y similares) ====== */
+
+.spinner-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner-overlay.activo {
+    display: flex;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #d7e6ff;
+    border-top-color: #0073e6;
+    border-radius: 50%;
+    animation: girar-spinner 0.8s linear infinite;
+}
+
+@keyframes girar-spinner {
+    to { transform: rotate(360deg); }
+}
+
+/* ====== Modal "ampliar gráfico": clic en cualquier gráfico del dashboard
+   lo abre en grande; se cierra con la X, clic afuera o Escape ====== */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.55);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.modal-overlay.activo {
+    display: flex;
+}
+
+.modal-contenido {
+    position: relative;
+    background-color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+    padding: 26px 28px;
+    width: 100%;
+    max-width: 960px;
+    max-height: 90vh;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+.modal-contenido h2 {
+    margin: 0 22px 16px 0;
+    font-size: 1.3rem;
+    color: #000;
+}
+
+.modal-cerrar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f3f5;
+    border: none;
+    border-radius: 50%;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.modal-cerrar:hover {
+    background-color: #e0e4ea;
+}
+
+.modal-grafico-contenedor {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    max-height: 520px;
 }

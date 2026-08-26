@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // contraseña más adelante, así que se lo pedimos primero.
             header("Location: completar_perfil.php");
         } elseif ($row['rol'] === 'admin') {
-            header("Location: ../admin/dashboard_admin.php");
+            header("Location: ../admin/dashboard_resultados.php");
         } elseif ($row['rol'] === 'visor') {
             header("Location: ../visor/dashboard_visor.php");
         } else {

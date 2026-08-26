@@ -110,6 +110,14 @@ function textoTendencia(?float $variacion, string $nombre): string
     return "$nombre se mantuvo relativamente estable en el período analizado.";
 }
 
+// Texto corto del botón del filtro principal de año (multiselección).
+function resumenAnios(array $seleccionados, array $todos): string
+{
+    if (count($seleccionados) === count($todos)) return 'Todos los años';
+    if (count($seleccionados) <= 2) return implode(', ', $seleccionados);
+    return count($seleccionados) . ' años seleccionados';
+}
+
 $proReciente = promedioGeneral($tendencia, 2018, 'Saber Pro');
 $proInicial  = promedioGeneral($tendencia, 2016, 'Saber Pro');
 $tytReciente = promedioGeneral($tendencia, 2024, 'Saber TyT');
@@ -155,6 +163,19 @@ $anioMasEvaluados = $evaluadosPorAnio ? array_key_first($evaluadosPorAnio) : nul
 $modulosDisponibles = ['COMPETENCIAS CIUDADANAS', 'COMUNICACIÓN ESCRITA', 'INGLÉS', 'LECTURA CRÍTICA', 'RAZONAMIENTO CUANTITATIVO'];
 $aniosDisponibles = [2015, 2016, 2017, 2018, 2024];
 
+// --- Filtro principal de año: uno solo (multiselección), arriba del
+// dashboard, que controla a la vez todos los cuadros que tienen una fila
+// por año específico (comparación por región, top de instituciones, top
+// de programas). Tendencia (que grafica varios años a la vez) y Áreas
+// (que no tiene año en sus datos) no dependen de este filtro. Cuando se
+// eligen varios años, instituciones y programas promedian ponderando por
+// la cantidad de evaluados de cada año.
+$aniosCrudo = $_GET['anio'] ?? [2018];
+if (!is_array($aniosCrudo)) $aniosCrudo = [$aniosCrudo];
+$aniosSeleccionados = array_values(array_unique(array_intersect(array_map('intval', $aniosCrudo), $aniosDisponibles)));
+if (!$aniosSeleccionados) $aniosSeleccionados = [2018];
+sort($aniosSeleccionados);
+
 // Región con mejor/peor promedio histórico (excluye 2015 por la escala distinta)
 $acumuladoPorRegion = [];
 foreach ($regiones as $r) {
@@ -174,32 +195,43 @@ $regionPeor = $promedioPorRegion ? array_key_last($promedioPorRegion) : null;
 // es demasiada información para mandar toda al navegador, se filtra
 // aquí mismo con GET y se recalcula al enviar el formulario).
 // ---------------------------------------------------------------------
-$anioInstCrudo = (int) ($_GET['anio_inst'] ?? 2018);
-$anioInst = in_array($anioInstCrudo, $aniosDisponibles, true) ? $anioInstCrudo : 2018;
+$aniosInst = $aniosSeleccionados; // instituciones cubre todo $aniosDisponibles
+$aniosInstSql = implode(',', $aniosInst); // ya validados contra $aniosDisponibles (whitelist de enteros)
 $tipoInst = in_array($_GET['tipo_inst'] ?? '', ['Saber Pro', 'Saber TyT']) ? $_GET['tipo_inst'] : 'Saber Pro';
 $moduloInst = in_array($_GET['modulo_inst'] ?? '', $modulosDisponibles) ? $_GET['modulo_inst'] : 'RAZONAMIENTO CUANTITATIVO';
 
+// Con varios años seleccionados se agrupa por institución y se promedia
+// ponderando por cantidad_evaluados de cada año (un año solo se comporta
+// igual que antes: SUM de una sola fila = esa fila).
 $stmt = $connResultados->prepare("
-    SELECT i.institucion, COALESCE(r.region, 'SIN CLASIFICAR') AS region, i.promedio_puntaje, i.cantidad_evaluados
+    SELECT i.institucion, COALESCE(r.region, 'SIN CLASIFICAR') AS region,
+           SUM(i.promedio_puntaje * i.cantidad_evaluados) / SUM(i.cantidad_evaluados) AS promedio_puntaje,
+           SUM(i.cantidad_evaluados) AS cantidad_evaluados
     FROM vista_resultados_institucion i
     LEFT JOIN tabla_departamento_region r ON r.departamento = i.departamento
-    WHERE i.anio = ? AND i.tipo_prueba = ? AND i.modulo = ? AND i.cantidad_evaluados >= 30
-    ORDER BY i.promedio_puntaje DESC
+    WHERE i.anio IN ($aniosInstSql) AND i.tipo_prueba = ? AND i.modulo = ?
+    GROUP BY i.institucion, r.region
+    HAVING SUM(i.cantidad_evaluados) >= 30
+    ORDER BY promedio_puntaje DESC
     LIMIT 10
 ");
-$stmt->bind_param('iss', $anioInst, $tipoInst, $moduloInst);
+$stmt->bind_param('ss', $tipoInst, $moduloInst);
 $stmt->execute();
 $mejoresInstituciones = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
 $stmt = $connResultados->prepare("
-    SELECT i.institucion, COALESCE(r.region, 'SIN CLASIFICAR') AS region, i.promedio_puntaje, i.cantidad_evaluados
+    SELECT i.institucion, COALESCE(r.region, 'SIN CLASIFICAR') AS region,
+           SUM(i.promedio_puntaje * i.cantidad_evaluados) / SUM(i.cantidad_evaluados) AS promedio_puntaje,
+           SUM(i.cantidad_evaluados) AS cantidad_evaluados
     FROM vista_resultados_institucion i
     LEFT JOIN tabla_departamento_region r ON r.departamento = i.departamento
-    WHERE i.anio = ? AND i.tipo_prueba = ? AND i.modulo = ? AND i.cantidad_evaluados >= 30
-    ORDER BY i.promedio_puntaje ASC
+    WHERE i.anio IN ($aniosInstSql) AND i.tipo_prueba = ? AND i.modulo = ?
+    GROUP BY i.institucion, r.region
+    HAVING SUM(i.cantidad_evaluados) >= 30
+    ORDER BY promedio_puntaje ASC
     LIMIT 10
 ");
-$stmt->bind_param('iss', $anioInst, $tipoInst, $moduloInst);
+$stmt->bind_param('ss', $tipoInst, $moduloInst);
 $stmt->execute();
 $peoresInstituciones = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
@@ -216,52 +248,69 @@ $peoresInstituciones = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 // ---------------------------------------------------------------------
 $aniosProgramaDisponibles = [2015, 2016, 2017, 2018];
 
-$anioProgCrudo = (int) ($_GET['anio_prog'] ?? 2018);
-$anioProg = in_array($anioProgCrudo, $aniosProgramaDisponibles, true) ? $anioProgCrudo : 2018;
+// El filtro principal puede traer años que esta vista no cubre (p. ej.
+// 2024): se usa solo la intersección, y si queda vacía no se consulta
+// nada y se avisa en el cuadro en vez de mostrar en silencio otro año.
+$aniosProg = array_values(array_intersect($aniosSeleccionados, $aniosProgramaDisponibles));
+$anioProgDisponible = (bool) $aniosProg;
+$aniosProgSql = $anioProgDisponible ? implode(',', $aniosProg) : '';
 $tipoProg = in_array($_GET['tipo_prog'] ?? '', ['Saber Pro', 'Saber TyT']) ? $_GET['tipo_prog'] : 'Saber Pro';
 $tipoModuloProg = in_array($_GET['tipomodulo_prog'] ?? '', ['GENERICA', 'ESPECIFICA']) ? $_GET['tipomodulo_prog'] : 'GENERICA';
 
 // El módulo depende de tipo_prueba + tipo_modulo (los específicos varían
 // por carrera), así que la lista de opciones se calcula en vivo.
-$stmt = $connResultados->prepare("
-    SELECT DISTINCT modulo
-    FROM vista_resultados_programa
-    WHERE anio = ? AND tipo_prueba = ? AND tipo_modulo = ?
-    ORDER BY modulo
-");
-$stmt->bind_param('iss', $anioProg, $tipoProg, $tipoModuloProg);
-$stmt->execute();
-$modulosProgramaDisponibles = array_column($stmt->get_result()->fetch_all(MYSQLI_ASSOC), 'modulo');
+$modulosProgramaDisponibles = [];
+if ($anioProgDisponible) {
+    $stmt = $connResultados->prepare("
+        SELECT DISTINCT modulo
+        FROM vista_resultados_programa
+        WHERE anio IN ($aniosProgSql) AND tipo_prueba = ? AND tipo_modulo = ?
+        ORDER BY modulo
+    ");
+    $stmt->bind_param('ss', $tipoProg, $tipoModuloProg);
+    $stmt->execute();
+    $modulosProgramaDisponibles = array_column($stmt->get_result()->fetch_all(MYSQLI_ASSOC), 'modulo');
+}
 
 $moduloProgCrudo = $_GET['modulo_prog'] ?? '';
 $moduloProg = in_array($moduloProgCrudo, $modulosProgramaDisponibles, true)
     ? $moduloProgCrudo
     : ($modulosProgramaDisponibles[0] ?? '');
 
+// Igual que instituciones: con varios años se agrupa por programa +
+// institución y se promedia ponderando por cantidad_evaluados.
 $mejoresProgramas = [];
 $peoresProgramas = [];
 if ($moduloProg !== '') {
     $stmt = $connResultados->prepare("
-        SELECT p.programa, p.institucion, COALESCE(r.region, 'SIN CLASIFICAR') AS region, p.promedio_puntaje, p.cantidad_evaluados
+        SELECT p.programa, p.institucion, COALESCE(r.region, 'SIN CLASIFICAR') AS region,
+               SUM(p.promedio_puntaje * p.cantidad_evaluados) / SUM(p.cantidad_evaluados) AS promedio_puntaje,
+               SUM(p.cantidad_evaluados) AS cantidad_evaluados
         FROM vista_resultados_programa p
         LEFT JOIN tabla_departamento_region r ON r.departamento = p.departamento
-        WHERE p.anio = ? AND p.tipo_prueba = ? AND p.tipo_modulo = ? AND p.modulo = ? AND p.cantidad_evaluados >= 20
-        ORDER BY p.promedio_puntaje DESC
+        WHERE p.anio IN ($aniosProgSql) AND p.tipo_prueba = ? AND p.tipo_modulo = ? AND p.modulo = ?
+        GROUP BY p.programa, p.institucion, r.region
+        HAVING SUM(p.cantidad_evaluados) >= 20
+        ORDER BY promedio_puntaje DESC
         LIMIT 10
     ");
-    $stmt->bind_param('isss', $anioProg, $tipoProg, $tipoModuloProg, $moduloProg);
+    $stmt->bind_param('sss', $tipoProg, $tipoModuloProg, $moduloProg);
     $stmt->execute();
     $mejoresProgramas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
     $stmt = $connResultados->prepare("
-        SELECT p.programa, p.institucion, COALESCE(r.region, 'SIN CLASIFICAR') AS region, p.promedio_puntaje, p.cantidad_evaluados
+        SELECT p.programa, p.institucion, COALESCE(r.region, 'SIN CLASIFICAR') AS region,
+               SUM(p.promedio_puntaje * p.cantidad_evaluados) / SUM(p.cantidad_evaluados) AS promedio_puntaje,
+               SUM(p.cantidad_evaluados) AS cantidad_evaluados
         FROM vista_resultados_programa p
         LEFT JOIN tabla_departamento_region r ON r.departamento = p.departamento
-        WHERE p.anio = ? AND p.tipo_prueba = ? AND p.tipo_modulo = ? AND p.modulo = ? AND p.cantidad_evaluados >= 20
-        ORDER BY p.promedio_puntaje ASC
+        WHERE p.anio IN ($aniosProgSql) AND p.tipo_prueba = ? AND p.tipo_modulo = ? AND p.modulo = ?
+        GROUP BY p.programa, p.institucion, r.region
+        HAVING SUM(p.cantidad_evaluados) >= 20
+        ORDER BY promedio_puntaje ASC
         LIMIT 10
     ");
-    $stmt->bind_param('isss', $anioProg, $tipoProg, $tipoModuloProg, $moduloProg);
+    $stmt->bind_param('sss', $tipoProg, $tipoModuloProg, $moduloProg);
     $stmt->execute();
     $peoresProgramas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
@@ -287,6 +336,35 @@ if ($moduloProg !== '') {
             Comparación de los resultados históricos reales aplicados en Colombia (datos agregados del ICFES, 2015-2024).
         </p>
 
+        <div class="panel-dashboard panel-filtro-principal">
+            <div class="campo-form" style="min-width:220px;margin-bottom:0;">
+                <label for="multiselectAnioBoton">Filtro principal · Año(s)</label>
+                <div class="multiselect" id="multiselectAnio">
+                    <button type="button" class="multiselect-boton" id="multiselectAnioBoton" onclick="toggleMultiselectAnio()">
+                        <span id="multiselectAnioResumen"><?= htmlspecialchars(resumenAnios(array_map('strval', $aniosSeleccionados), array_map('strval', $aniosDisponibles))) ?></span>
+                        <span class="multiselect-flecha">▾</span>
+                    </button>
+                    <div class="multiselect-panel" id="multiselectAnioPanel">
+                        <label class="multiselect-opcion multiselect-opcion-todos">
+                            <input type="checkbox" id="checkAnioTodos" <?= count($aniosSeleccionados) === count($aniosDisponibles) ? 'checked' : '' ?> onchange="onCambioTodosAnios(this)">
+                            <span>Todos</span>
+                        </label>
+                        <div class="multiselect-separador"></div>
+                        <?php foreach ($aniosDisponibles as $a): ?>
+                            <label class="multiselect-opcion">
+                                <input type="checkbox" class="check-anio" value="<?= $a ?>" <?= in_array($a, $aniosSeleccionados, true) ? 'checked' : '' ?> onchange="onCambioAnio(this)">
+                                <span><?= $a ?></span>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+            <p style="color:#777;font-size:13px;margin:0;flex:1;min-width:260px;">
+                Marca uno o varios años: cada clic filtra al instante todos los cuadros que dependen de un año específico (comparación por región, top de instituciones y top de programas académicos). Con varios años, esos dos últimos promedian ponderando por la cantidad de evaluados de cada año. Tendencia (varios años a la vez) y Áreas (sin año en sus datos) no cambian con este filtro.
+            </p>
+            <button type="button" class="btn-secundario" onclick="limpiarFiltros()">Limpiar filtros</button>
+        </div>
+
         <div class="info-simulacro" style="flex-wrap:wrap;">
             <div class="info-stat">
                 <span class="info-stat-label">Saber Pro 2018 (promedio)</span>
@@ -310,146 +388,143 @@ if ($moduloProg !== '') {
             </div>
         </div>
 
-        <p style="color:#777;font-size:13px;">
-            Cada recuadro de abajo tiene sus propios filtros: solo afectan el gráfico o la tabla que está dentro de ese mismo recuadro, ninguno cambia el resto de la página.
-        </p>
-
         <div class="panel-dashboard">
-            <h2>¿Mejoran los resultados con el tiempo?</h2>
-            <p style="color:#777;font-size:14px;margin-top:-8px;">
-                Tendencia nacional por año (2015-2024). El filtro de abajo solo afecta este gráfico.
-            </p>
-            <div class="fila-horizontal" style="align-items:flex-end;">
-                <div class="campo-form">
-                    <label for="filtroModuloTendencia">Módulo / competencia</label>
-                    <select id="filtroModuloTendencia">
-                        <option value="">Todos (promedio)</option>
-                        <?php foreach ($modulosDisponibles as $m): ?>
-                            <option value="<?= htmlspecialchars($m) ?>"><?= htmlspecialchars(ucwords(mb_strtolower($m))) ?></option>
-                        <?php endforeach; ?>
-                    </select>
+            <div class="panel-dashboard-grid">
+                <div class="panel-dashboard-info">
+                    <h2>¿Mejoran los resultados con el tiempo?</h2>
+                    <p style="color:#777;font-size:14px;">
+                        Tendencia nacional por año (2015-2024). El filtro de abajo solo afecta este gráfico.
+                    </p>
+                    <div class="panel-dashboard-filtros">
+                        <div class="campo-form">
+                            <label for="filtroModuloTendencia">Módulo / competencia</label>
+                            <select id="filtroModuloTendencia">
+                                <option value="">Todos (promedio)</option>
+                                <?php foreach ($modulosDisponibles as $m): ?>
+                                    <option value="<?= htmlspecialchars($m) ?>"><?= htmlspecialchars(ucwords(mb_strtolower($m))) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="info-simulacro" style="flex-wrap:wrap;">
+                        <div class="info-stat">
+                            <span class="info-stat-label">Mínimo mostrado</span>
+                            <span class="info-stat-valor" id="kpiTendenciaMin">—</span>
+                        </div>
+                        <div class="info-stat">
+                            <span class="info-stat-label">Máximo mostrado</span>
+                            <span class="info-stat-valor" id="kpiTendenciaMax">—</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="info-simulacro" style="flex-wrap:wrap;max-width:700px;">
-                <div class="info-stat">
-                    <span class="info-stat-label">Mínimo mostrado</span>
-                    <span class="info-stat-valor" id="kpiTendenciaMin">—</span>
+                <div class="panel-dashboard-grafico" onclick="abrirModalGrafico('tendencia')" title="Clic para ampliar">
+                    <canvas id="graficoTendencia"></canvas>
+                    <span class="grafico-ampliar-icono">⤢</span>
                 </div>
-                <div class="info-stat">
-                    <span class="info-stat-label">Máximo mostrado</span>
-                    <span class="info-stat-valor" id="kpiTendenciaMax">—</span>
-                </div>
-            </div>
-            <div style="max-width:700px;">
-                <canvas id="graficoTendencia" height="280"></canvas>
             </div>
         </div>
 
         <div class="panel-dashboard">
-            <h2>Comparación por área (Saber T&T vs. Saber Pro)</h2>
-            <p style="color:#777;font-size:14px;margin-top:-8px;">
-                El cruce entre las categorías de T&T y de Pro es un criterio propio (no existe en los datos originales) — ver <code>tabla_equivalencia_areas</code>. Los filtros de abajo solo afectan este gráfico.
-            </p>
-            <div class="fila-horizontal" style="align-items:flex-end;">
-                <div class="campo-form">
-                    <label for="filtroTipoModuloArea">Tipo de módulo</label>
-                    <select id="filtroTipoModuloArea">
-                        <option value="generica">Genérica (5 competencias comunes a todos)</option>
-                        <option value="especifica">Específica (propia de cada carrera)</option>
-                    </select>
+            <div class="panel-dashboard-grid">
+                <div class="panel-dashboard-info">
+                    <h2>Comparación por área (Saber T&T vs. Saber Pro)</h2>
+                    <p style="color:#777;font-size:14px;">
+                        El cruce entre las categorías de T&T y de Pro es un criterio propio (no existe en los datos originales) — ver <code>tabla_equivalencia_areas</code>. Los filtros de abajo solo afectan este gráfico.
+                    </p>
+                    <div class="panel-dashboard-filtros">
+                        <div class="campo-form">
+                            <label for="filtroTipoModuloArea">Tipo de módulo</label>
+                            <select id="filtroTipoModuloArea">
+                                <option value="generica">Genérica (5 competencias comunes a todos)</option>
+                                <option value="especifica">Específica (propia de cada carrera)</option>
+                            </select>
+                        </div>
+                        <div class="campo-form">
+                            <label for="filtroModuloArea">Módulo / competencia</label>
+                            <select id="filtroModuloArea">
+                                <option value="">Todos (promedio)</option>
+                                <?php foreach ($modulosDisponibles as $m): ?>
+                                    <option value="<?= htmlspecialchars($m) ?>"><?= htmlspecialchars(ucwords(mb_strtolower($m))) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <p style="color:#777;font-size:13px;" id="notaModuloEspecifica">
+                        Al elegir "Específica" el filtro de módulo no aplica: cada carrera tiene sus propios módulos específicos, así que se promedian todos los de cada área.
+                    </p>
+                    <div class="info-simulacro" style="flex-wrap:wrap;">
+                        <div class="info-stat">
+                            <span class="info-stat-label">Mínimo mostrado</span>
+                            <span class="info-stat-valor" id="kpiAreasMin">—</span>
+                        </div>
+                        <div class="info-stat">
+                            <span class="info-stat-label">Máximo mostrado</span>
+                            <span class="info-stat-valor" id="kpiAreasMax">—</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="campo-form">
-                    <label for="filtroModuloArea">Módulo / competencia</label>
-                    <select id="filtroModuloArea">
-                        <option value="">Todos (promedio)</option>
-                        <?php foreach ($modulosDisponibles as $m): ?>
-                            <option value="<?= htmlspecialchars($m) ?>"><?= htmlspecialchars(ucwords(mb_strtolower($m))) ?></option>
-                        <?php endforeach; ?>
-                    </select>
+                <div class="panel-dashboard-grafico" onclick="abrirModalGrafico('areas')" title="Clic para ampliar">
+                    <canvas id="graficoAreas"></canvas>
+                    <span class="grafico-ampliar-icono">⤢</span>
                 </div>
-            </div>
-            <p style="color:#777;font-size:13px;margin-top:-6px;" id="notaModuloEspecifica">
-                Al elegir "Específica" el filtro de módulo no aplica: cada carrera tiene sus propios módulos específicos, así que se promedian todos los de cada área.
-            </p>
-            <div class="info-simulacro" style="flex-wrap:wrap;max-width:820px;">
-                <div class="info-stat">
-                    <span class="info-stat-label">Mínimo mostrado</span>
-                    <span class="info-stat-valor" id="kpiAreasMin">—</span>
-                </div>
-                <div class="info-stat">
-                    <span class="info-stat-label">Máximo mostrado</span>
-                    <span class="info-stat-valor" id="kpiAreasMax">—</span>
-                </div>
-            </div>
-            <div style="max-width:820px;">
-                <canvas id="graficoAreas" height="300"></canvas>
             </div>
         </div>
 
         <div class="panel-dashboard">
-            <h2>Comparación por región (Saber T&T vs. Saber Pro)</h2>
-            <p style="color:#777;font-size:14px;margin-top:-8px;">
-                Solo con módulos genéricos (a nivel institución solo se homologaron esos). Los filtros de abajo solo afectan este gráfico.
-            </p>
-            <div class="fila-horizontal" style="align-items:flex-end;">
-                <div class="campo-form">
-                    <label for="filtroAnioRegion">Año</label>
-                    <select id="filtroAnioRegion">
-                        <option value="">Todos los años (promedio)</option>
-                        <?php foreach ($aniosDisponibles as $a): ?>
-                            <option value="<?= $a ?>"><?= $a ?></option>
-                        <?php endforeach; ?>
-                    </select>
+            <div class="panel-dashboard-grid">
+                <div class="panel-dashboard-info">
+                    <h2>Comparación por región (Saber T&T vs. Saber Pro)</h2>
+                    <p style="color:#777;font-size:14px;">
+                        Solo con módulos genéricos (a nivel institución solo se homologaron esos). El año lo controla el filtro principal de arriba; el filtro de módulo de abajo solo afecta este gráfico.
+                    </p>
+                    <div class="panel-dashboard-filtros">
+                        <div class="campo-form">
+                            <label for="filtroModuloRegion">Módulo / competencia</label>
+                            <select id="filtroModuloRegion">
+                                <option value="">Todos (promedio)</option>
+                                <?php foreach ($modulosDisponibles as $m): ?>
+                                    <option value="<?= htmlspecialchars($m) ?>"><?= htmlspecialchars(ucwords(mb_strtolower($m))) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="info-simulacro" style="flex-wrap:wrap;">
+                        <div class="info-stat">
+                            <span class="info-stat-label">Mínimo mostrado</span>
+                            <span class="info-stat-valor" id="kpiRegionesMin">—</span>
+                        </div>
+                        <div class="info-stat">
+                            <span class="info-stat-label">Máximo mostrado</span>
+                            <span class="info-stat-valor" id="kpiRegionesMax">—</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="campo-form">
-                    <label for="filtroModuloRegion">Módulo / competencia</label>
-                    <select id="filtroModuloRegion">
-                        <option value="">Todos (promedio)</option>
-                        <?php foreach ($modulosDisponibles as $m): ?>
-                            <option value="<?= htmlspecialchars($m) ?>"><?= htmlspecialchars(ucwords(mb_strtolower($m))) ?></option>
-                        <?php endforeach; ?>
-                    </select>
+                <div class="panel-dashboard-grafico" onclick="abrirModalGrafico('regiones')" title="Clic para ampliar">
+                    <canvas id="graficoRegiones"></canvas>
+                    <span class="grafico-ampliar-icono">⤢</span>
                 </div>
-            </div>
-            <div class="info-simulacro" style="flex-wrap:wrap;max-width:820px;">
-                <div class="info-stat">
-                    <span class="info-stat-label">Mínimo mostrado</span>
-                    <span class="info-stat-valor" id="kpiRegionesMin">—</span>
-                </div>
-                <div class="info-stat">
-                    <span class="info-stat-label">Máximo mostrado</span>
-                    <span class="info-stat-valor" id="kpiRegionesMax">—</span>
-                </div>
-            </div>
-            <div style="max-width:820px;">
-                <canvas id="graficoRegiones" height="280"></canvas>
             </div>
         </div>
 
         <div class="panel-dashboard">
             <h2>Top de instituciones</h2>
             <p style="color:#777;font-size:14px;margin-top:-8px;">
-                Solo instituciones con al menos 30 registros en esa combinación. Los filtros de abajo solo afectan las dos tablas de este recuadro.
+                Solo instituciones con al menos 30 registros en esa combinación. El/los año(s) lo controla el filtro principal de arriba (año(s) actual(es): <strong><?= implode(', ', $aniosInst) ?></strong>); los filtros de abajo solo afectan las dos tablas de este recuadro.
             </p>
             <form method="get" class="fila-horizontal" style="align-items:flex-end;">
-                <div class="campo-form">
-                    <label for="anio_inst">Año</label>
-                    <select id="anio_inst" name="anio_inst" onchange="this.form.submit()">
-                        <?php foreach ($aniosDisponibles as $a): ?>
-                            <option value="<?= $a ?>" <?= $a === $anioInst ? 'selected' : '' ?>><?= $a ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
+                <?php foreach ($aniosSeleccionados as $a): ?>
+                    <input type="hidden" name="anio[]" value="<?= $a ?>">
+                <?php endforeach; ?>
                 <div class="campo-form">
                     <label for="tipo_inst">Tipo de prueba</label>
-                    <select id="tipo_inst" name="tipo_inst" onchange="this.form.submit()">
+                    <select id="tipo_inst" name="tipo_inst" onchange="enviarFiltro(this.form)">
                         <option value="Saber Pro" <?= $tipoInst === 'Saber Pro' ? 'selected' : '' ?>>Saber Pro</option>
                         <option value="Saber TyT" <?= $tipoInst === 'Saber TyT' ? 'selected' : '' ?>>Saber T&T</option>
                     </select>
                 </div>
                 <div class="campo-form">
                     <label for="modulo_inst">Módulo / competencia</label>
-                    <select id="modulo_inst" name="modulo_inst" onchange="this.form.submit()">
+                    <select id="modulo_inst" name="modulo_inst" onchange="enviarFiltro(this.form)">
                         <?php foreach ($modulosDisponibles as $m): ?>
                             <option value="<?= htmlspecialchars($m) ?>" <?= $m === $moduloInst ? 'selected' : '' ?>><?= htmlspecialchars(ucwords(mb_strtolower($m))) ?></option>
                         <?php endforeach; ?>
@@ -503,34 +578,41 @@ if ($moduloProg !== '') {
         <div class="panel-dashboard">
             <h2>Top de programas académicos</h2>
             <p style="color:#777;font-size:14px;margin-top:-8px;">
-                Nivel de agregación más fino: institución + programa específico (no solo la institución completa). Solo programas con al menos 20 registros en esa combinación. Los filtros de abajo solo afectan las dos tablas de este recuadro.
+                Nivel de agregación más fino: institución + programa específico (no solo la institución completa). Solo programas con al menos 20 registros en esa combinación. El/los año(s) lo controla el filtro principal de arriba (año(s) usado(s) aquí: <strong><?= $anioProgDisponible ? implode(', ', $aniosProg) : '—' ?></strong>); los filtros de abajo solo afectan las dos tablas de este recuadro.
             </p>
+            <?php
+                $aniosProgExcluidos = array_diff($aniosSeleccionados, $aniosProgramaDisponibles);
+            ?>
+            <?php if (!$anioProgDisponible): ?>
+                <p style="color:#e74c3c;font-size:14px;">
+                    Este cuadro no tiene datos para <?= implode(', ', $aniosSeleccionados) ?>: solo cubre <?= implode(', ', $aniosProgramaDisponibles) ?>. Cambia el filtro principal de año para ver resultados aquí.
+                </p>
+            <?php elseif ($aniosProgExcluidos): ?>
+                <p style="color:#e08600;font-size:13px;">
+                    <?= implode(', ', $aniosProgExcluidos) ?> no <?= count($aniosProgExcluidos) === 1 ? 'tiene' : 'tienen' ?> datos aquí (este cuadro solo cubre <?= implode(', ', $aniosProgramaDisponibles) ?>); se muestran solo con <?= implode(', ', $aniosProg) ?>.
+                </p>
+            <?php endif; ?>
             <form method="get" class="fila-horizontal" style="align-items:flex-end;">
-                <div class="campo-form">
-                    <label for="anio_prog">Año</label>
-                    <select id="anio_prog" name="anio_prog" onchange="this.form.submit()">
-                        <?php foreach ($aniosProgramaDisponibles as $a): ?>
-                            <option value="<?= $a ?>" <?= $a === $anioProg ? 'selected' : '' ?>><?= $a ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
+                <?php foreach ($aniosSeleccionados as $a): ?>
+                    <input type="hidden" name="anio[]" value="<?= $a ?>">
+                <?php endforeach; ?>
                 <div class="campo-form">
                     <label for="tipo_prog">Tipo de prueba</label>
-                    <select id="tipo_prog" name="tipo_prog" onchange="this.form.submit()">
+                    <select id="tipo_prog" name="tipo_prog" onchange="enviarFiltro(this.form)">
                         <option value="Saber Pro" <?= $tipoProg === 'Saber Pro' ? 'selected' : '' ?>>Saber Pro</option>
                         <option value="Saber TyT" <?= $tipoProg === 'Saber TyT' ? 'selected' : '' ?>>Saber T&T</option>
                     </select>
                 </div>
                 <div class="campo-form">
                     <label for="tipomodulo_prog">Tipo de módulo</label>
-                    <select id="tipomodulo_prog" name="tipomodulo_prog" onchange="this.form.submit()">
+                    <select id="tipomodulo_prog" name="tipomodulo_prog" onchange="enviarFiltro(this.form)">
                         <option value="GENERICA" <?= $tipoModuloProg === 'GENERICA' ? 'selected' : '' ?>>Genérica</option>
                         <option value="ESPECIFICA" <?= $tipoModuloProg === 'ESPECIFICA' ? 'selected' : '' ?>>Específica</option>
                     </select>
                 </div>
                 <div class="campo-form">
                     <label for="modulo_prog">Módulo / competencia</label>
-                    <select id="modulo_prog" name="modulo_prog" onchange="this.form.submit()">
+                    <select id="modulo_prog" name="modulo_prog" onchange="enviarFiltro(this.form)">
                         <?php foreach ($modulosProgramaDisponibles as $m): ?>
                             <option value="<?= htmlspecialchars($m) ?>" <?= $m === $moduloProg ? 'selected' : '' ?>><?= htmlspecialchars(ucwords(mb_strtolower($m))) ?></option>
                         <?php endforeach; ?>
@@ -615,7 +697,22 @@ if ($moduloProg !== '') {
     </div>
 </div>
 
+<div id="spinnerOverlay" class="spinner-overlay">
+    <div class="spinner"></div>
+</div>
+
+<div id="modalGrafico" class="modal-overlay">
+    <div class="modal-contenido">
+        <button type="button" class="modal-cerrar" onclick="cerrarModalGrafico()" aria-label="Cerrar">✕</button>
+        <h2 id="modalGraficoTitulo"></h2>
+        <div class="modal-grafico-contenedor">
+            <canvas id="modalCanvas"></canvas>
+        </div>
+    </div>
+</div>
+
 <script>
+const anioPrincipal = <?= json_encode($aniosSeleccionados) ?>;
 const datosTendencia = <?= json_encode($tendencia, JSON_UNESCAPED_UNICODE) ?>;
 const datosAreas = <?= json_encode($areas, JSON_UNESCAPED_UNICODE) ?>;
 const datosAreasEspecificas = <?= json_encode($areasEspecificas, JSON_UNESCAPED_UNICODE) ?>;
@@ -624,9 +721,80 @@ const datosRegiones = <?= json_encode($regiones, JSON_UNESCAPED_UNICODE) ?>;
 const coloresPro = { linea: '#0056b3', barra: '#0073e6' };
 const coloresTyt = { linea: '#e74c3c', barra: '#f4a3a3' };
 
-let graficoTendencia = null;
-let graficoAreas = null;
-let graficoRegiones = null;
+// Registro de instancias de Chart.js por id de canvas: cada gráfico normal
+// (graficoTendencia, graficoAreas, graficoRegiones) tiene su versión
+// ampliada en el modal (modalCanvas), dibujada con la misma función pero
+// apuntando a otro canvas — así no se duplica la lógica de cada gráfico.
+const chartsInstancias = {};
+
+function crearOActualizarChart(canvasId, config) {
+    if (chartsInstancias[canvasId]) chartsInstancias[canvasId].destroy();
+    chartsInstancias[canvasId] = new Chart(document.getElementById(canvasId).getContext('2d'), config);
+    return chartsInstancias[canvasId];
+}
+
+// ---------------------------------------------------------------------
+// Filtro principal de año (multiselección con checkboxes, un clic marca
+// o desmarca un año sin necesidad de Ctrl/Cmd). Cada clic aplica el
+// filtro de inmediato: cambia la URL (?anio[]=...) preservando el resto
+// de filtros ya presentes, y recarga la página — igual que ya hacían los
+// filtros de instituciones/programas. El spinner se muestra antes de
+// navegar para que quede claro que está cargando. No se permite quedar
+// sin ningún año marcado.
+// ---------------------------------------------------------------------
+
+function mostrarSpinner() {
+    document.getElementById('spinnerOverlay').classList.add('activo');
+}
+
+function toggleMultiselectAnio() {
+    document.getElementById('multiselectAnio').classList.toggle('abierto');
+}
+
+document.addEventListener('click', (ev) => {
+    const contenedor = document.getElementById('multiselectAnio');
+    if (contenedor && !contenedor.contains(ev.target)) {
+        contenedor.classList.remove('abierto');
+    }
+});
+
+function aplicarAnios(seleccionados) {
+    const params = new URLSearchParams(window.location.search);
+    params.delete('anio[]');
+    seleccionados.forEach(a => params.append('anio[]', a));
+    mostrarSpinner();
+    window.location.search = params.toString();
+}
+
+function onCambioAnio(checkbox) {
+    const anio = checkbox.value;
+    let seleccionados = anioPrincipal.map(String);
+    if (checkbox.checked) {
+        if (!seleccionados.includes(anio)) seleccionados.push(anio);
+    } else {
+        seleccionados = seleccionados.filter(a => a !== anio);
+    }
+    if (!seleccionados.length) {
+        checkbox.checked = true; // no se permite quedar sin ningún año: se revierte
+        return;
+    }
+    aplicarAnios(seleccionados);
+}
+
+function onCambioTodosAnios(checkboxTodos) {
+    const anios = <?= json_encode(array_map('strval', $aniosDisponibles)) ?>;
+    aplicarAnios(checkboxTodos.checked ? anios : [anios[0]]);
+}
+
+function limpiarFiltros() {
+    mostrarSpinner();
+    window.location.href = window.location.pathname;
+}
+
+function enviarFiltro(form) {
+    mostrarSpinner();
+    form.submit();
+}
 
 // Actualiza el par de KPIs "Mínimo mostrado" / "Máximo mostrado" que va
 // al lado de cada gráfico, a partir de los mismos valores ya graficados
@@ -658,7 +826,10 @@ function promedioPorAnioTipo(filas, tipo, modulo) {
     }));
 }
 
-function dibujarTendencia(modulo) {
+function dibujarTendencia(modulo, canvasId, actualizarKpis) {
+    canvasId = canvasId || 'graficoTendencia';
+    actualizarKpis = actualizarKpis !== false;
+
     // 2015 se excluye de la línea principal por tener otra escala de puntaje.
     const filas2016enAdelante = datosTendencia.filter(f => f.escala_no_comparable == 0);
     const pro = promedioPorAnioTipo(filas2016enAdelante, 'Saber Pro', modulo);
@@ -671,8 +842,7 @@ function dibujarTendencia(modulo) {
         return todosLosAnios.map(a => (a in m) ? Number(m[a].toFixed(1)) : null);
     };
 
-    if (graficoTendencia) graficoTendencia.destroy();
-    graficoTendencia = new Chart(document.getElementById('graficoTendencia').getContext('2d'), {
+    crearOActualizarChart(canvasId, {
         type: 'line',
         data: {
             labels: todosLosAnios,
@@ -681,13 +851,16 @@ function dibujarTendencia(modulo) {
                 { label: 'Saber T&T', data: mapaValor(tyt), borderColor: coloresTyt.linea, backgroundColor: coloresTyt.linea, tension: 0.2, spanGaps: true }
             ]
         },
-        options: { responsive: true, plugins: { legend: { position: 'top' } } }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } }
     });
 
-    actualizarKpiMinMax('Tendencia', [...mapaValor(pro), ...mapaValor(tyt)]);
+    if (actualizarKpis) actualizarKpiMinMax('Tendencia', [...mapaValor(pro), ...mapaValor(tyt)]);
 }
 
-function dibujarAreas(modulo, tipoModulo) {
+function dibujarAreas(modulo, tipoModulo, canvasId, actualizarKpis) {
+    canvasId = canvasId || 'graficoAreas';
+    actualizarKpis = actualizarKpis !== false;
+
     // Específica: no hay un módulo fijo común a todas las carreras, así
     // que se ignora el filtro de módulo y se usa la vista ya promediada
     // por área (un valor por área, no varios módulos que combinar).
@@ -705,8 +878,7 @@ function dibujarAreas(modulo, tipoModulo) {
     const valoresTyt = areasNombres.map(a => promedio(porArea[a].tyt));
     const valoresPro = areasNombres.map(a => promedio(porArea[a].pro));
 
-    if (graficoAreas) graficoAreas.destroy();
-    graficoAreas = new Chart(document.getElementById('graficoAreas').getContext('2d'), {
+    crearOActualizarChart(canvasId, {
         type: 'bar',
         data: {
             labels: areasNombres,
@@ -717,19 +889,27 @@ function dibujarAreas(modulo, tipoModulo) {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: { legend: { position: 'top' } },
             scales: { x: { ticks: { autoSkip: false, maxRotation: 40, minRotation: 40 } } }
         }
     });
 
-    actualizarKpiMinMax('Areas', [...valoresTyt, ...valoresPro]);
+    if (actualizarKpis) actualizarKpiMinMax('Areas', [...valoresTyt, ...valoresPro]);
 }
 
-function dibujarRegiones(anio, modulo) {
-    // Excluye 2015 (escala distinta), igual que la tendencia. Si no hay año
-    // seleccionado, promedia todos los años disponibles (2016-2024).
+function dibujarRegiones(anios, modulo, canvasId, actualizarKpis) {
+    canvasId = canvasId || 'graficoRegiones';
+    actualizarKpis = actualizarKpis !== false;
+
+    // Excluye 2015 (escala distinta), igual que la tendencia. anios es un
+    // arreglo (filtro principal, multiselección); si viene vacío no filtra
+    // por año y promedia todos los disponibles.
     let filtradas = datosRegiones.filter(r => r.escala_no_comparable == 0 && (!modulo || r.modulo === modulo));
-    if (anio) filtradas = filtradas.filter(r => String(r.anio) === String(anio));
+    if (anios && anios.length) {
+        const aniosStr = anios.map(String);
+        filtradas = filtradas.filter(r => aniosStr.includes(String(r.anio)));
+    }
 
     const porRegion = {};
     filtradas.forEach(r => {
@@ -744,8 +924,7 @@ function dibujarRegiones(anio, modulo) {
     const valoresTyt = regionesNombres.map(r => promedio(porRegion[r].tyt));
     const valoresPro = regionesNombres.map(r => promedio(porRegion[r].pro));
 
-    if (graficoRegiones) graficoRegiones.destroy();
-    graficoRegiones = new Chart(document.getElementById('graficoRegiones').getContext('2d'), {
+    crearOActualizarChart(canvasId, {
         type: 'bar',
         data: {
             labels: regionesNombres.map(r => r.charAt(0) + r.slice(1).toLowerCase()),
@@ -756,12 +935,13 @@ function dibujarRegiones(anio, modulo) {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: { legend: { position: 'top' } },
             scales: { x: { ticks: { autoSkip: false, maxRotation: 40, minRotation: 40 } } }
         }
     });
 
-    actualizarKpiMinMax('Regiones', [...valoresTyt, ...valoresPro]);
+    if (actualizarKpis) actualizarKpiMinMax('Regiones', [...valoresTyt, ...valoresPro]);
 }
 
 // Cada recuadro tiene su propio filtro (o par de filtros) y su propia
@@ -781,15 +961,66 @@ function actualizarArea() {
 }
 
 function actualizarRegion() {
-    const anio = document.getElementById('filtroAnioRegion').value;
+    // El año ya no se elige aquí: lo fija el filtro principal de arriba.
     const modulo = document.getElementById('filtroModuloRegion').value;
-    dibujarRegiones(anio, modulo);
+    dibujarRegiones(anioPrincipal, modulo);
 }
+
+// ---------------------------------------------------------------------
+// Modal "ampliar gráfico": redibuja el mismo gráfico (con los filtros que
+// esté usando en ese momento) en un canvas más grande dentro del modal,
+// reutilizando las mismas funciones dibujar* — así no hay dos versiones
+// de la lógica de cada gráfico que puedan desincronizarse.
+// ---------------------------------------------------------------------
+
+const titulosModalGrafico = {
+    tendencia: '¿Mejoran los resultados con el tiempo?',
+    areas: 'Comparación por área (Saber T&T vs. Saber Pro)',
+    regiones: 'Comparación por región (Saber T&T vs. Saber Pro)'
+};
+
+function abrirModalGrafico(tipo) {
+    if (!titulosModalGrafico[tipo]) return;
+    document.getElementById('modalGraficoTitulo').textContent = titulosModalGrafico[tipo];
+
+    // El modal se muestra ANTES de crear el gráfico: Chart.js necesita que
+    // el canvas ya tenga tamaño real (con el modal oculto mide 0x0 y el
+    // gráfico queda mal dibujado).
+    document.getElementById('modalGrafico').classList.add('activo');
+    document.body.style.overflow = 'hidden';
+
+    if (tipo === 'tendencia') {
+        dibujarTendencia(document.getElementById('filtroModuloTendencia').value, 'modalCanvas', false);
+    } else if (tipo === 'areas') {
+        const tipoModulo = document.getElementById('filtroTipoModuloArea').value;
+        const modulo = document.getElementById('filtroModuloArea').value;
+        dibujarAreas(modulo, tipoModulo, 'modalCanvas', false);
+    } else if (tipo === 'regiones') {
+        const modulo = document.getElementById('filtroModuloRegion').value;
+        dibujarRegiones(anioPrincipal, modulo, 'modalCanvas', false);
+    }
+}
+
+function cerrarModalGrafico() {
+    document.getElementById('modalGrafico').classList.remove('activo');
+    document.body.style.overflow = '';
+    if (chartsInstancias['modalCanvas']) {
+        chartsInstancias['modalCanvas'].destroy();
+        delete chartsInstancias['modalCanvas'];
+    }
+}
+
+document.getElementById('modalGrafico').addEventListener('click', (ev) => {
+    if (ev.target.id === 'modalGrafico') cerrarModalGrafico();
+});
+
+document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') cerrarModalGrafico();
+});
 
 document.getElementById('filtroModuloTendencia').addEventListener('change', actualizarTendencia);
 document.getElementById('filtroTipoModuloArea').addEventListener('change', actualizarArea);
 document.getElementById('filtroModuloArea').addEventListener('change', actualizarArea);
-document.getElementById('filtroAnioRegion').addEventListener('change', actualizarRegion);
 document.getElementById('filtroModuloRegion').addEventListener('change', actualizarRegion);
 
 actualizarTendencia();

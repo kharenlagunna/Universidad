@@ -7,7 +7,7 @@ if (!isset($_SESSION['usuario'], $_SESSION['usuario_id'])) {
     exit();
 }
 
-$destino = ($_SESSION['rol'] === 'admin') ? 'dashboard_admin.php' : 'dashboard_visor.php';
+$destino = ($_SESSION['rol'] === 'admin') ? '../admin/dashboard_resultados.php' : '../visor/dashboard_visor.php';
 
 // Si ya tiene correo registrado, no necesita pasar por aquí.
 $stmt = $conn->prepare("SELECT email FROM usuarios WHERE id = ?");

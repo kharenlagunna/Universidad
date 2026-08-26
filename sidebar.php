@@ -17,12 +17,11 @@ $paginaActual  = basename($_SERVER['SCRIPT_NAME']);
 
 // Módulos del menú. 'roles' controla quién ve cada uno.
 $sidebarModulos = [
-    ['href' => '../admin/dashboard_admin.php',            'icono' => '🏠', 'texto' => 'Dashboard',                'roles' => ['admin']],
     ['href' => '../visor/dashboard_visor.php',             'icono' => '🏠', 'texto' => 'Dashboard',                'roles' => ['visor']],
+    ['href' => '../admin/dashboard_resultados.php',        'icono' => '📈', 'texto' => 'Dashboard de Resultados',  'roles' => ['admin']],
     ['href' => '../admin/admin_cargar_preguntas.php',      'icono' => '📝', 'texto' => 'Cargar Preguntas',         'roles' => ['admin']],
     ['href' => '../admin/admin_usuarios.php',              'icono' => '👥', 'texto' => 'Gestión de Usuarios',     'roles' => ['admin']],
     ['href' => '../admin/admin_configuracion_pruebas.php', 'icono' => '⚙️', 'texto' => 'Configuración de Pruebas', 'roles' => ['admin']],
-    ['href' => '../admin/dashboard_resultados.php',        'icono' => '📈', 'texto' => 'Dashboard de Resultados',  'roles' => ['admin']],
     ['href' => '../simulacro/analisis_grafico.php',        'icono' => '📊', 'texto' => 'Análisis Gráfico',         'roles' => ['admin', 'visor']],
     ['href' => '../simulacro/simulacro_inicio.php',        'icono' => '🧪', 'texto' => 'Simulacro',                'roles' => ['admin', 'visor']],
     ['href' => '../simulacro/simulacro_historial.php',     'icono' => '📜', 'texto' => 'Historial',                'roles' => ['admin', 'visor']],

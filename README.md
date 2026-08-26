@@ -36,6 +36,7 @@ PHP plano (sin framework) + MySQL. Cada página es un archivo `.php` que se abre
      mysql -u root resultados_saber_pro_tyt < database/resultados_saber_pro_tyt_dump_completo.sql
      ```
      Ese archivo está en `.gitignore` por su tamaño — consíguelo con quien te compartió el proyecto si no lo tienes en `database/`.
+     O accede a este link en drive https://drive.google.com/drive/folders/1dRp2_FKdBxngmDdrQnEFfndZtxanjpnK?usp=drive_link 
 
      Después de cargar los datos, ejecuta también las vistas del Dashboard de Resultados (homologan las tablas del ICFES, que tienen esquemas distintos entre años, a columnas comunes):
      ```bash
@@ -119,7 +120,7 @@ El rol se guarda en `usuarios.rol` y se valida en cada página (`if ($_SESSION['
 ### Panel y navegación
 | Archivo | Qué hace |
 |---|---|
-| `admin/dashboard_admin.php` / `visor/dashboard_visor.php` | Pantalla de bienvenida según el rol. |
+| `visor/dashboard_visor.php` | Pantalla de bienvenida para el rol visor. El admin no tiene una pantalla de bienvenida separada: al iniciar sesión entra directo a `admin/dashboard_resultados.php` (ver más abajo). |
 | `sidebar.php` (en la raíz) | Menú lateral (marca, módulos según rol, usuario + cerrar sesión). Se incluye con `require __DIR__ . '/../sidebar.php'` en cada página. |
 
 ### Gestión de usuarios — `admin/` (solo admin)
