@@ -131,35 +131,6 @@ foreach ($tendencia as $f) {
     $totalEvaluados += (int) ($f['cantidad_evaluados'] ?? 0);
 }
 
-// Brecha por área (Pro - T&T), promediando los módulos disponibles de cada área
-$acumuladoPorArea = [];
-foreach ($areas as $a) {
-    if ($a['promedio_tyt'] === null || $a['promedio_pro'] === null) continue;
-    $area = $a['area_homologada'];
-    $acumuladoPorArea[$area]['pro'][] = (float) $a['promedio_pro'];
-    $acumuladoPorArea[$area]['tyt'][] = (float) $a['promedio_tyt'];
-}
-$brechas = [];
-foreach ($acumuladoPorArea as $area => $d) {
-    $promPro = array_sum($d['pro']) / count($d['pro']);
-    $promTyt = array_sum($d['tyt']) / count($d['tyt']);
-    $brechas[$area] = round($promPro - $promTyt, 1);
-}
-arsort($brechas);
-$areaMayorBrecha = $brechas ? array_key_first($brechas) : null;
-$areaMenorBrecha = $brechas ? array_key_last($brechas) : null;
-
-[$moduloMejorPro, $moduloPeorPro] = moduloExtremos($tendencia, 'Saber Pro');
-[$moduloMejorTyt, $moduloPeorTyt] = moduloExtremos($tendencia, 'Saber TyT');
-
-$evaluadosPorAnio = [];
-foreach ($tendencia as $f) {
-    if ($f['cantidad_evaluados'] === null) continue;
-    $evaluadosPorAnio[$f['anio']] = ($evaluadosPorAnio[$f['anio']] ?? 0) + (int) $f['cantidad_evaluados'];
-}
-arsort($evaluadosPorAnio);
-$anioMasEvaluados = $evaluadosPorAnio ? array_key_first($evaluadosPorAnio) : null;
-
 $modulosDisponibles = ['COMPETENCIAS CIUDADANAS', 'COMUNICACIÓN ESCRITA', 'INGLÉS', 'LECTURA CRÍTICA', 'RAZONAMIENTO CUANTITATIVO'];
 $aniosDisponibles = [2015, 2016, 2017, 2018, 2024];
 
@@ -175,20 +146,6 @@ if (!is_array($aniosCrudo)) $aniosCrudo = [$aniosCrudo];
 $aniosSeleccionados = array_values(array_unique(array_intersect(array_map('intval', $aniosCrudo), $aniosDisponibles)));
 if (!$aniosSeleccionados) $aniosSeleccionados = [2018];
 sort($aniosSeleccionados);
-
-// Región con mejor/peor promedio histórico (excluye 2015 por la escala distinta)
-$acumuladoPorRegion = [];
-foreach ($regiones as $r) {
-    if ((int) $r['escala_no_comparable'] === 1 || $r['promedio_puntaje'] === null) continue;
-    $acumuladoPorRegion[$r['region']][] = (float) $r['promedio_puntaje'];
-}
-$promedioPorRegion = [];
-foreach ($acumuladoPorRegion as $region => $vals) {
-    $promedioPorRegion[$region] = array_sum($vals) / count($vals);
-}
-arsort($promedioPorRegion);
-$regionMejor = $promedioPorRegion ? array_key_first($promedioPorRegion) : null;
-$regionPeor = $promedioPorRegion ? array_key_last($promedioPorRegion) : null;
 
 // ---------------------------------------------------------------------
 // Top de instituciones (requiere año específico + prueba + módulo:
@@ -314,6 +271,99 @@ if ($moduloProg !== '') {
     $stmt->execute();
     $peoresProgramas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
+
+// ---------------------------------------------------------------------
+// Conclusiones — a diferencia del resto del dashboard (que es nacional),
+// esta sección se limita a la Universidad Distrital Francisco José de
+// Caldas y a los programas de Ingeniería en Telemática (Saber Pro) y
+// Tecnología en Sistematización de Datos (Saber T&T). El nombre de la
+// institución aparece con dos variantes en los datos según el archivo
+// ICFES de origen; se consulta con ambas. Reutiliza promedioGeneral() y
+// moduloExtremos() ya definidas arriba para el resto del dashboard.
+// ---------------------------------------------------------------------
+$nombresDistrital = [
+    'UNIVERSIDAD DISTRITAL FRANCISCO JOSE DE CALDAS',
+    'UNIVERSIDAD DISTRITAL"FRANCISCO JOSE DE CALDAS"-BOGOTÁ D.C.',
+];
+$programaTelematica = 'INGENIERIA EN TELEMATICA';
+$programaSistematizacion = 'TECNOLOGIA EN SISTEMATIZACION DE DATOS';
+
+$stmt = $connResultados->prepare("
+    SELECT anio, tipo_prueba, modulo, promedio_puntaje, cantidad_evaluados, escala_no_comparable
+    FROM vista_resultados_institucion
+    WHERE institucion IN (?, ?)
+    ORDER BY anio, tipo_prueba, modulo
+");
+$stmt->bind_param('ss', $nombresDistrital[0], $nombresDistrital[1]);
+$stmt->execute();
+$tendenciaDistrital = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+$stmt = $connResultados->prepare("
+    SELECT anio, tipo_prueba, tipo_modulo, modulo, promedio_puntaje, cantidad_evaluados, escala_no_comparable
+    FROM vista_resultados_programa
+    WHERE institucion IN (?, ?) AND programa = ?
+    ORDER BY anio, tipo_prueba, tipo_modulo, modulo
+");
+$stmt->bind_param('sss', $nombresDistrital[0], $nombresDistrital[1], $programaTelematica);
+$stmt->execute();
+$filasTelematica = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+$stmt->bind_param('sss', $nombresDistrital[0], $nombresDistrital[1], $programaSistematizacion);
+$stmt->execute();
+$filasSistematizacion = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+// Para la tendencia año a año solo se usan los módulos genéricos (los
+// específicos cambian de nombre de un año a otro, ver comentario de
+// $areasEspecificas más arriba).
+$filasTelematicaGenerica = array_values(array_filter($filasTelematica, fn($f) => $f['tipo_modulo'] === 'GENERICA'));
+$filasSistematizacionGenerica = array_values(array_filter($filasSistematizacion, fn($f) => $f['tipo_modulo'] === 'GENERICA'));
+
+// Universidad completa: mismos años que las KPI nacionales (2016→2018
+// para Saber Pro, 2016→2024 para Saber T&T) para comparar manzanas con
+// manzanas; 2015 queda fuera por su escala distinta.
+$distritalProReciente = promedioGeneral($tendenciaDistrital, 2018, 'Saber Pro');
+$distritalProInicial  = promedioGeneral($tendenciaDistrital, 2016, 'Saber Pro');
+$distritalTytReciente = promedioGeneral($tendenciaDistrital, 2024, 'Saber TyT');
+$distritalTytInicial  = promedioGeneral($tendenciaDistrital, 2016, 'Saber TyT');
+$distritalTyt2018     = promedioGeneral($tendenciaDistrital, 2018, 'Saber TyT');
+
+$variacionProDistrital = ($distritalProReciente !== null && $distritalProInicial !== null) ? round($distritalProReciente - $distritalProInicial, 1) : null;
+$variacionTytDistrital = ($distritalTytReciente !== null && $distritalTytInicial !== null) ? round($distritalTytReciente - $distritalTytInicial, 1) : null;
+
+[$moduloMejorProDistrital, $moduloPeorProDistrital] = moduloExtremos($tendenciaDistrital, 'Saber Pro');
+[$moduloMejorTytDistrital, $moduloPeorTytDistrital] = moduloExtremos($tendenciaDistrital, 'Saber TyT');
+
+// Universidad vs. promedio nacional, mismo año y misma prueba ($proReciente
+// y $tytReciente ya están calculados arriba a nivel nacional).
+$diffProVsNacional = ($distritalProReciente !== null && $proReciente !== null) ? round($distritalProReciente - $proReciente, 1) : null;
+$diffTytVsNacional = ($distritalTytReciente !== null && $tytReciente !== null) ? round($distritalTytReciente - $tytReciente, 1) : null;
+
+// Ingeniería en Telemática (solo tiene datos en Saber Pro)
+$telematica2018 = promedioGeneral($filasTelematicaGenerica, 2018, 'Saber Pro');
+$telematica2016 = promedioGeneral($filasTelematicaGenerica, 2016, 'Saber Pro');
+$variacionTelematica = ($telematica2018 !== null && $telematica2016 !== null) ? round($telematica2018 - $telematica2016, 1) : null;
+[$moduloMejorTelematica, $moduloPeorTelematica] = moduloExtremos($filasTelematicaGenerica, 'Saber Pro');
+$diffTelematicaVsUniversidad = ($telematica2018 !== null && $distritalProReciente !== null) ? round($telematica2018 - $distritalProReciente, 1) : null;
+
+// Módulo específico (propio de la carrera) con mejor/peor promedio en el
+// año más reciente con datos específicos (2018).
+$moduloEspecificoMejorTelematica = null;
+$moduloEspecificoPeorTelematica = null;
+$especificasTelematica2018 = array_filter($filasTelematica, fn($f) => $f['tipo_modulo'] === 'ESPECIFICA' && (int) $f['anio'] === 2018 && $f['tipo_prueba'] === 'Saber Pro');
+if ($especificasTelematica2018) {
+    $porModuloEsp = [];
+    foreach ($especificasTelematica2018 as $f) $porModuloEsp[$f['modulo']] = (float) $f['promedio_puntaje'];
+    arsort($porModuloEsp);
+    $moduloEspecificoMejorTelematica = array_key_first($porModuloEsp);
+    $moduloEspecificoPeorTelematica = array_key_last($porModuloEsp);
+}
+
+// Tecnología en Sistematización de Datos (solo tiene datos en Saber T&T)
+$sistematizacion2018 = promedioGeneral($filasSistematizacionGenerica, 2018, 'Saber TyT');
+$sistematizacion2016 = promedioGeneral($filasSistematizacionGenerica, 2016, 'Saber TyT');
+$variacionSistematizacion = ($sistematizacion2018 !== null && $sistematizacion2016 !== null) ? round($sistematizacion2018 - $sistematizacion2016, 1) : null;
+[$moduloMejorSistematizacion, $moduloPeorSistematizacion] = moduloExtremos($filasSistematizacionGenerica, 'Saber TyT');
+$diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distritalTyt2018 !== null) ? round($sistematizacion2018 - $distritalTyt2018, 1) : null;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -332,10 +382,7 @@ if ($moduloProg !== '') {
 <div class="content">
     <div class="contenedor-derecho">
         <h2>Dashboard de Resultados — Saber Pro y Saber T&T (ICFES)</h2>
-        <p style="color:#555;">
-            Comparación de los resultados históricos reales aplicados en Colombia (datos agregados del ICFES, 2015-2024).
-        </p>
-
+      
         <div class="panel-dashboard panel-filtro-principal">
             <div class="campo-form" style="min-width:220px;margin-bottom:0;">
                 <label for="multiselectAnioBoton">Filtro principal · Año(s)</label>
@@ -385,6 +432,41 @@ if ($moduloProg !== '') {
             <div class="info-stat">
                 <span class="info-stat-label">Total de registros (histórico conocido)</span>
                 <span class="info-stat-valor"><?= number_format($totalEvaluados, 0, ',', '.') ?></span>
+            </div>
+        </div>
+
+        <div class="panel-dashboard">
+            <h2 style="margin-top:0;">Conclusiones — Universidad Distrital Francisco José de Caldas</h2>
+            <p style="color:#777;font-size:14px;margin-top:-8px;">
+                Limitadas a esta universidad y a los programas de Ingeniería en Telemática (Saber Pro) y Tecnología en Sistematización de Datos (Saber T&T). El resto del dashboard, más abajo, es nacional.
+            </p>
+            <div class="resultado-info">
+                <p><strong>Tendencia Saber Pro (universidad):</strong> <?= htmlspecialchars(textoTendencia($variacionProDistrital, 'La universidad en Saber Pro')) ?></p>
+                <p><strong>Tendencia Saber T&T (universidad):</strong> <?= htmlspecialchars(textoTendencia($variacionTytDistrital, 'La universidad en Saber T&T')) ?></p>
+                <?php if ($diffProVsNacional !== null): ?>
+                    <p><strong>Frente al promedio nacional (Saber Pro 2018):</strong> la universidad quedó <?= $diffProVsNacional >= 0 ? number_format($diffProVsNacional, 1) . ' pts por encima' : number_format(abs($diffProVsNacional), 1) . ' pts por debajo' ?> del promedio nacional (<?= number_format($proReciente, 1) ?> pts).</p>
+                <?php endif; ?>
+                <?php if ($diffTytVsNacional !== null): ?>
+                    <p><strong>Frente al promedio nacional (Saber T&T 2024):</strong> la universidad quedó <?= $diffTytVsNacional >= 0 ? number_format($diffTytVsNacional, 1) . ' pts por encima' : number_format(abs($diffTytVsNacional), 1) . ' pts por debajo' ?> del promedio nacional (<?= number_format($tytReciente, 1) ?> pts).</p>
+                <?php endif; ?>
+                <?php if ($moduloMejorProDistrital): ?>
+                    <p><strong>En Saber Pro</strong>, el módulo con mejor promedio histórico de la universidad es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloMejorProDistrital))) ?></em> y el más débil es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloPeorProDistrital))) ?></em>.</p>
+                <?php endif; ?>
+                <?php if ($moduloMejorTytDistrital): ?>
+                    <p><strong>En Saber T&T</strong>, el módulo con mejor promedio histórico de la universidad es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloMejorTytDistrital))) ?></em> y el más débil es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloPeorTytDistrital))) ?></em>.</p>
+                <?php endif; ?>
+                <?php if ($variacionTelematica !== null): ?>
+                    <p><strong>Ingeniería en Telemática (Saber Pro):</strong> <?= htmlspecialchars(textoTendencia($variacionTelematica, 'El programa')) ?><?php if ($diffTelematicaVsUniversidad !== null): ?> En 2018 quedó <?= $diffTelematicaVsUniversidad >= 0 ? number_format($diffTelematicaVsUniversidad, 1) . ' pts por encima' : number_format(abs($diffTelematicaVsUniversidad), 1) . ' pts por debajo' ?> del promedio general de la universidad ese mismo año.<?php endif; ?></p>
+                <?php endif; ?>
+                <?php if ($moduloEspecificoMejorTelematica): ?>
+                    <p><strong>Ingeniería en Telemática — módulo específico (2018):</strong> el mejor promedio fue en <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloEspecificoMejorTelematica))) ?></em> y el más débil en <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloEspecificoPeorTelematica))) ?></em>.</p>
+                <?php endif; ?>
+                <?php if ($variacionSistematizacion !== null): ?>
+                    <p><strong>Tecnología en Sistematización de Datos (Saber T&T):</strong> <?= htmlspecialchars(textoTendencia($variacionSistematizacion, 'El programa')) ?><?php if ($diffSistematizacionVsUniversidad !== null): ?> En 2018 quedó <?= $diffSistematizacionVsUniversidad >= 0 ? number_format($diffSistematizacionVsUniversidad, 1) . ' pts por encima' : number_format(abs($diffSistematizacionVsUniversidad), 1) . ' pts por debajo' ?> del promedio general de la universidad ese mismo año.<?php endif; ?></p>
+                <?php endif; ?>
+                <?php if ($moduloMejorSistematizacion): ?>
+                    <p><strong>Tecnología en Sistematización de Datos — módulo genérico:</strong> el mejor promedio histórico es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloMejorSistematizacion))) ?></em> y el más débil es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloPeorSistematizacion))) ?></em>.</p>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -533,7 +615,7 @@ if ($moduloProg !== '') {
                 <noscript><button type="submit" class="btn">Filtrar</button></noscript>
             </form>
 
-            <div class="resultado-grid" style="align-items:start;">
+            <div class="resultado-grid resultado-grid-igual" style="align-items:start;">
                 <div>
                     <h2 style="font-size:1.2rem;">🏆 Mejores 10</h2>
                     <table class="tabla-indicadores">
@@ -624,7 +706,7 @@ if ($moduloProg !== '') {
                 <noscript><button type="submit" class="btn">Filtrar</button></noscript>
             </form>
 
-            <div class="resultado-grid" style="align-items:start;">
+            <div class="resultado-grid resultado-grid-igual" style="align-items:start;">
                 <div>
                     <h2 style="font-size:1.2rem;">🏆 Mejores 10</h2>
                     <table class="tabla-indicadores">
@@ -668,32 +750,6 @@ if ($moduloProg !== '') {
             </div>
         </div>
 
-        <h2 style="margin-top:10px;">Conclusiones</h2>
-        <div class="resultado-info">
-            <p><strong>Tendencia Saber Pro:</strong> <?= htmlspecialchars(textoTendencia($variacionPro, 'Saber Pro')) ?></p>
-            <p><strong>Tendencia Saber T&T:</strong> <?= htmlspecialchars(textoTendencia($variacionTyt, 'Saber T&T')) ?></p>
-            <?php if ($areaMayorBrecha): ?>
-                <p><strong>Mayor brecha T&T → Pro:</strong> <?= htmlspecialchars(ucwords(mb_strtolower($areaMayorBrecha))) ?> (+<?= number_format($brechas[$areaMayorBrecha], 1) ?> pts a favor de Pro).</p>
-            <?php endif; ?>
-            <?php if ($areaMenorBrecha): ?>
-                <p><strong>Menor brecha T&T → Pro:</strong> <?= htmlspecialchars(ucwords(mb_strtolower($areaMenorBrecha))) ?> (+<?= number_format($brechas[$areaMenorBrecha], 1) ?> pts).</p>
-            <?php endif; ?>
-            <?php if ($moduloMejorPro): ?>
-                <p><strong>En Saber Pro</strong>, el módulo con mejor promedio histórico es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloMejorPro))) ?></em> y el más débil es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloPeorPro))) ?></em>.</p>
-            <?php endif; ?>
-            <?php if ($moduloMejorTyt): ?>
-                <p><strong>En Saber T&T</strong>, el módulo con mejor promedio histórico es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloMejorTyt))) ?></em> y el más débil es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloPeorTyt))) ?></em>.</p>
-            <?php endif; ?>
-            <?php if ($anioMasEvaluados): ?>
-                <p><strong>Año con mayor cantidad de registros:</strong> <?= htmlspecialchars($anioMasEvaluados) ?> (<?= number_format($evaluadosPorAnio[$anioMasEvaluados], 0, ',', '.') ?> registros).</p>
-            <?php endif; ?>
-            <?php if ($regionMejor): ?>
-                <p><strong>Región con mejor promedio histórico:</strong> <?= htmlspecialchars(ucwords(mb_strtolower($regionMejor))) ?> (<?= number_format($promedioPorRegion[$regionMejor], 1) ?> pts).</p>
-            <?php endif; ?>
-            <?php if ($regionPeor): ?>
-                <p><strong>Región con menor promedio histórico:</strong> <?= htmlspecialchars(ucwords(mb_strtolower($regionPeor))) ?> (<?= number_format($promedioPorRegion[$regionPeor], 1) ?> pts). Excluye 2015 por su escala distinta.</p>
-            <?php endif; ?>
-        </div>
     </div>
 </div>
 

@@ -545,9 +545,13 @@ form input[readonly],
 
 /* ====== Simulacro: inicio (selección + botón en una fila) ====== */
 
-.fila-horizontal {
+/* Especificidad reforzada (.contenedor-derecho .fila-horizontal) a
+   propósito: ".contenedor-derecho form" (más arriba) pone display:flex y,
+   con la misma especificidad, un simple ".fila-horizontal" no alcanza a
+   ganarle en la cascada — los campos quedaban apilados en vez de en fila. */
+.contenedor-derecho .fila-horizontal {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     align-items: end;
     gap: 16px;
 }
@@ -567,7 +571,7 @@ form input[readonly],
 }
 
 @media (max-width: 700px) {
-    .fila-horizontal {
+    .contenedor-derecho .fila-horizontal {
         grid-template-columns: 1fr;
     }
 }
@@ -930,6 +934,22 @@ form input[readonly],
 
 @media (max-width: 700px) {
     .resultado-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Top de instituciones y Top de programas académicos: dentro de cada
+   caja, "Mejores 10" y "Peores 10" abarcan el mismo espacio (columnas
+   parejas) en vez de la proporción 1.4fr/1fr de info+gráfico. El
+   margin-top separa este bloque del formulario de filtros de arriba
+   (el form no trae espacio propio, quedaba todo pegado). */
+.resultado-grid-igual {
+    grid-template-columns: 1fr 1fr;
+    margin-top: 24px;
+}
+
+@media (max-width: 700px) {
+    .resultado-grid-igual {
         grid-template-columns: 1fr;
     }
 }

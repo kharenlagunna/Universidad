@@ -4,7 +4,14 @@
 # Credenciales reales de correo (usa mail_config.example.php como plantilla)
 mail_config.php
 
+# Clave real de cifrado de datos sensibles (usa crypto_config.example.php como plantilla)
+crypto_config.php
+
 # Dump completo de resultados_saber_pro_tyt (472 MB, datos abiertos del ICFES):
 # demasiado pesado para versionar. La estructura sí está documentada en
 # database/schema.sql; este archivo es solo para volver a cargar los datos.
+# Las columnas EVALUADO / NÚMERO REGISTRO de las tablas sabana_* van cifradas
+# (ver crypto_sensible.php); cualquier respaldo previo a ese cifrado contiene
+# los nombres en texto plano, así que también se ignora.
 database/resultados_saber_pro_tyt_dump_completo.sql
+database/resultados_saber_pro_tyt_dump_completo.sql*.bak
