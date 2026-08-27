@@ -538,16 +538,23 @@ if ($moduloProg !== '') {
 } // fin if ($ambito === 'nacional') — Top de instituciones / Top de programas
 
 // ---------------------------------------------------------------------
-// Conclusiones — a diferencia del resto del dashboard (que varía con el
-// ámbito elegido), esta sección se limita SIEMPRE a la Universidad
-// Distrital Francisco José de Caldas y a los programas de Ingeniería en
-// Telemática (Saber Pro) y Tecnología en Sistematización de Datos
-// (Saber T&T), sin importar el ámbito activo. $tendenciaDistrital,
-// $filasTelematica, $filasSistematizacion, $filasTelematicaGenerica y
-// $filasSistematizacionGenerica ya se calcularon arriba (las usa también
-// el ámbito 'universidad'/'programas' del resto del dashboard). Reutiliza
+// Conclusiones — igual que el resto del dashboard, el contenido cambia
+// según el filtro principal de ámbito de arriba: 'nacional' muestra
+// conclusiones sobre todo el país, 'universidad' sobre la Universidad
+// Distrital Francisco José de Caldas completa, y 'programas' sobre
+// Ingeniería en Telemática (Saber Pro) y Tecnología en Sistematización de
+// Datos (Saber T&T). Los tres bloques se calculan siempre (son baratos y
+// evitan duplicar la lógica si el usuario cambia de ámbito), pero el HTML
+// de más abajo solo pinta el que corresponde a $ambito.
+// $tendenciaNacional/$tendenciaDistrital/$filasTelematica/
+// $filasSistematizacion/$filasTelematicaGenerica/
+// $filasSistematizacionGenerica ya se calcularon arriba. Reutiliza
 // promedioGeneral() y moduloExtremos() ya definidas arriba.
 // ---------------------------------------------------------------------
+
+// Nacional: módulo con mejor/peor promedio histórico en todo el país.
+[$moduloMejorProNacional, $moduloPeorProNacional] = moduloExtremos($tendenciaNacional, 'Saber Pro');
+[$moduloMejorTytNacional, $moduloPeorTytNacional] = moduloExtremos($tendenciaNacional, 'Saber TyT');
 
 // Universidad completa: mismos años que las KPI nacionales (2016→2018
 // para Saber Pro, 2016→2024 para Saber T&T) para comparar manzanas con
@@ -674,11 +681,22 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
         </div>
 
         <div class="panel-dashboard">
-            <h2 style="margin-top:0;">Conclusiones — Universidad Distrital Francisco José de Caldas</h2>
+            <h2 style="margin-top:0;">Conclusiones — <?= htmlspecialchars($ambitoEtiquetas[$ambito]) ?></h2>
             <p style="color:#777;font-size:14px;margin-top:-8px;">
-                Limitadas a esta universidad y a los programas de Ingeniería en Telemática (Saber Pro) y Tecnología en Sistematización de Datos (Saber T&T), sin importar el ámbito elegido arriba. El resto del dashboard, más abajo, está limitado a: <strong><?= htmlspecialchars($ambitoEtiquetas[$ambito]) ?></strong>.
+                Cambian con el filtro principal de ámbito de arriba, igual que el resto del dashboard.
             </p>
             <div class="resultado-info">
+            <?php if ($ambito === 'nacional'): ?>
+                <p><strong>Tendencia Saber Pro (nacional):</strong> <?= htmlspecialchars(textoTendencia($variacionPro, 'El país en Saber Pro')) ?></p>
+                <p><strong>Tendencia Saber T&T (nacional):</strong> <?= htmlspecialchars(textoTendencia($variacionTyt, 'El país en Saber T&T')) ?></p>
+                <?php if ($moduloMejorProNacional): ?>
+                    <p><strong>En Saber Pro</strong>, el módulo con mejor promedio histórico a nivel nacional es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloMejorProNacional))) ?></em> y el más débil es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloPeorProNacional))) ?></em>.</p>
+                <?php endif; ?>
+                <?php if ($moduloMejorTytNacional): ?>
+                    <p><strong>En Saber T&T</strong>, el módulo con mejor promedio histórico a nivel nacional es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloMejorTytNacional))) ?></em> y el más débil es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloPeorTytNacional))) ?></em>.</p>
+                <?php endif; ?>
+                <p><strong>Cobertura:</strong> <?= number_format($totalEvaluados, 0, ',', '.') ?> registros evaluados en el histórico nacional conocido.</p>
+            <?php elseif ($ambito === 'universidad'): ?>
                 <p><strong>Tendencia Saber Pro (universidad):</strong> <?= htmlspecialchars(textoTendencia($variacionProDistrital, 'La universidad en Saber Pro')) ?></p>
                 <p><strong>Tendencia Saber T&T (universidad):</strong> <?= htmlspecialchars(textoTendencia($variacionTytDistrital, 'La universidad en Saber T&T')) ?></p>
                 <?php if ($diffProVsNacional !== null): ?>
@@ -693,6 +711,7 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
                 <?php if ($moduloMejorTytDistrital): ?>
                     <p><strong>En Saber T&T</strong>, el módulo con mejor promedio histórico de la universidad es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloMejorTytDistrital))) ?></em> y el más débil es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloPeorTytDistrital))) ?></em>.</p>
                 <?php endif; ?>
+            <?php else: // programas ?>
                 <?php if ($variacionTelematica !== null): ?>
                     <p><strong>Ingeniería en Telemática (Saber Pro):</strong> <?= htmlspecialchars(textoTendencia($variacionTelematica, 'El programa')) ?><?php if ($diffTelematicaVsUniversidad !== null): ?> En 2018 quedó <?= $diffTelematicaVsUniversidad >= 0 ? number_format($diffTelematicaVsUniversidad, 1) . ' pts por encima' : number_format(abs($diffTelematicaVsUniversidad), 1) . ' pts por debajo' ?> del promedio general de la universidad ese mismo año.<?php endif; ?></p>
                 <?php endif; ?>
@@ -705,6 +724,7 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
                 <?php if ($moduloMejorSistematizacion): ?>
                     <p><strong>Tecnología en Sistematización de Datos — módulo genérico:</strong> el mejor promedio histórico es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloMejorSistematizacion))) ?></em> y el más débil es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloPeorSistematizacion))) ?></em>.</p>
                 <?php endif; ?>
+            <?php endif; ?>
             </div>
         </div>
 
