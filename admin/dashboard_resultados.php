@@ -7,30 +7,56 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
     exit();
 }
 
-// --- Datos base: tendencia nacional por año/prueba/módulo ---
-$tendencia = [];
+// ---------------------------------------------------------------------
+// Filtro de ámbito: además del año, recorta TODO el dashboard (KPIs,
+// gráficos, tablas y conclusiones) a uno de tres niveles. 'nacional' es
+// el comportamiento original del dashboard (no recorta nada); los otros
+// dos reutilizan el mismo criterio que ya usaba la sección Conclusiones
+// (institución/programas de la Universidad Distrital), aplicado ahora a
+// todos los demás paneles.
+// ---------------------------------------------------------------------
+$nombresDistrital = [
+    'UNIVERSIDAD DISTRITAL FRANCISCO JOSE DE CALDAS',
+    'UNIVERSIDAD DISTRITAL"FRANCISCO JOSE DE CALDAS"-BOGOTÁ D.C.',
+];
+$programaTelematica = 'INGENIERIA EN TELEMATICA';
+$programaSistematizacion = 'TECNOLOGIA EN SISTEMATIZACION DE DATOS';
+
+$ambitosValidos = ['programas', 'universidad', 'nacional'];
+$ambito = in_array($_GET['ambito'] ?? '', $ambitosValidos, true) ? $_GET['ambito'] : 'nacional';
+$ambitoEtiquetas = [
+    'programas'   => 'Programas UD (Ingeniería en Telemática y Tecnología en Sistematización de Datos)',
+    'universidad' => 'Toda la Universidad Distrital (todos sus programas)',
+    'nacional'    => 'Todas las instituciones y programas (nacional)',
+];
+
+// --- Datos base: tendencia nacional por año/prueba/módulo. Se calcula
+// siempre: la usa el ámbito 'nacional' y además sirve de referencia fija
+// para las comparaciones "vs. promedio nacional" en Conclusiones, sin
+// importar qué ámbito esté activo. ---
+$tendenciaNacional = [];
 $res = $connResultados->query("
     SELECT anio, tipo_prueba, modulo, cantidad_evaluados, promedio_puntaje, escala_no_comparable
     FROM vista_promedio_nacional_anual
     ORDER BY anio, tipo_prueba, modulo
 ");
 while ($row = $res->fetch_assoc()) {
-    $tendencia[] = $row;
+    $tendenciaNacional[] = $row;
 }
 
-// --- Datos base: comparación T&T vs Pro por región y módulo ---
-$regiones = [];
+// --- Datos base: comparación T&T vs Pro por región y módulo (nacional) ---
+$regionesNacional = [];
 $res = $connResultados->query("
     SELECT anio, tipo_prueba, region, modulo, cantidad_evaluados, promedio_puntaje, escala_no_comparable
     FROM vista_resultados_region
     ORDER BY region, anio, tipo_prueba, modulo
 ");
 while ($row = $res->fetch_assoc()) {
-    $regiones[] = $row;
+    $regionesNacional[] = $row;
 }
 
-// --- Datos base: comparación T&T vs Pro por área homologada y módulo ---
-$areas = [];
+// --- Datos base: comparación T&T vs Pro por área homologada y módulo (nacional) ---
+$areasNacional = [];
 $res = $connResultados->query("
     SELECT e.area_homologada, v.modulo,
            ROUND(AVG(CASE WHEN v.tipo_prueba='Saber TyT' THEN v.promedio_puntaje END), 1) AS promedio_tyt,
@@ -43,7 +69,7 @@ $res = $connResultados->query("
     ORDER BY e.area_homologada, v.modulo
 ");
 while ($row = $res->fetch_assoc()) {
-    $areas[] = $row;
+    $areasNacional[] = $row;
 }
 
 // --- Datos base: lo mismo, pero con módulos ESPECÍFICOS (propios de cada
@@ -51,7 +77,7 @@ while ($row = $res->fetch_assoc()) {
 // No se agrupa por módulo porque el vocabulario de módulos específicos
 // cambia según la carrera; el área homologada sí sigue aplicando (el
 // cruce es por grupo_referencia, no por nombre de módulo).
-$areasEspecificas = [];
+$areasEspecificasNacional = [];
 $res = $connResultados->query("
     SELECT e.area_homologada,
            ROUND(AVG(CASE WHEN v.tipo_prueba='Saber TyT' THEN v.promedio_puntaje END), 1) AS promedio_tyt,
@@ -64,8 +90,226 @@ $res = $connResultados->query("
     ORDER BY e.area_homologada
 ");
 while ($row = $res->fetch_assoc()) {
-    $areasEspecificas[] = $row;
+    $areasEspecificasNacional[] = $row;
 }
+
+// ---------------------------------------------------------------------
+// Datos base de la Universidad Distrital y de sus dos programas UD (usa
+// $nombresDistrital/$programaTelematica/$programaSistematizacion de
+// arriba). Se calculan siempre: los usan los ámbitos 'universidad' y
+// 'programas' de todo el dashboard, y también la sección Conclusiones
+// (que es siempre sobre la UD, sin importar el ámbito activo).
+// ---------------------------------------------------------------------
+$stmt = $connResultados->prepare("
+    SELECT anio, tipo_prueba, modulo, promedio_puntaje, cantidad_evaluados, escala_no_comparable
+    FROM vista_resultados_institucion
+    WHERE institucion IN (?, ?)
+    ORDER BY anio, tipo_prueba, modulo
+");
+$stmt->bind_param('ss', $nombresDistrital[0], $nombresDistrital[1]);
+$stmt->execute();
+$tendenciaDistrital = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+$stmt = $connResultados->prepare("
+    SELECT anio, tipo_prueba, tipo_modulo, modulo, promedio_puntaje, cantidad_evaluados, escala_no_comparable
+    FROM vista_resultados_programa
+    WHERE institucion IN (?, ?) AND programa = ?
+    ORDER BY anio, tipo_prueba, tipo_modulo, modulo
+");
+$stmt->bind_param('sss', $nombresDistrital[0], $nombresDistrital[1], $programaTelematica);
+$stmt->execute();
+$filasTelematica = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+$stmt->bind_param('sss', $nombresDistrital[0], $nombresDistrital[1], $programaSistematizacion);
+$stmt->execute();
+$filasSistematizacion = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+// Para la tendencia año a año solo se usan los módulos genéricos (los
+// específicos cambian de nombre de un año a otro, ver comentario de
+// $areasEspecificasNacional más arriba).
+$filasTelematicaGenerica = array_values(array_filter($filasTelematica, fn($f) => $f['tipo_modulo'] === 'GENERICA'));
+$filasSistematizacionGenerica = array_values(array_filter($filasSistematizacion, fn($f) => $f['tipo_modulo'] === 'GENERICA'));
+
+// ---------------------------------------------------------------------
+// Áreas y regiones recortadas a los ámbitos 'universidad'/'programas'
+// (solo se consultan cuando hacen falta). Mismo cruce que las versiones
+// nacionales de arriba, pero desde vista_resultados_institucion /
+// vista_resultados_programa (que sí tienen institución/programa) en vez
+// de vista_resultados_grupo_referencia / vista_resultados_region.
+// ---------------------------------------------------------------------
+$areasUniversidad = [];
+$areasEspecificasUniversidad = [];
+$regionesUniversidad = [];
+$programasDetalleGenerica = [];
+$programasDetalleEspecifica = [];
+$areasProgramas = [];
+$areasEspecificasProgramas = [];
+$regionesProgramas = [];
+
+if ($ambito === 'universidad') {
+    $stmt = $connResultados->prepare("
+        SELECT e.area_homologada, p.modulo,
+               ROUND(AVG(CASE WHEN p.tipo_prueba='Saber TyT' THEN p.promedio_puntaje END), 1) AS promedio_tyt,
+               ROUND(AVG(CASE WHEN p.tipo_prueba='Saber Pro' THEN p.promedio_puntaje END), 1) AS promedio_pro
+        FROM tabla_equivalencia_areas e
+        JOIN vista_resultados_programa p
+          ON (p.tipo_prueba = 'Saber TyT' AND p.grupo_referencia = e.grupo_referencia_tyt AND p.tipo_modulo = 'GENERICA')
+          OR (p.tipo_prueba = 'Saber Pro' AND p.grupo_referencia = e.grupo_referencia_pro AND p.tipo_modulo = 'GENERICA' AND p.escala_no_comparable = 0)
+        WHERE p.institucion IN (?, ?)
+        GROUP BY e.area_homologada, p.modulo
+        ORDER BY e.area_homologada, p.modulo
+    ");
+    $stmt->bind_param('ss', $nombresDistrital[0], $nombresDistrital[1]);
+    $stmt->execute();
+    $areasUniversidad = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $stmt = $connResultados->prepare("
+        SELECT e.area_homologada,
+               ROUND(AVG(CASE WHEN p.tipo_prueba='Saber TyT' THEN p.promedio_puntaje END), 1) AS promedio_tyt,
+               ROUND(AVG(CASE WHEN p.tipo_prueba='Saber Pro' THEN p.promedio_puntaje END), 1) AS promedio_pro
+        FROM tabla_equivalencia_areas e
+        JOIN vista_resultados_programa p
+          ON (p.tipo_prueba = 'Saber TyT' AND p.grupo_referencia = e.grupo_referencia_tyt AND p.tipo_modulo = 'ESPECIFICA')
+          OR (p.tipo_prueba = 'Saber Pro' AND p.grupo_referencia = e.grupo_referencia_pro AND p.tipo_modulo = 'ESPECIFICA' AND p.escala_no_comparable = 0)
+        WHERE p.institucion IN (?, ?)
+        GROUP BY e.area_homologada
+        ORDER BY e.area_homologada
+    ");
+    $stmt->bind_param('ss', $nombresDistrital[0], $nombresDistrital[1]);
+    $stmt->execute();
+    $areasEspecificasUniversidad = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $stmt = $connResultados->prepare("
+        SELECT i.anio, i.tipo_prueba, COALESCE(r.region, 'SIN CLASIFICAR') AS region, i.modulo,
+               i.cantidad_evaluados, i.promedio_puntaje, i.escala_no_comparable
+        FROM vista_resultados_institucion i
+        LEFT JOIN tabla_departamento_region r ON r.departamento = i.departamento
+        WHERE i.institucion IN (?, ?)
+        ORDER BY region, anio, tipo_prueba, modulo
+    ");
+    $stmt->bind_param('ss', $nombresDistrital[0], $nombresDistrital[1]);
+    $stmt->execute();
+    $regionesUniversidad = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    // ---------------------------------------------------------------------
+    // Detalle por programa académico (sin homologar): mismo cruce T&T vs.
+    // Pro que "Comparación por área", pero SIN agrupar por área — cada
+    // barra es un programa de la universidad, con el nombre tal como está
+    // registrado en los resultados del ICFES (no pasa por
+    // tabla_equivalencia_areas). Alimenta el panel nuevo que se muestra
+    // debajo de "Comparación por área" solo con este ámbito.
+    // ---------------------------------------------------------------------
+    $stmt = $connResultados->prepare("
+        SELECT p.programa, p.modulo,
+               ROUND(AVG(CASE WHEN p.tipo_prueba='Saber TyT' THEN p.promedio_puntaje END), 1) AS promedio_tyt,
+               ROUND(AVG(CASE WHEN p.tipo_prueba='Saber Pro' THEN p.promedio_puntaje END), 1) AS promedio_pro
+        FROM vista_resultados_programa p
+        WHERE p.institucion IN (?, ?) AND p.tipo_modulo = 'GENERICA'
+          AND (p.tipo_prueba != 'Saber Pro' OR p.escala_no_comparable = 0)
+        GROUP BY p.programa, p.modulo
+        ORDER BY p.programa, p.modulo
+    ");
+    $stmt->bind_param('ss', $nombresDistrital[0], $nombresDistrital[1]);
+    $stmt->execute();
+    $programasDetalleGenerica = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $stmt = $connResultados->prepare("
+        SELECT p.programa,
+               ROUND(AVG(CASE WHEN p.tipo_prueba='Saber TyT' THEN p.promedio_puntaje END), 1) AS promedio_tyt,
+               ROUND(AVG(CASE WHEN p.tipo_prueba='Saber Pro' THEN p.promedio_puntaje END), 1) AS promedio_pro
+        FROM vista_resultados_programa p
+        WHERE p.institucion IN (?, ?) AND p.tipo_modulo = 'ESPECIFICA'
+          AND (p.tipo_prueba != 'Saber Pro' OR p.escala_no_comparable = 0)
+        GROUP BY p.programa
+        ORDER BY p.programa
+    ");
+    $stmt->bind_param('ss', $nombresDistrital[0], $nombresDistrital[1]);
+    $stmt->execute();
+    $programasDetalleEspecifica = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    // Nombre "legible" del programa (mismo criterio que las demás tablas
+    // del dashboard: ucwords(mb_strtolower(...))); el campo 'programa'
+    // original queda intacto por si hiciera falta más adelante.
+    foreach ($programasDetalleGenerica as &$fila) {
+        $fila['programa_legible'] = ucwords(mb_strtolower($fila['programa']));
+    }
+    unset($fila);
+    foreach ($programasDetalleEspecifica as &$fila) {
+        $fila['programa_legible'] = ucwords(mb_strtolower($fila['programa']));
+    }
+    unset($fila);
+} elseif ($ambito === 'programas') {
+    $stmt = $connResultados->prepare("
+        SELECT e.area_homologada, p.modulo,
+               ROUND(AVG(CASE WHEN p.tipo_prueba='Saber TyT' THEN p.promedio_puntaje END), 1) AS promedio_tyt,
+               ROUND(AVG(CASE WHEN p.tipo_prueba='Saber Pro' THEN p.promedio_puntaje END), 1) AS promedio_pro
+        FROM tabla_equivalencia_areas e
+        JOIN vista_resultados_programa p
+          ON (p.tipo_prueba = 'Saber TyT' AND p.grupo_referencia = e.grupo_referencia_tyt AND p.tipo_modulo = 'GENERICA')
+          OR (p.tipo_prueba = 'Saber Pro' AND p.grupo_referencia = e.grupo_referencia_pro AND p.tipo_modulo = 'GENERICA' AND p.escala_no_comparable = 0)
+        WHERE p.institucion IN (?, ?) AND p.programa IN (?, ?)
+        GROUP BY e.area_homologada, p.modulo
+        ORDER BY e.area_homologada, p.modulo
+    ");
+    $stmt->bind_param('ssss', $nombresDistrital[0], $nombresDistrital[1], $programaTelematica, $programaSistematizacion);
+    $stmt->execute();
+    $areasProgramas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $stmt = $connResultados->prepare("
+        SELECT e.area_homologada,
+               ROUND(AVG(CASE WHEN p.tipo_prueba='Saber TyT' THEN p.promedio_puntaje END), 1) AS promedio_tyt,
+               ROUND(AVG(CASE WHEN p.tipo_prueba='Saber Pro' THEN p.promedio_puntaje END), 1) AS promedio_pro
+        FROM tabla_equivalencia_areas e
+        JOIN vista_resultados_programa p
+          ON (p.tipo_prueba = 'Saber TyT' AND p.grupo_referencia = e.grupo_referencia_tyt AND p.tipo_modulo = 'ESPECIFICA')
+          OR (p.tipo_prueba = 'Saber Pro' AND p.grupo_referencia = e.grupo_referencia_pro AND p.tipo_modulo = 'ESPECIFICA' AND p.escala_no_comparable = 0)
+        WHERE p.institucion IN (?, ?) AND p.programa IN (?, ?)
+        GROUP BY e.area_homologada
+        ORDER BY e.area_homologada
+    ");
+    $stmt->bind_param('ssss', $nombresDistrital[0], $nombresDistrital[1], $programaTelematica, $programaSistematizacion);
+    $stmt->execute();
+    $areasEspecificasProgramas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $stmt = $connResultados->prepare("
+        SELECT p.anio, p.tipo_prueba, COALESCE(r.region, 'SIN CLASIFICAR') AS region, p.modulo,
+               p.cantidad_evaluados, p.promedio_puntaje, p.escala_no_comparable
+        FROM vista_resultados_programa p
+        LEFT JOIN tabla_departamento_region r ON r.departamento = p.departamento
+        WHERE p.institucion IN (?, ?) AND p.programa IN (?, ?) AND p.tipo_modulo = 'GENERICA'
+        ORDER BY region, anio, tipo_prueba, modulo
+    ");
+    $stmt->bind_param('ssss', $nombresDistrital[0], $nombresDistrital[1], $programaTelematica, $programaSistematizacion);
+    $stmt->execute();
+    $regionesProgramas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+// Selección final según el ámbito activo: de aquí en adelante el resto
+// del archivo sigue usando $tendencia/$areas/$areasEspecificas/$regiones
+// tal como ya lo hacía (no hace falta tocar el resto del dashboard).
+switch ($ambito) {
+    case 'universidad':
+        $tendencia = $tendenciaDistrital;
+        $areas = $areasUniversidad;
+        $areasEspecificas = $areasEspecificasUniversidad;
+        $regiones = $regionesUniversidad;
+        break;
+    case 'programas':
+        $tendencia = array_merge($filasTelematicaGenerica, $filasSistematizacionGenerica);
+        $areas = $areasProgramas;
+        $areasEspecificas = $areasEspecificasProgramas;
+        $regiones = $regionesProgramas;
+        break;
+    default: // nacional
+        $tendencia = $tendenciaNacional;
+        $areas = $areasNacional;
+        $areasEspecificas = $areasEspecificasNacional;
+        $regiones = $regionesNacional;
+}
+
+$tituloTendencia = $ambito === 'nacional'
+    ? '¿Mejoran los resultados con el tiempo?'
+    : ($ambito === 'universidad' ? 'Tendencia — Universidad Distrital' : 'Tendencia — Programas UD (Telemática y Sistematización)');
 
 // ---------------------------------------------------------------------
 // KPIs y conclusiones automáticas (se calculan aquí para no duplicar
@@ -118,9 +362,14 @@ function resumenAnios(array $seleccionados, array $todos): string
     return count($seleccionados) . ' años seleccionados';
 }
 
+// El año "reciente" de Saber T&T depende del ámbito: a nivel programa
+// (vista_resultados_programa) no hay T&T 2017 ni 2024 (ver comentario en
+// vistas_dashboard_resultados.sql), el año más reciente ahí es 2018.
+$tytAnioReciente = ($ambito === 'programas') ? 2018 : 2024;
+
 $proReciente = promedioGeneral($tendencia, 2018, 'Saber Pro');
 $proInicial  = promedioGeneral($tendencia, 2016, 'Saber Pro');
-$tytReciente = promedioGeneral($tendencia, 2024, 'Saber TyT');
+$tytReciente = promedioGeneral($tendencia, $tytAnioReciente, 'Saber TyT');
 $tytInicial  = promedioGeneral($tendencia, 2016, 'Saber TyT');
 
 $variacionPro = ($proReciente !== null && $proInicial !== null) ? round($proReciente - $proInicial, 1) : null;
@@ -130,6 +379,13 @@ $totalEvaluados = 0;
 foreach ($tendencia as $f) {
     $totalEvaluados += (int) ($f['cantidad_evaluados'] ?? 0);
 }
+
+// Baseline nacional fijo: usado solo para las comparaciones "vs. promedio
+// nacional" de Conclusiones, que deben seguir comparando contra el país
+// real sin importar el ámbito activo (a diferencia de $proReciente/
+// $tytReciente de arriba, que ahora sí varían con el ámbito).
+$proRecienteNacional = promedioGeneral($tendenciaNacional, 2018, 'Saber Pro');
+$tytRecienteNacional = promedioGeneral($tendenciaNacional, 2024, 'Saber TyT');
 
 $modulosDisponibles = ['COMPETENCIAS CIUDADANAS', 'COMUNICACIÓN ESCRITA', 'INGLÉS', 'LECTURA CRÍTICA', 'RAZONAMIENTO CUANTITATIVO'];
 $aniosDisponibles = [2015, 2016, 2017, 2018, 2024];
@@ -148,11 +404,28 @@ if (!$aniosSeleccionados) $aniosSeleccionados = [2018];
 sort($aniosSeleccionados);
 
 // ---------------------------------------------------------------------
+// Top de instituciones y Top de programas académicos: solo tienen sentido
+// como "ranking de 10" con el ámbito 'nacional' (con 'universidad' hay una
+// sola institución y con 'programas' solo 2 programas — ver Conclusiones,
+// que ya cubre el detalle de esos casos). Con los otros dos ámbitos ni
+// siquiera se consultan.
+// ---------------------------------------------------------------------
+$mejoresInstituciones = [];
+$peoresInstituciones = [];
+$mejoresProgramas = [];
+$peoresProgramas = [];
+$aniosInst = $aniosSeleccionados;
+$aniosProgramaDisponibles = [2015, 2016, 2017, 2018];
+$aniosProg = array_values(array_intersect($aniosSeleccionados, $aniosProgramaDisponibles));
+$anioProgDisponible = (bool) $aniosProg;
+$modulosProgramaDisponibles = [];
+$moduloProg = '';
+
+if ($ambito === 'nacional') {
+
 // Top de instituciones (requiere año específico + prueba + módulo:
 // es demasiada información para mandar toda al navegador, se filtra
 // aquí mismo con GET y se recalcula al enviar el formulario).
-// ---------------------------------------------------------------------
-$aniosInst = $aniosSeleccionados; // instituciones cubre todo $aniosDisponibles
 $aniosInstSql = implode(',', $aniosInst); // ya validados contra $aniosDisponibles (whitelist de enteros)
 $tipoInst = in_array($_GET['tipo_inst'] ?? '', ['Saber Pro', 'Saber TyT']) ? $_GET['tipo_inst'] : 'Saber Pro';
 $moduloInst = in_array($_GET['modulo_inst'] ?? '', $modulosDisponibles) ? $_GET['modulo_inst'] : 'RAZONAMIENTO CUANTITATIVO';
@@ -203,20 +476,12 @@ $peoresInstituciones = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 // este nivel de detalle (ver comentario en la vista), por eso no están
 // en $aniosProgramaDisponibles.
 // ---------------------------------------------------------------------
-$aniosProgramaDisponibles = [2015, 2016, 2017, 2018];
-
-// El filtro principal puede traer años que esta vista no cubre (p. ej.
-// 2024): se usa solo la intersección, y si queda vacía no se consulta
-// nada y se avisa en el cuadro en vez de mostrar en silencio otro año.
-$aniosProg = array_values(array_intersect($aniosSeleccionados, $aniosProgramaDisponibles));
-$anioProgDisponible = (bool) $aniosProg;
 $aniosProgSql = $anioProgDisponible ? implode(',', $aniosProg) : '';
 $tipoProg = in_array($_GET['tipo_prog'] ?? '', ['Saber Pro', 'Saber TyT']) ? $_GET['tipo_prog'] : 'Saber Pro';
 $tipoModuloProg = in_array($_GET['tipomodulo_prog'] ?? '', ['GENERICA', 'ESPECIFICA']) ? $_GET['tipomodulo_prog'] : 'GENERICA';
 
 // El módulo depende de tipo_prueba + tipo_modulo (los específicos varían
 // por carrera), así que la lista de opciones se calcula en vivo.
-$modulosProgramaDisponibles = [];
 if ($anioProgDisponible) {
     $stmt = $connResultados->prepare("
         SELECT DISTINCT modulo
@@ -236,8 +501,6 @@ $moduloProg = in_array($moduloProgCrudo, $modulosProgramaDisponibles, true)
 
 // Igual que instituciones: con varios años se agrupa por programa +
 // institución y se promedia ponderando por cantidad_evaluados.
-$mejoresProgramas = [];
-$peoresProgramas = [];
 if ($moduloProg !== '') {
     $stmt = $connResultados->prepare("
         SELECT p.programa, p.institucion, COALESCE(r.region, 'SIN CLASIFICAR') AS region,
@@ -272,51 +535,19 @@ if ($moduloProg !== '') {
     $peoresProgramas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
+} // fin if ($ambito === 'nacional') — Top de instituciones / Top de programas
+
 // ---------------------------------------------------------------------
-// Conclusiones — a diferencia del resto del dashboard (que es nacional),
-// esta sección se limita a la Universidad Distrital Francisco José de
-// Caldas y a los programas de Ingeniería en Telemática (Saber Pro) y
-// Tecnología en Sistematización de Datos (Saber T&T). El nombre de la
-// institución aparece con dos variantes en los datos según el archivo
-// ICFES de origen; se consulta con ambas. Reutiliza promedioGeneral() y
-// moduloExtremos() ya definidas arriba para el resto del dashboard.
+// Conclusiones — a diferencia del resto del dashboard (que varía con el
+// ámbito elegido), esta sección se limita SIEMPRE a la Universidad
+// Distrital Francisco José de Caldas y a los programas de Ingeniería en
+// Telemática (Saber Pro) y Tecnología en Sistematización de Datos
+// (Saber T&T), sin importar el ámbito activo. $tendenciaDistrital,
+// $filasTelematica, $filasSistematizacion, $filasTelematicaGenerica y
+// $filasSistematizacionGenerica ya se calcularon arriba (las usa también
+// el ámbito 'universidad'/'programas' del resto del dashboard). Reutiliza
+// promedioGeneral() y moduloExtremos() ya definidas arriba.
 // ---------------------------------------------------------------------
-$nombresDistrital = [
-    'UNIVERSIDAD DISTRITAL FRANCISCO JOSE DE CALDAS',
-    'UNIVERSIDAD DISTRITAL"FRANCISCO JOSE DE CALDAS"-BOGOTÁ D.C.',
-];
-$programaTelematica = 'INGENIERIA EN TELEMATICA';
-$programaSistematizacion = 'TECNOLOGIA EN SISTEMATIZACION DE DATOS';
-
-$stmt = $connResultados->prepare("
-    SELECT anio, tipo_prueba, modulo, promedio_puntaje, cantidad_evaluados, escala_no_comparable
-    FROM vista_resultados_institucion
-    WHERE institucion IN (?, ?)
-    ORDER BY anio, tipo_prueba, modulo
-");
-$stmt->bind_param('ss', $nombresDistrital[0], $nombresDistrital[1]);
-$stmt->execute();
-$tendenciaDistrital = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-
-$stmt = $connResultados->prepare("
-    SELECT anio, tipo_prueba, tipo_modulo, modulo, promedio_puntaje, cantidad_evaluados, escala_no_comparable
-    FROM vista_resultados_programa
-    WHERE institucion IN (?, ?) AND programa = ?
-    ORDER BY anio, tipo_prueba, tipo_modulo, modulo
-");
-$stmt->bind_param('sss', $nombresDistrital[0], $nombresDistrital[1], $programaTelematica);
-$stmt->execute();
-$filasTelematica = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-
-$stmt->bind_param('sss', $nombresDistrital[0], $nombresDistrital[1], $programaSistematizacion);
-$stmt->execute();
-$filasSistematizacion = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-
-// Para la tendencia año a año solo se usan los módulos genéricos (los
-// específicos cambian de nombre de un año a otro, ver comentario de
-// $areasEspecificas más arriba).
-$filasTelematicaGenerica = array_values(array_filter($filasTelematica, fn($f) => $f['tipo_modulo'] === 'GENERICA'));
-$filasSistematizacionGenerica = array_values(array_filter($filasSistematizacion, fn($f) => $f['tipo_modulo'] === 'GENERICA'));
 
 // Universidad completa: mismos años que las KPI nacionales (2016→2018
 // para Saber Pro, 2016→2024 para Saber T&T) para comparar manzanas con
@@ -335,8 +566,8 @@ $variacionTytDistrital = ($distritalTytReciente !== null && $distritalTytInicial
 
 // Universidad vs. promedio nacional, mismo año y misma prueba ($proReciente
 // y $tytReciente ya están calculados arriba a nivel nacional).
-$diffProVsNacional = ($distritalProReciente !== null && $proReciente !== null) ? round($distritalProReciente - $proReciente, 1) : null;
-$diffTytVsNacional = ($distritalTytReciente !== null && $tytReciente !== null) ? round($distritalTytReciente - $tytReciente, 1) : null;
+$diffProVsNacional = ($distritalProReciente !== null && $proRecienteNacional !== null) ? round($distritalProReciente - $proRecienteNacional, 1) : null;
+$diffTytVsNacional = ($distritalTytReciente !== null && $tytRecienteNacional !== null) ? round($distritalTytReciente - $tytRecienteNacional, 1) : null;
 
 // Ingeniería en Telemática (solo tiene datos en Saber Pro)
 $telematica2018 = promedioGeneral($filasTelematicaGenerica, 2018, 'Saber Pro');
@@ -384,8 +615,15 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
         <h2>Dashboard de Resultados — Saber Pro y Saber T&T (ICFES)</h2>
       
         <div class="panel-dashboard panel-filtro-principal">
-            <div class="campo-form" style="min-width:220px;margin-bottom:0;">
-                <label for="multiselectAnioBoton">Filtro principal · Año(s)</label>
+            <div class="campo-form" style="min-width:280px;margin-bottom:0;">
+                <label for="filtroAmbito">Filtro principal · Ámbito</label>
+                <select id="filtroAmbito" onchange="cambiarAmbito(this)">
+                    <option value="programas" <?= $ambito === 'programas' ? 'selected' : '' ?>>Programas UD (Telemática y Sistematización de Datos)</option>
+                    <option value="universidad" <?= $ambito === 'universidad' ? 'selected' : '' ?>>Toda la Universidad Distrital</option>
+                    <option value="nacional" <?= $ambito === 'nacional' ? 'selected' : '' ?>>Todas las instituciones y programas</option>
+                </select>
+
+                <label for="multiselectAnioBoton">Año(s)</label>
                 <div class="multiselect" id="multiselectAnio">
                     <button type="button" class="multiselect-boton" id="multiselectAnioBoton" onclick="toggleMultiselectAnio()">
                         <span id="multiselectAnioResumen"><?= htmlspecialchars(resumenAnios(array_map('strval', $aniosSeleccionados), array_map('strval', $aniosDisponibles))) ?></span>
@@ -407,7 +645,7 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
                 </div>
             </div>
             <p style="color:#777;font-size:13px;margin:0;flex:1;min-width:260px;">
-                Marca uno o varios años: cada clic filtra al instante todos los cuadros que dependen de un año específico (comparación por región, top de instituciones y top de programas académicos). Con varios años, esos dos últimos promedian ponderando por la cantidad de evaluados de cada año. Tendencia (varios años a la vez) y Áreas (sin año en sus datos) no cambian con este filtro.
+                <strong>Ámbito actual:</strong> <?= htmlspecialchars($ambitoEtiquetas[$ambito]) ?>. El ámbito recorta todo el dashboard (KPIs, gráficos, tablas y conclusiones); con 'Programas UD' o 'Universidad Distrital' se ocultan los rankings "Top de instituciones"/"Top de programas" (dejan de tener sentido con 1-2 elementos) y el panel de tendencia por programa (ya lo cubre la Tendencia de arriba). El año(s) filtra además, al instante, los cuadros que dependen de un año específico (comparación por región<?= $ambito === 'nacional' ? ', top de instituciones y top de programas académicos' : '' ?>); con varios años esos promedian ponderando por la cantidad de evaluados de cada año. Tendencia (varios años a la vez) y Áreas (sin año en sus datos) no cambian con el filtro de año.
             </p>
             <button type="button" class="btn-secundario" onclick="limpiarFiltros()">Limpiar filtros</button>
         </div>
@@ -418,7 +656,7 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
                 <span class="info-stat-valor"><?= $proReciente !== null ? number_format($proReciente, 1) : '—' ?></span>
             </div>
             <div class="info-stat">
-                <span class="info-stat-label">Saber T&T 2024 (promedio)</span>
+                <span class="info-stat-label">Saber T&T <?= $tytAnioReciente ?> (promedio)</span>
                 <span class="info-stat-valor"><?= $tytReciente !== null ? number_format($tytReciente, 1) : '—' ?></span>
             </div>
             <div class="info-stat">
@@ -426,7 +664,7 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
                 <span class="info-stat-valor"><?= $variacionPro !== null ? ($variacionPro >= 0 ? '+' : '') . number_format($variacionPro, 1) : '—' ?></span>
             </div>
             <div class="info-stat">
-                <span class="info-stat-label">Variación Saber T&T (2016→2024)</span>
+                <span class="info-stat-label">Variación Saber T&T (2016→<?= $tytAnioReciente ?>)</span>
                 <span class="info-stat-valor"><?= $variacionTyt !== null ? ($variacionTyt >= 0 ? '+' : '') . number_format($variacionTyt, 1) : '—' ?></span>
             </div>
             <div class="info-stat">
@@ -438,16 +676,16 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
         <div class="panel-dashboard">
             <h2 style="margin-top:0;">Conclusiones — Universidad Distrital Francisco José de Caldas</h2>
             <p style="color:#777;font-size:14px;margin-top:-8px;">
-                Limitadas a esta universidad y a los programas de Ingeniería en Telemática (Saber Pro) y Tecnología en Sistematización de Datos (Saber T&T). El resto del dashboard, más abajo, es nacional.
+                Limitadas a esta universidad y a los programas de Ingeniería en Telemática (Saber Pro) y Tecnología en Sistematización de Datos (Saber T&T), sin importar el ámbito elegido arriba. El resto del dashboard, más abajo, está limitado a: <strong><?= htmlspecialchars($ambitoEtiquetas[$ambito]) ?></strong>.
             </p>
             <div class="resultado-info">
                 <p><strong>Tendencia Saber Pro (universidad):</strong> <?= htmlspecialchars(textoTendencia($variacionProDistrital, 'La universidad en Saber Pro')) ?></p>
                 <p><strong>Tendencia Saber T&T (universidad):</strong> <?= htmlspecialchars(textoTendencia($variacionTytDistrital, 'La universidad en Saber T&T')) ?></p>
                 <?php if ($diffProVsNacional !== null): ?>
-                    <p><strong>Frente al promedio nacional (Saber Pro 2018):</strong> la universidad quedó <?= $diffProVsNacional >= 0 ? number_format($diffProVsNacional, 1) . ' pts por encima' : number_format(abs($diffProVsNacional), 1) . ' pts por debajo' ?> del promedio nacional (<?= number_format($proReciente, 1) ?> pts).</p>
+                    <p><strong>Frente al promedio nacional (Saber Pro 2018):</strong> la universidad quedó <?= $diffProVsNacional >= 0 ? number_format($diffProVsNacional, 1) . ' pts por encima' : number_format(abs($diffProVsNacional), 1) . ' pts por debajo' ?> del promedio nacional (<?= number_format($proRecienteNacional, 1) ?> pts).</p>
                 <?php endif; ?>
                 <?php if ($diffTytVsNacional !== null): ?>
-                    <p><strong>Frente al promedio nacional (Saber T&T 2024):</strong> la universidad quedó <?= $diffTytVsNacional >= 0 ? number_format($diffTytVsNacional, 1) . ' pts por encima' : number_format(abs($diffTytVsNacional), 1) . ' pts por debajo' ?> del promedio nacional (<?= number_format($tytReciente, 1) ?> pts).</p>
+                    <p><strong>Frente al promedio nacional (Saber T&T 2024):</strong> la universidad quedó <?= $diffTytVsNacional >= 0 ? number_format($diffTytVsNacional, 1) . ' pts por encima' : number_format(abs($diffTytVsNacional), 1) . ' pts por debajo' ?> del promedio nacional (<?= number_format($tytRecienteNacional, 1) ?> pts).</p>
                 <?php endif; ?>
                 <?php if ($moduloMejorProDistrital): ?>
                     <p><strong>En Saber Pro</strong>, el módulo con mejor promedio histórico de la universidad es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloMejorProDistrital))) ?></em> y el más débil es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloPeorProDistrital))) ?></em>.</p>
@@ -473,9 +711,16 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
         <div class="panel-dashboard">
             <div class="panel-dashboard-grid">
                 <div class="panel-dashboard-info">
-                    <h2>¿Mejoran los resultados con el tiempo?</h2>
+                    <h2><?= htmlspecialchars($tituloTendencia) ?></h2>
                     <p style="color:#777;font-size:14px;">
-                        Tendencia nacional por año (2015-2024). El filtro de abajo solo afecta este gráfico.
+                        <?php if ($ambito === 'nacional'): ?>
+                            Tendencia nacional por año (2015-2024). El filtro de abajo solo afecta este gráfico.
+                        <?php elseif ($ambito === 'universidad'): ?>
+                            Tendencia de toda la Universidad Distrital por año. El filtro de abajo solo afecta este gráfico.
+                        <?php else: ?>
+                            Ingeniería en Telemática (Saber Pro) vs. Tecnología en Sistematización de Datos (Saber T&T), solo módulos genéricos. El filtro de abajo solo afecta este gráfico.
+                        <?php endif; ?>
+                        Se muestra el % del puntaje máximo oficial de cada prueba (Saber Pro: 300 pts · Saber T&T: 200 pts), para poder comparar ambas de forma equitativa aunque usan escalas distintas; el detalle en puntos aparece al pasar el cursor. 2015 queda fuera por tener una escala antigua sin máximo oficial.
                     </p>
                     <div class="panel-dashboard-filtros">
                         <div class="campo-form">
@@ -506,12 +751,52 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
             </div>
         </div>
 
+        <?php if ($ambito === 'nacional'): ?>
+        <div class="panel-dashboard">
+            <div class="panel-dashboard-grid">
+                <div class="panel-dashboard-info">
+                    <h2>Tendencia por programa — Universidad Distrital</h2>
+                    <p style="color:#777;font-size:14px;">
+                        Ingeniería en Telemática (Saber Pro) vs. Tecnología en Sistematización de Datos (Saber T&T), solo módulos genéricos. El filtro de abajo solo afecta este gráfico.
+                        Igual que en la tendencia nacional, se muestra el % del puntaje máximo oficial de cada prueba (Saber Pro: 300 pts · Saber T&T: 200 pts) para comparar ambos programas de forma equitativa; el puntaje crudo aparece en el tooltip. 2015 queda fuera por tener una escala antigua sin máximo oficial (solo afecta a Telemática, la única con datos ese año).
+                    </p>
+                    <div class="panel-dashboard-filtros">
+                        <div class="campo-form">
+                            <label for="filtroModuloProgramaDistrital">Módulo / competencia</label>
+                            <select id="filtroModuloProgramaDistrital">
+                                <option value="">Todos (promedio)</option>
+                                <?php foreach ($modulosDisponibles as $m): ?>
+                                    <option value="<?= htmlspecialchars($m) ?>"><?= htmlspecialchars(ucwords(mb_strtolower($m))) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="info-simulacro" style="flex-wrap:wrap;">
+                        <div class="info-stat">
+                            <span class="info-stat-label">Mínimo mostrado</span>
+                            <span class="info-stat-valor" id="kpiProgramaDistritalMin">—</span>
+                        </div>
+                        <div class="info-stat">
+                            <span class="info-stat-label">Máximo mostrado</span>
+                            <span class="info-stat-valor" id="kpiProgramaDistritalMax">—</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-dashboard-grafico" onclick="abrirModalGrafico('programaDistrital')" title="Clic para ampliar">
+                    <canvas id="graficoProgramaDistrital"></canvas>
+                    <span class="grafico-ampliar-icono">⤢</span>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+
         <div class="panel-dashboard">
             <div class="panel-dashboard-grid">
                 <div class="panel-dashboard-info">
                     <h2>Comparación por área (Saber T&T vs. Saber Pro)</h2>
                     <p style="color:#777;font-size:14px;">
                         El cruce entre las categorías de T&T y de Pro es un criterio propio (no existe en los datos originales) — ver <code>tabla_equivalencia_areas</code>. Los filtros de abajo solo afectan este gráfico.
+                        Los valores se muestran como % del puntaje máximo oficial de cada prueba (Saber Pro: 300 pts · Saber T&T: 200 pts): al no compartir escala, comparar el puntaje crudo exageraría la brecha entre ambas. El puntaje crudo original queda disponible en el tooltip.
                     </p>
                     <div class="panel-dashboard-filtros">
                         <div class="campo-form">
@@ -552,12 +837,62 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
             </div>
         </div>
 
+        <?php if ($ambito === 'universidad'): ?>
+        <div class="panel-dashboard">
+            <h2>Detalle por programa académico (Saber T&T vs. Saber Pro) — Universidad Distrital</h2>
+            <p style="color:#777;font-size:14px;margin-top:-8px;">
+                Mismo cruce que "Comparación por área" de arriba, pero sin agrupar por área homologada: cada barra es un programa académico de la universidad, con el nombre tal como está registrado en los resultados del ICFES (sin pasar por <code>tabla_equivalencia_areas</code>). Los filtros de abajo solo afectan este gráfico.
+                Igual que en Áreas, se muestra el % del puntaje máximo oficial de cada prueba (Saber Pro: 300 pts · Saber T&T: 200 pts); el puntaje crudo aparece en el tooltip.
+            </p>
+            <div class="fila-horizontal" style="max-width:600px;">
+                <div class="campo-form">
+                    <label for="filtroTipoModuloProgramaDetalle">Tipo de módulo</label>
+                    <select id="filtroTipoModuloProgramaDetalle">
+                        <option value="generica">Genérica (5 competencias comunes a todos)</option>
+                        <option value="especifica">Específica (propia de cada carrera)</option>
+                    </select>
+                </div>
+                <div class="campo-form">
+                    <label for="filtroModuloProgramaDetalle">Módulo / competencia</label>
+                    <select id="filtroModuloProgramaDetalle">
+                        <option value="">Todos (promedio)</option>
+                        <?php foreach ($modulosDisponibles as $m): ?>
+                            <option value="<?= htmlspecialchars($m) ?>"><?= htmlspecialchars(ucwords(mb_strtolower($m))) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <p style="color:#777;font-size:13px;" id="notaModuloEspecificaProgramaDetalle">
+                Al elegir "Específica" el filtro de módulo no aplica: cada carrera tiene sus propios módulos específicos, así que se promedian todos los de cada programa.
+            </p>
+            <div class="info-simulacro" style="flex-wrap:wrap;">
+                <div class="info-stat">
+                    <span class="info-stat-label">Mínimo mostrado</span>
+                    <span class="info-stat-valor" id="kpiProgramaDetalleMin">—</span>
+                </div>
+                <div class="info-stat">
+                    <span class="info-stat-label">Máximo mostrado</span>
+                    <span class="info-stat-valor" id="kpiProgramaDetalleMax">—</span>
+                </div>
+            </div>
+            <div style="overflow-x:auto;">
+                <div id="graficoProgramaDetalleWrap" style="position:relative;height:420px;min-width:900px;">
+                    <canvas id="graficoProgramaDetalle"></canvas>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+
         <div class="panel-dashboard">
             <div class="panel-dashboard-grid">
                 <div class="panel-dashboard-info">
                     <h2>Comparación por región (Saber T&T vs. Saber Pro)</h2>
                     <p style="color:#777;font-size:14px;">
                         Solo con módulos genéricos (a nivel institución solo se homologaron esos). El año lo controla el filtro principal de arriba; el filtro de módulo de abajo solo afecta este gráfico.
+                        Igual que en Áreas, se muestra el % del puntaje máximo oficial de cada prueba (Saber Pro: 300 pts · Saber T&T: 200 pts) para que la comparación entre pruebas sea equitativa; el puntaje crudo aparece en el tooltip.
+                        <?php if ($ambito !== 'nacional'): ?>
+                            Con el ámbito actual (<?= htmlspecialchars($ambitoEtiquetas[$ambito]) ?>) es normal ver una sola región (Andina/Bogotá): la Universidad Distrital está en un solo departamento.
+                        <?php endif; ?>
                     </p>
                     <div class="panel-dashboard-filtros">
                         <div class="campo-form">
@@ -588,12 +923,14 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
             </div>
         </div>
 
+        <?php if ($ambito === 'nacional'): ?>
         <div class="panel-dashboard">
             <h2>Top de instituciones</h2>
             <p style="color:#777;font-size:14px;margin-top:-8px;">
                 Solo instituciones con al menos 30 registros en esa combinación. El/los año(s) lo controla el filtro principal de arriba (año(s) actual(es): <strong><?= implode(', ', $aniosInst) ?></strong>); los filtros de abajo solo afectan las dos tablas de este recuadro.
             </p>
             <form method="get" class="fila-horizontal" style="align-items:flex-end;">
+                <input type="hidden" name="ambito" value="nacional">
                 <?php foreach ($aniosSeleccionados as $a): ?>
                     <input type="hidden" name="anio[]" value="<?= $a ?>">
                 <?php endforeach; ?>
@@ -675,6 +1012,7 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
                 </p>
             <?php endif; ?>
             <form method="get" class="fila-horizontal" style="align-items:flex-end;">
+                <input type="hidden" name="ambito" value="nacional">
                 <?php foreach ($aniosSeleccionados as $a): ?>
                     <input type="hidden" name="anio[]" value="<?= $a ?>">
                 <?php endforeach; ?>
@@ -749,6 +1087,13 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
                 </div>
             </div>
         </div>
+        <?php else: ?>
+        <div class="panel-dashboard">
+            <p style="color:#777;font-size:14px;margin:0;">
+                Los rankings "Top de instituciones" y "Top de programas académicos" solo se muestran con el ámbito "Todas las instituciones y programas": con el ámbito actual (<?= htmlspecialchars($ambitoEtiquetas[$ambito]) ?>) hay muy poca información (1 institución o 1-2 programas) para que un ranking de 10 tenga sentido. Ver la sección Conclusiones, más arriba, para el detalle de esos programas.
+            </p>
+        </div>
+        <?php endif; ?>
 
     </div>
 </div>
@@ -773,9 +1118,56 @@ const datosTendencia = <?= json_encode($tendencia, JSON_UNESCAPED_UNICODE) ?>;
 const datosAreas = <?= json_encode($areas, JSON_UNESCAPED_UNICODE) ?>;
 const datosAreasEspecificas = <?= json_encode($areasEspecificas, JSON_UNESCAPED_UNICODE) ?>;
 const datosRegiones = <?= json_encode($regiones, JSON_UNESCAPED_UNICODE) ?>;
+const datosProgramaTelematica = <?= json_encode($filasTelematicaGenerica, JSON_UNESCAPED_UNICODE) ?>;
+const datosProgramaSistematizacion = <?= json_encode($filasSistematizacionGenerica, JSON_UNESCAPED_UNICODE) ?>;
+const datosProgramaDetalleGenerica = <?= json_encode($programasDetalleGenerica, JSON_UNESCAPED_UNICODE) ?>;
+const datosProgramaDetalleEspecifica = <?= json_encode($programasDetalleEspecifica, JSON_UNESCAPED_UNICODE) ?>;
 
 const coloresPro = { linea: '#0056b3', barra: '#0073e6' };
 const coloresTyt = { linea: '#e74c3c', barra: '#f4a3a3' };
+
+// ---------------------------------------------------------------------
+// Escala porcentual comparable entre pruebas.
+//
+// Saber Pro y Saber T&T NO usan la misma escala de puntaje, aunque en
+// los gráficos de abajo se muestran uno junto al otro: desde 2016 Saber
+// Pro reporta cada módulo en una escala oficial de 0 a 300 (media=150,
+// DE=30 — Res. ICFES 268 de 2020 / guía de orientación Saber Pro),
+// mientras que Saber T&T usa una escala oficial de 0 a 200 (media=100,
+// DE=20 — guía de orientación de módulos genéricos Saber T&T). Comparar
+// el puntaje crudo de una contra la otra sobrestima la brecha (ej. un
+// mismo nivel relativo de desempeño se ve como "más bajo" en T&T solo
+// por tener un techo de escala más chico). Por eso Tendencia, Áreas y
+// Regiones convierten cada promedio a % de su propio máximo oficial
+// antes de graficarlo; el tooltip de cada punto/barra sigue mostrando
+// el puntaje crudo original entre paréntesis.
+//
+// 2015 (Saber Pro, escala_no_comparable=1) queda fuera de este cálculo
+// a propósito: esa escala vieja no tiene un máximo oficial acotado (es
+// una escala tipo z, media=10 DE=1), así que convertirla a "%" sería
+// inventar un techo que el ICFES nunca definió. Sigue excluida de estos
+// tres gráficos, igual que antes.
+const ESCALA_MAXIMA_OFICIAL = { 'Saber Pro': 300, 'Saber TyT': 200 };
+
+function aPorcentaje(valor, tipoPrueba) {
+    if (valor === null || valor === undefined || isNaN(valor)) return null;
+    const max = ESCALA_MAXIMA_OFICIAL[tipoPrueba];
+    if (!max) return null;
+    return Number((valor / max * 100).toFixed(1));
+}
+
+// Callback de tooltip compartido por los tres gráficos comparables: muestra
+// el % (lo que se grafica) y, entre paréntesis, el puntaje crudo original
+// sobre su propio máximo oficial (lo que se guardó en dataset._raw / _max
+// al armar cada dataset).
+function tooltipConPorcentaje(ctx) {
+    const pct = ctx.parsed.y;
+    if (pct === null || pct === undefined) return `${ctx.dataset.label}: sin datos`;
+    const raw = ctx.dataset._raw ? ctx.dataset._raw[ctx.dataIndex] : null;
+    const max = ctx.dataset._max;
+    const ptsTexto = (raw !== null && raw !== undefined && !isNaN(raw) && max) ? ` (${raw} de ${max} pts)` : '';
+    return `${ctx.dataset.label}: ${pct}%${ptsTexto}`;
+}
 
 // Registro de instancias de Chart.js por id de canvas: cada gráfico normal
 // (graficoTendencia, graficoAreas, graficoRegiones) tiene su versión
@@ -822,6 +1214,15 @@ function aplicarAnios(seleccionados) {
     window.location.search = params.toString();
 }
 
+// Filtro de ámbito: mismo patrón que aplicarAnios (cambia la URL
+// preservando el resto de filtros y recarga), pero de selección simple.
+function cambiarAmbito(select) {
+    const params = new URLSearchParams(window.location.search);
+    params.set('ambito', select.value);
+    mostrarSpinner();
+    window.location.search = params.toString();
+}
+
 function onCambioAnio(checkbox) {
     const anio = checkbox.value;
     let seleccionados = anioPrincipal.map(String);
@@ -855,6 +1256,8 @@ function enviarFiltro(form) {
 // Actualiza el par de KPIs "Mínimo mostrado" / "Máximo mostrado" que va
 // al lado de cada gráfico, a partir de los mismos valores ya graficados
 // (no de todo el dataset crudo, para que refleje justo lo que se ve).
+// Los tres gráficos que usan esto grafican % del máximo oficial de cada
+// prueba (ver ESCALA_MAXIMA_OFICIAL), de ahí el sufijo fijo.
 function actualizarKpiMinMax(prefijo, valores) {
     const limpios = valores.filter(v => v !== null && v !== undefined && !isNaN(v));
     const elMin = document.getElementById('kpi' + prefijo + 'Min');
@@ -864,8 +1267,8 @@ function actualizarKpiMinMax(prefijo, valores) {
         elMax.textContent = '—';
         return;
     }
-    elMin.textContent = Math.min(...limpios).toFixed(1);
-    elMax.textContent = Math.max(...limpios).toFixed(1);
+    elMin.textContent = Math.min(...limpios).toFixed(1) + '%';
+    elMax.textContent = Math.max(...limpios).toFixed(1) + '%';
 }
 
 function promedioPorAnioTipo(filas, tipo, modulo) {
@@ -898,19 +1301,71 @@ function dibujarTendencia(modulo, canvasId, actualizarKpis) {
         return todosLosAnios.map(a => (a in m) ? Number(m[a].toFixed(1)) : null);
     };
 
+    const rawPro = mapaValor(pro);
+    const rawTyt = mapaValor(tyt);
+    const pctPro = rawPro.map(v => aPorcentaje(v, 'Saber Pro'));
+    const pctTyt = rawTyt.map(v => aPorcentaje(v, 'Saber TyT'));
+
     crearOActualizarChart(canvasId, {
         type: 'line',
         data: {
             labels: todosLosAnios,
             datasets: [
-                { label: 'Saber Pro', data: mapaValor(pro), borderColor: coloresPro.linea, backgroundColor: coloresPro.linea, tension: 0.2, spanGaps: true },
-                { label: 'Saber T&T', data: mapaValor(tyt), borderColor: coloresTyt.linea, backgroundColor: coloresTyt.linea, tension: 0.2, spanGaps: true }
+                { label: 'Saber Pro', data: pctPro, borderColor: coloresPro.linea, backgroundColor: coloresPro.linea, tension: 0.2, spanGaps: true, _raw: rawPro, _max: ESCALA_MAXIMA_OFICIAL['Saber Pro'] },
+                { label: 'Saber T&T', data: pctTyt, borderColor: coloresTyt.linea, backgroundColor: coloresTyt.linea, tension: 0.2, spanGaps: true, _raw: rawTyt, _max: ESCALA_MAXIMA_OFICIAL['Saber TyT'] }
             ]
         },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } }
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { min: 0, max: 100, ticks: { callback: v => v + '%' } } },
+            plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: tooltipConPorcentaje } } }
+        }
     });
 
-    if (actualizarKpis) actualizarKpiMinMax('Tendencia', [...mapaValor(pro), ...mapaValor(tyt)]);
+    if (actualizarKpis) actualizarKpiMinMax('Tendencia', [...pctPro, ...pctTyt]);
+}
+
+function dibujarProgramaDistrital(modulo, canvasId, actualizarKpis) {
+    canvasId = canvasId || 'graficoProgramaDistrital';
+    actualizarKpis = actualizarKpis !== false;
+
+    // Mismo criterio que dibujarTendencia: se excluye 2015 (escala vieja de
+    // Telemática, sin máximo oficial). Sistematización no tiene fila 2015
+    // en absoluto (solo existe en Saber T&T).
+    const telematica = promedioPorAnioTipo(datosProgramaTelematica.filter(f => f.escala_no_comparable == 0), 'Saber Pro', modulo);
+    const sistematizacion = promedioPorAnioTipo(datosProgramaSistematizacion.filter(f => f.escala_no_comparable == 0), 'Saber TyT', modulo);
+    const todosLosAnios = [...new Set([...telematica.map(t => t.anio), ...sistematizacion.map(s => s.anio)])].sort((a, b) => a - b);
+
+    const mapaValor = (serie) => {
+        const m = {};
+        serie.forEach(s => m[s.anio] = s.promedio);
+        return todosLosAnios.map(a => (a in m) ? Number(m[a].toFixed(1)) : null);
+    };
+
+    const rawTelematica = mapaValor(telematica);
+    const rawSistematizacion = mapaValor(sistematizacion);
+    const pctTelematica = rawTelematica.map(v => aPorcentaje(v, 'Saber Pro'));
+    const pctSistematizacion = rawSistematizacion.map(v => aPorcentaje(v, 'Saber TyT'));
+
+    crearOActualizarChart(canvasId, {
+        type: 'line',
+        data: {
+            labels: todosLosAnios,
+            datasets: [
+                { label: 'Ingeniería en Telemática (Saber Pro)', data: pctTelematica, borderColor: coloresPro.linea, backgroundColor: coloresPro.linea, tension: 0.2, spanGaps: true, _raw: rawTelematica, _max: ESCALA_MAXIMA_OFICIAL['Saber Pro'] },
+                { label: 'Tecnología en Sistematización de Datos (Saber T&T)', data: pctSistematizacion, borderColor: coloresTyt.linea, backgroundColor: coloresTyt.linea, tension: 0.2, spanGaps: true, _raw: rawSistematizacion, _max: ESCALA_MAXIMA_OFICIAL['Saber TyT'] }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { min: 0, max: 100, ticks: { callback: v => v + '%' } } },
+            plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: tooltipConPorcentaje } } }
+        }
+    });
+
+    if (actualizarKpis) actualizarKpiMinMax('ProgramaDistrital', [...pctTelematica, ...pctSistematizacion]);
 }
 
 function dibujarAreas(modulo, tipoModulo, canvasId, actualizarKpis) {
@@ -931,27 +1386,82 @@ function dibujarAreas(modulo, tipoModulo, canvasId, actualizarKpis) {
     });
     const areasNombres = Object.keys(porArea).sort();
     const promedio = (arr) => arr.length ? Number((arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(1)) : null;
-    const valoresTyt = areasNombres.map(a => promedio(porArea[a].tyt));
-    const valoresPro = areasNombres.map(a => promedio(porArea[a].pro));
+    const rawTyt = areasNombres.map(a => promedio(porArea[a].tyt));
+    const rawPro = areasNombres.map(a => promedio(porArea[a].pro));
+    const pctTyt = rawTyt.map(v => aPorcentaje(v, 'Saber TyT'));
+    const pctPro = rawPro.map(v => aPorcentaje(v, 'Saber Pro'));
 
     crearOActualizarChart(canvasId, {
         type: 'bar',
         data: {
             labels: areasNombres,
             datasets: [
-                { label: 'Saber T&T', data: valoresTyt, backgroundColor: coloresTyt.barra },
-                { label: 'Saber Pro', data: valoresPro, backgroundColor: coloresPro.barra }
+                { label: 'Saber T&T', data: pctTyt, backgroundColor: coloresTyt.barra, _raw: rawTyt, _max: ESCALA_MAXIMA_OFICIAL['Saber TyT'] },
+                { label: 'Saber Pro', data: pctPro, backgroundColor: coloresPro.barra, _raw: rawPro, _max: ESCALA_MAXIMA_OFICIAL['Saber Pro'] }
             ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { position: 'top' } },
-            scales: { x: { ticks: { autoSkip: false, maxRotation: 40, minRotation: 40 } } }
+            plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: tooltipConPorcentaje } } },
+            scales: {
+                x: { ticks: { autoSkip: false, maxRotation: 40, minRotation: 40 } },
+                y: { min: 0, max: 100, ticks: { callback: v => v + '%' } }
+            }
         }
     });
 
-    if (actualizarKpis) actualizarKpiMinMax('Areas', [...valoresTyt, ...valoresPro]);
+    if (actualizarKpis) actualizarKpiMinMax('Areas', [...pctTyt, ...pctPro]);
+}
+
+// Contraparte "sin homologar" de dibujarAreas: mismo cruce T&T vs. Pro,
+// pero agrupando por programa (nombre original del ICFES) en vez de por
+// área homologada. Solo existe en el DOM con ámbito 'universidad' (ver
+// guardia más abajo, junto a las demás inicializaciones).
+function dibujarProgramaDetalle(modulo, tipoModulo) {
+    const fuente = tipoModulo === 'especifica' ? datosProgramaDetalleEspecifica : datosProgramaDetalleGenerica;
+    const filtradas = (tipoModulo === 'especifica' || !modulo) ? fuente : fuente.filter(p => p.modulo === modulo);
+
+    const porPrograma = {};
+    filtradas.forEach(p => {
+        if (!porPrograma[p.programa_legible]) porPrograma[p.programa_legible] = { tyt: [], pro: [] };
+        if (p.promedio_tyt !== null) porPrograma[p.programa_legible].tyt.push(parseFloat(p.promedio_tyt));
+        if (p.promedio_pro !== null) porPrograma[p.programa_legible].pro.push(parseFloat(p.promedio_pro));
+    });
+    const programasNombres = Object.keys(porPrograma).sort();
+    const promedio = (arr) => arr.length ? Number((arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(1)) : null;
+    const rawTyt = programasNombres.map(p => promedio(porPrograma[p].tyt));
+    const rawPro = programasNombres.map(p => promedio(porPrograma[p].pro));
+    const pctTyt = rawTyt.map(v => aPorcentaje(v, 'Saber TyT'));
+    const pctPro = rawPro.map(v => aPorcentaje(v, 'Saber Pro'));
+
+    // Con decenas de programas, 420px fijos amontonarían las etiquetas: el
+    // ancho del canvas escala con la cantidad de barras y el contenedor
+    // (ver HTML) scrollea horizontalmente en vez de comprimirlas.
+    const wrap = document.getElementById('graficoProgramaDetalleWrap');
+    if (wrap) wrap.style.minWidth = Math.max(900, programasNombres.length * 55) + 'px';
+
+    crearOActualizarChart('graficoProgramaDetalle', {
+        type: 'bar',
+        data: {
+            labels: programasNombres,
+            datasets: [
+                { label: 'Saber T&T', data: pctTyt, backgroundColor: coloresTyt.barra, _raw: rawTyt, _max: ESCALA_MAXIMA_OFICIAL['Saber TyT'] },
+                { label: 'Saber Pro', data: pctPro, backgroundColor: coloresPro.barra, _raw: rawPro, _max: ESCALA_MAXIMA_OFICIAL['Saber Pro'] }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: tooltipConPorcentaje } } },
+            scales: {
+                x: { ticks: { autoSkip: false, maxRotation: 60, minRotation: 60 } },
+                y: { min: 0, max: 100, ticks: { callback: v => v + '%' } }
+            }
+        }
+    });
+
+    actualizarKpiMinMax('ProgramaDetalle', [...pctTyt, ...pctPro]);
 }
 
 function dibujarRegiones(anios, modulo, canvasId, actualizarKpis) {
@@ -977,27 +1487,32 @@ function dibujarRegiones(anios, modulo, canvasId, actualizarKpis) {
     });
     const regionesNombres = Object.keys(porRegion).sort();
     const promedio = (arr) => arr.length ? Number((arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(1)) : null;
-    const valoresTyt = regionesNombres.map(r => promedio(porRegion[r].tyt));
-    const valoresPro = regionesNombres.map(r => promedio(porRegion[r].pro));
+    const rawTyt = regionesNombres.map(r => promedio(porRegion[r].tyt));
+    const rawPro = regionesNombres.map(r => promedio(porRegion[r].pro));
+    const pctTyt = rawTyt.map(v => aPorcentaje(v, 'Saber TyT'));
+    const pctPro = rawPro.map(v => aPorcentaje(v, 'Saber Pro'));
 
     crearOActualizarChart(canvasId, {
         type: 'bar',
         data: {
             labels: regionesNombres.map(r => r.charAt(0) + r.slice(1).toLowerCase()),
             datasets: [
-                { label: 'Saber T&T', data: valoresTyt, backgroundColor: coloresTyt.barra },
-                { label: 'Saber Pro', data: valoresPro, backgroundColor: coloresPro.barra }
+                { label: 'Saber T&T', data: pctTyt, backgroundColor: coloresTyt.barra, _raw: rawTyt, _max: ESCALA_MAXIMA_OFICIAL['Saber TyT'] },
+                { label: 'Saber Pro', data: pctPro, backgroundColor: coloresPro.barra, _raw: rawPro, _max: ESCALA_MAXIMA_OFICIAL['Saber Pro'] }
             ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { position: 'top' } },
-            scales: { x: { ticks: { autoSkip: false, maxRotation: 40, minRotation: 40 } } }
+            plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: tooltipConPorcentaje } } },
+            scales: {
+                x: { ticks: { autoSkip: false, maxRotation: 40, minRotation: 40 } },
+                y: { min: 0, max: 100, ticks: { callback: v => v + '%' } }
+            }
         }
     });
 
-    if (actualizarKpis) actualizarKpiMinMax('Regiones', [...valoresTyt, ...valoresPro]);
+    if (actualizarKpis) actualizarKpiMinMax('Regiones', [...pctTyt, ...pctPro]);
 }
 
 // Cada recuadro tiene su propio filtro (o par de filtros) y su propia
@@ -1006,6 +1521,10 @@ function dibujarRegiones(anios, modulo, canvasId, actualizarKpis) {
 
 function actualizarTendencia() {
     dibujarTendencia(document.getElementById('filtroModuloTendencia').value);
+}
+
+function actualizarProgramaDistrital() {
+    dibujarProgramaDistrital(document.getElementById('filtroModuloProgramaDistrital').value);
 }
 
 function actualizarArea() {
@@ -1022,6 +1541,14 @@ function actualizarRegion() {
     dibujarRegiones(anioPrincipal, modulo);
 }
 
+function actualizarProgramaDetalle() {
+    const tipoModulo = document.getElementById('filtroTipoModuloProgramaDetalle').value;
+    const selectModulo = document.getElementById('filtroModuloProgramaDetalle');
+    selectModulo.disabled = (tipoModulo === 'especifica');
+    document.getElementById('notaModuloEspecificaProgramaDetalle').style.display = (tipoModulo === 'especifica') ? '' : 'none';
+    dibujarProgramaDetalle(selectModulo.value, tipoModulo);
+}
+
 // ---------------------------------------------------------------------
 // Modal "ampliar gráfico": redibuja el mismo gráfico (con los filtros que
 // esté usando en ese momento) en un canvas más grande dentro del modal,
@@ -1030,7 +1557,8 @@ function actualizarRegion() {
 // ---------------------------------------------------------------------
 
 const titulosModalGrafico = {
-    tendencia: '¿Mejoran los resultados con el tiempo?',
+    tendencia: <?= json_encode($tituloTendencia, JSON_UNESCAPED_UNICODE) ?>,
+    programaDistrital: 'Tendencia por programa — Universidad Distrital',
     areas: 'Comparación por área (Saber T&T vs. Saber Pro)',
     regiones: 'Comparación por región (Saber T&T vs. Saber Pro)'
 };
@@ -1047,6 +1575,8 @@ function abrirModalGrafico(tipo) {
 
     if (tipo === 'tendencia') {
         dibujarTendencia(document.getElementById('filtroModuloTendencia').value, 'modalCanvas', false);
+    } else if (tipo === 'programaDistrital') {
+        dibujarProgramaDistrital(document.getElementById('filtroModuloProgramaDistrital').value, 'modalCanvas', false);
     } else if (tipo === 'areas') {
         const tipoModulo = document.getElementById('filtroTipoModuloArea').value;
         const modulo = document.getElementById('filtroModuloArea').value;
@@ -1078,6 +1608,24 @@ document.getElementById('filtroModuloTendencia').addEventListener('change', actu
 document.getElementById('filtroTipoModuloArea').addEventListener('change', actualizarArea);
 document.getElementById('filtroModuloArea').addEventListener('change', actualizarArea);
 document.getElementById('filtroModuloRegion').addEventListener('change', actualizarRegion);
+
+// El panel "Tendencia por programa — Universidad Distrital" solo existe
+// en el DOM con ámbito 'nacional' (ver PHP más arriba); en los otros dos
+// ámbitos ese mismo dato ya lo muestra el gráfico principal de Tendencia.
+const filtroProgramaDistritalEl = document.getElementById('filtroModuloProgramaDistrital');
+if (filtroProgramaDistritalEl) {
+    filtroProgramaDistritalEl.addEventListener('change', actualizarProgramaDistrital);
+    actualizarProgramaDistrital();
+}
+
+// "Detalle por programa académico" solo existe en el DOM con ámbito
+// 'universidad' (ver PHP más arriba).
+const filtroTipoModuloProgramaDetalleEl = document.getElementById('filtroTipoModuloProgramaDetalle');
+if (filtroTipoModuloProgramaDetalleEl) {
+    filtroTipoModuloProgramaDetalleEl.addEventListener('change', actualizarProgramaDetalle);
+    document.getElementById('filtroModuloProgramaDetalle').addEventListener('change', actualizarProgramaDetalle);
+    actualizarProgramaDetalle();
+}
 
 actualizarTendencia();
 actualizarArea();
