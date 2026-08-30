@@ -358,6 +358,46 @@ body {
     color: #e74c3c;
 }
 
+/* Botón hamburguesa: abre/cierra el sidebar en pantallas angostas.
+   Oculto en escritorio (el sidebar ya está siempre visible ahí);
+   se muestra solo dentro de la media query de abajo. */
+.sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    background-color: #1e272e;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25);
+    z-index: 1002;
+}
+
+.sidebar-toggle:hover {
+    background-color: #2f3b45;
+}
+
+/* Fondo oscuro detrás del sidebar cuando está abierto en móvil, para
+   indicar que el resto de la página quedó inactivo hasta cerrarlo. */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.5);
+    z-index: 999;
+}
+
+.sidebar-overlay.activo {
+    display: block;
+}
+
 /* Contenido principal */
 .content {
     margin-left: 240px; /* igual que el ancho del sidebar */
@@ -1246,4 +1286,74 @@ form input[readonly],
     width: 100%;
     height: 60vh;
     max-height: 520px;
+}
+
+/* ====== Responsive: sidebar y contenido en pantallas angostas (tablet
+   hacia abajo). El sidebar deja de ocupar espacio fijo y pasa a ser un
+   menú deslizable (off-canvas) que se abre con el botón hamburguesa;
+   el contenido pasa a ocupar el 100% del ancho. ====== */
+@media (max-width: 900px) {
+    .sidebar-toggle {
+        display: flex;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.28s ease;
+        z-index: 1001;
+        width: 260px;
+        max-width: 82vw;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .content {
+        margin-left: 0;
+        padding-top: 70px; /* espacio para no quedar tapado por el botón hamburguesa */
+    }
+
+    .contenedor-derecho {
+        padding: 20px 18px;
+    }
+
+    .contenedor-derecho h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contenedor-derecho {
+        padding: 16px 14px;
+    }
+}
+
+/* ====== Responsive: tablas. Con muchas columnas no caben en pantallas
+   angostas; en vez de aplastar el texto, la tabla se vuelve un bloque con
+   scroll horizontal propio (no arrastra el resto de la página con ella). */
+@media (max-width: 700px) {
+    .tabla-indicadores {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tabla-indicadores th,
+    .tabla-indicadores td {
+        padding: 12px 14px;
+    }
+}
+
+/* ====== Responsive: modales con menos padding para aprovechar el ancho
+   disponible en pantallas de celular. ====== */
+@media (max-width: 480px) {
+    .modal-box {
+        padding: 22px;
+    }
+
+    .modal-contenido {
+        padding: 18px 16px;
+    }
 }

@@ -1,0 +1,3 @@
+# Evita que Apache liste el contenido de las carpetas cuando no hay
+# un archivo index (por ejemplo al entrar a /universidad/ o /universidad/admin/)
+Options -Indexes
