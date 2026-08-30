@@ -27,7 +27,12 @@ $sidebarModulos = [
     ['href' => '../admin/admin_historial_simulacros.php',  'icono' => '🗂️', 'texto' => 'Historial General',        'roles' => ['admin']],
 ];
 ?>
-<div class="sidebar">
+<button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Abrir menú" aria-controls="sidebar" aria-expanded="false">
+    <span class="sidebar-toggle-icon">☰</span>
+</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="sidebar" id="sidebar">
     <div class="sidebar-brand">
         <div class="brand-icon">🎓</div>
         <div class="brand-text">
@@ -71,6 +76,51 @@ $sidebarModulos = [
     });
     document.addEventListener('click', function () {
         caja.classList.remove('open');
+    });
+})();
+
+// Menú lateral deslizable en pantallas angostas (móvil/tablet): el sidebar
+// vive fuera de la pantalla (ver CSS) y este botón lo trae/lo esconde.
+(function () {
+    var sidebar = document.getElementById('sidebar');
+    var boton = document.getElementById('sidebarToggle');
+    var overlay = document.getElementById('sidebarOverlay');
+    var icono = boton ? boton.querySelector('.sidebar-toggle-icon') : null;
+    if (!sidebar || !boton || !overlay) return;
+
+    function abrirMenu() {
+        sidebar.classList.add('open');
+        overlay.classList.add('activo');
+        boton.setAttribute('aria-expanded', 'true');
+        if (icono) icono.textContent = '✕';
+    }
+
+    function cerrarMenu() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('activo');
+        boton.setAttribute('aria-expanded', 'false');
+        if (icono) icono.textContent = '☰';
+    }
+
+    boton.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (sidebar.classList.contains('open')) {
+            cerrarMenu();
+        } else {
+            abrirMenu();
+        }
+    });
+
+    overlay.addEventListener('click', cerrarMenu);
+
+    // Al elegir un módulo del menú, ciérralo (si no, tapa la página siguiente).
+    var enlaces = sidebar.querySelectorAll('.sidebar-nav a');
+    for (var i = 0; i < enlaces.length; i++) {
+        enlaces[i].addEventListener('click', cerrarMenu);
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') cerrarMenu();
     });
 })();
 </script>

@@ -72,6 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Login - Universidad</title>
     <link rel="stylesheet" href="../estilos.css" />
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
