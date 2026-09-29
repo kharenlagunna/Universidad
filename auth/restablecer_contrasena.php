@@ -45,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Restablecer contraseña - Universidad</title>
     <link rel="stylesheet" href="../estilos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" />
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="alternate icon" href="../favicon.ico">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
@@ -78,13 +79,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <label for="nueva_contrasena">Nueva contraseña</label>
                     <div class="input-icon">
-                        <span class="input-icon-glyph">🔒</span>
+                        <span class="input-icon-glyph"><i class="fa-solid fa-lock"></i></span>
                         <input type="password" id="nueva_contrasena" name="nueva_contrasena" minlength="8" required autofocus />
                     </div>
 
                     <label for="confirmar_contrasena">Confirmar contraseña</label>
                     <div class="input-icon">
-                        <span class="input-icon-glyph">🔒</span>
+                        <span class="input-icon-glyph"><i class="fa-solid fa-lock"></i></span>
                         <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" minlength="8" required />
                     </div>
 
@@ -95,5 +96,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <p class="login-footer">© <?php echo date('Y'); ?> Universidad. Todos los derechos reservados.</p>
     </div>
+    <script src="js/password-toggle.js"></script>
 </body>
 </html>

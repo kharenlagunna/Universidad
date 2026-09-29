@@ -97,6 +97,39 @@ body.login-page {
     outline: none;
 }
 
+.login-card .input-icon.has-toggle input {
+    padding-right: 42px;
+}
+
+.login-card .password-toggle {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    opacity: 0.6;
+    padding: 0;
+    line-height: 1;
+}
+
+.login-card .password-toggle:hover {
+    opacity: 1;
+}
+
+.login-card .password-toggle:focus-visible {
+    outline: 2px solid #0073e6;
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
 .login-row {
     display: flex;
     align-items: center;
