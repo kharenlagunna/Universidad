@@ -88,11 +88,15 @@ $listado = $conn->query("SELECT id, usuario, rol, email FROM usuarios ORDER BY u
                                                 "email" => $u['email'] ?? '',
                                                 "rol" => $u['rol'],
                                             ], JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_HEX_TAG) ?>)'>✏️</button>
-                                    <form action="admin_usuario_eliminar.php" method="post"
-                                          onsubmit="return confirm('¿Eliminar al usuario &quot;<?= htmlspecialchars($u['usuario'], ENT_QUOTES) ?>&quot;? Esta acción no se puede deshacer.');">
-                                        <input type="hidden" name="id" value="<?= (int)$u['id'] ?>">
-                                        <button type="submit" class="icon-btn icon-eliminar" title="Eliminar">🗑️</button>
-                                    </form>
+                                    <?php if ((int)$u['id'] === (int)($_SESSION['usuario_id'] ?? 0)): ?>
+                                        <button type="button" class="icon-btn icon-eliminar" title="No puedes eliminar tu propia cuenta" disabled style="opacity:.4;cursor:not-allowed;">🗑️</button>
+                                    <?php else: ?>
+                                        <form action="admin_usuario_eliminar.php" method="post"
+                                              onsubmit="return confirm('¿Eliminar al usuario &quot;<?= htmlspecialchars($u['usuario'], ENT_QUOTES) ?>&quot;? Esta acción no se puede deshacer.');">
+                                            <input type="hidden" name="id" value="<?= (int)$u['id'] ?>">
+                                            <button type="submit" class="icon-btn icon-eliminar" title="Eliminar">🗑️</button>
+                                        </form>
+                                    <?php endif; ?>
                                 </div>
                             </td>
                         </tr>

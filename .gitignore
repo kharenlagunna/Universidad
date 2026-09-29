@@ -1,6 +1,9 @@
 # Archivos del sistema operativo
 .DS_Store
 
+# Manuales de usuario/programador (generados localmente, no se versionan)
+docs/
+
 # Credenciales reales de correo (usa mail_config.example.php como plantilla)
 mail_config.php
 
@@ -15,3 +18,9 @@ crypto_config.php
 # los nombres en texto plano, así que también se ignora.
 database/resultados_saber_pro_tyt_dump_completo.sql
 database/resultados_saber_pro_tyt_dump_completo.sql*.bak
+
+# Backups/dumps de la base con credenciales reales (hashes bcrypt, emails):
+# nunca deben versionarse ni ser accesibles por HTTP.
+database/*.sql
+!database/schema.sql
+!database/vistas_dashboard_resultados.sql

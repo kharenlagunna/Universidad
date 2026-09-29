@@ -583,6 +583,10 @@ form input[readonly],
     background-color: #27ae60;
 }
 
+.estado-badge.estado-incompleto {
+    background-color: #e67e22;
+}
+
 /* ====== Simulacro: inicio (selección + botón en una fila) ====== */
 
 /* Especificidad reforzada (.contenedor-derecho .fila-horizontal) a

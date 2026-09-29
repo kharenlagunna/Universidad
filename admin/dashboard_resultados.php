@@ -340,18 +340,48 @@ function moduloExtremos(array $filas, string $tipo): array
     return [array_key_first($promedios), array_key_last($promedios)];
 }
 
-function textoTendencia(?float $variacion, string $nombre): string
+// Años con datos comparables (excluye escala_no_comparable) para una
+// prueba, dentro de un conjunto de filas.
+function aniosConDatos(array $filas, string $tipo): array
 {
+    $anios = [];
+    foreach ($filas as $f) {
+        if ($f['tipo_prueba'] !== $tipo || !empty($f['escala_no_comparable'])) continue;
+        $anios[(int) $f['anio']] = true;
+    }
+    $anios = array_keys($anios);
+    sort($anios);
+    return $anios;
+}
+
+// De los años elegidos en el filtro principal de año (arriba del
+// dashboard), calcula el rango [inicial, reciente] a usar para KPIs y
+// Conclusiones de una prueba en un conjunto de filas: "reciente" es el año
+// seleccionado más alto con datos comparables; "inicial" es el más bajo, y
+// queda en null si solo hay un año seleccionado (no hay con qué calcular
+// variación).
+function rangoAnios(array $filas, string $tipo, array $seleccionados): array
+{
+    $disponibles = array_values(array_intersect(aniosConDatos($filas, $tipo), $seleccionados));
+    if (!$disponibles) return [null, null];
+    $reciente = end($disponibles);
+    $inicial = count($disponibles) >= 2 ? reset($disponibles) : null;
+    return [$inicial, $reciente];
+}
+
+function textoTendencia(?float $variacion, string $nombre, ?string $periodo = null): string
+{
+    $enPeriodo = $periodo ? "entre $periodo" : "en el período seleccionado";
     if ($variacion === null) {
-        return "No hay suficientes años comparables para determinar la tendencia de $nombre.";
+        return "No hay suficientes años seleccionados con datos comparables para determinar la tendencia de $nombre.";
     }
     if ($variacion > 1) {
-        return "$nombre mejoró en promedio " . number_format($variacion, 1) . " puntos en el período analizado.";
+        return "$nombre mejoró en promedio " . number_format($variacion, 1) . " puntos $enPeriodo.";
     }
     if ($variacion < -1) {
-        return "$nombre bajó en promedio " . number_format(abs($variacion), 1) . " puntos en el período analizado.";
+        return "$nombre bajó en promedio " . number_format(abs($variacion), 1) . " puntos $enPeriodo.";
     }
-    return "$nombre se mantuvo relativamente estable en el período analizado.";
+    return "$nombre se mantuvo relativamente estable $enPeriodo.";
 }
 
 // Texto corto del botón del filtro principal de año (multiselección).
@@ -362,39 +392,15 @@ function resumenAnios(array $seleccionados, array $todos): string
     return count($seleccionados) . ' años seleccionados';
 }
 
-// El año "reciente" de Saber T&T depende del ámbito: a nivel programa
-// (vista_resultados_programa) no hay T&T 2017 ni 2024 (ver comentario en
-// vistas_dashboard_resultados.sql), el año más reciente ahí es 2018.
-$tytAnioReciente = ($ambito === 'programas') ? 2018 : 2024;
-
-$proReciente = promedioGeneral($tendencia, 2018, 'Saber Pro');
-$proInicial  = promedioGeneral($tendencia, 2016, 'Saber Pro');
-$tytReciente = promedioGeneral($tendencia, $tytAnioReciente, 'Saber TyT');
-$tytInicial  = promedioGeneral($tendencia, 2016, 'Saber TyT');
-
-$variacionPro = ($proReciente !== null && $proInicial !== null) ? round($proReciente - $proInicial, 1) : null;
-$variacionTyt = ($tytReciente !== null && $tytInicial !== null) ? round($tytReciente - $tytInicial, 1) : null;
-
-$totalEvaluados = 0;
-foreach ($tendencia as $f) {
-    $totalEvaluados += (int) ($f['cantidad_evaluados'] ?? 0);
-}
-
-// Baseline nacional fijo: usado solo para las comparaciones "vs. promedio
-// nacional" de Conclusiones, que deben seguir comparando contra el país
-// real sin importar el ámbito activo (a diferencia de $proReciente/
-// $tytReciente de arriba, que ahora sí varían con el ámbito).
-$proRecienteNacional = promedioGeneral($tendenciaNacional, 2018, 'Saber Pro');
-$tytRecienteNacional = promedioGeneral($tendenciaNacional, 2024, 'Saber TyT');
-
 $modulosDisponibles = ['COMPETENCIAS CIUDADANAS', 'COMUNICACIÓN ESCRITA', 'INGLÉS', 'LECTURA CRÍTICA', 'RAZONAMIENTO CUANTITATIVO'];
 $aniosDisponibles = [2015, 2016, 2017, 2018, 2024];
 
 // --- Filtro principal de año: uno solo (multiselección), arriba del
-// dashboard, que controla a la vez todos los cuadros que tienen una fila
-// por año específico (comparación por región, top de instituciones, top
-// de programas). Tendencia (que grafica varios años a la vez) y Áreas
-// (que no tiene año en sus datos) no dependen de este filtro. Cuando se
+// dashboard. Controla los cuadros con una fila por año específico
+// (comparación por región, top de instituciones, top de programas) y,
+// además, el rango inicial→reciente que usan los KPIs y las Conclusiones
+// de más abajo. Tendencia (que grafica varios años a la vez) y Áreas (que
+// no tiene año en sus datos) siguen sin depender de este filtro. Cuando se
 // eligen varios años, instituciones y programas promedian ponderando por
 // la cantidad de evaluados de cada año.
 $aniosCrudo = $_GET['anio'] ?? [2018];
@@ -402,6 +408,37 @@ if (!is_array($aniosCrudo)) $aniosCrudo = [$aniosCrudo];
 $aniosSeleccionados = array_values(array_unique(array_intersect(array_map('intval', $aniosCrudo), $aniosDisponibles)));
 if (!$aniosSeleccionados) $aniosSeleccionados = [2018];
 sort($aniosSeleccionados);
+
+// Rango inicial→reciente para los KPIs de arriba, según los años elegidos
+// en el filtro: usa $tendencia, que ya es la del ámbito activo (nacional /
+// Universidad Distrital / programas UD).
+[$anioProInicial, $anioProReciente] = rangoAnios($tendencia, 'Saber Pro', $aniosSeleccionados);
+[$anioTytInicial, $anioTytReciente] = rangoAnios($tendencia, 'Saber TyT', $aniosSeleccionados);
+
+$proReciente = $anioProReciente !== null ? promedioGeneral($tendencia, $anioProReciente, 'Saber Pro') : null;
+$proInicial  = $anioProInicial  !== null ? promedioGeneral($tendencia, $anioProInicial,  'Saber Pro') : null;
+$tytReciente = $anioTytReciente !== null ? promedioGeneral($tendencia, $anioTytReciente, 'Saber TyT') : null;
+$tytInicial  = $anioTytInicial  !== null ? promedioGeneral($tendencia, $anioTytInicial,  'Saber TyT') : null;
+
+$variacionPro = ($proReciente !== null && $proInicial !== null) ? round($proReciente - $proInicial, 1) : null;
+$variacionTyt = ($tytReciente !== null && $tytInicial !== null) ? round($tytReciente - $tytInicial, 1) : null;
+
+// Etiquetas listas para pintar en los KPIs/Conclusiones de más abajo.
+$rangoProLabel = ($anioProInicial !== null && $anioProReciente !== null) ? "{$anioProInicial}→{$anioProReciente}" : '—';
+$rangoTytLabel = ($anioTytInicial !== null && $anioTytReciente !== null) ? "{$anioTytInicial}→{$anioTytReciente}" : '—';
+$periodoPro = ($anioProInicial !== null && $anioProReciente !== null) ? "{$anioProInicial} y {$anioProReciente}" : null;
+$periodoTyt = ($anioTytInicial !== null && $anioTytReciente !== null) ? "{$anioTytInicial} y {$anioTytReciente}" : null;
+
+$totalEvaluados = 0;
+foreach ($tendencia as $f) {
+    $totalEvaluados += (int) ($f['cantidad_evaluados'] ?? 0);
+}
+
+// Baseline nacional: mismo año "reciente" que arriba (según ámbito y años
+// seleccionados), usado solo para las comparaciones "vs. promedio nacional"
+// de Conclusiones — así siempre comparan el mismo año a ambos lados.
+$proRecienteNacional = $anioProReciente !== null ? promedioGeneral($tendenciaNacional, $anioProReciente, 'Saber Pro') : null;
+$tytRecienteNacional = $anioTytReciente !== null ? promedioGeneral($tendenciaNacional, $anioTytReciente, 'Saber TyT') : null;
 
 // ---------------------------------------------------------------------
 // Top de instituciones y Top de programas académicos: solo tienen sentido
@@ -552,56 +589,67 @@ if ($moduloProg !== '') {
 // promedioGeneral() y moduloExtremos() ya definidas arriba.
 // ---------------------------------------------------------------------
 
-// Nacional: módulo con mejor/peor promedio histórico en todo el país.
+// Nacional: módulo con mejor/peor promedio histórico en todo el país
+// (agregado de todos los años, no depende del filtro de año).
 [$moduloMejorProNacional, $moduloPeorProNacional] = moduloExtremos($tendenciaNacional, 'Saber Pro');
 [$moduloMejorTytNacional, $moduloPeorTytNacional] = moduloExtremos($tendenciaNacional, 'Saber TyT');
 
-// Universidad completa: mismos años que las KPI nacionales (2016→2018
-// para Saber Pro, 2016→2024 para Saber T&T) para comparar manzanas con
-// manzanas; 2015 queda fuera por su escala distinta.
-$distritalProReciente = promedioGeneral($tendenciaDistrital, 2018, 'Saber Pro');
-$distritalProInicial  = promedioGeneral($tendenciaDistrital, 2016, 'Saber Pro');
-$distritalTytReciente = promedioGeneral($tendenciaDistrital, 2024, 'Saber TyT');
-$distritalTytInicial  = promedioGeneral($tendenciaDistrital, 2016, 'Saber TyT');
-$distritalTyt2018     = promedioGeneral($tendenciaDistrital, 2018, 'Saber TyT');
-
-$variacionProDistrital = ($distritalProReciente !== null && $distritalProInicial !== null) ? round($distritalProReciente - $distritalProInicial, 1) : null;
-$variacionTytDistrital = ($distritalTytReciente !== null && $distritalTytInicial !== null) ? round($distritalTytReciente - $distritalTytInicial, 1) : null;
-
+// Universidad completa: cuando $ambito === 'universidad', $tendencia ya ES
+// $tendenciaDistrital (ver el switch de arriba), así que $proReciente/
+// $proInicial/$tytReciente/$tytInicial/$variacionPro/$variacionTyt (y sus
+// $anioXxx) calculados arriba para los KPIs ya son los de la universidad —
+// se reutilizan tal cual en el bloque HTML de Conclusiones de más abajo,
+// sin duplicar la consulta.
 [$moduloMejorProDistrital, $moduloPeorProDistrital] = moduloExtremos($tendenciaDistrital, 'Saber Pro');
 [$moduloMejorTytDistrital, $moduloPeorTytDistrital] = moduloExtremos($tendenciaDistrital, 'Saber TyT');
 
-// Universidad vs. promedio nacional, mismo año y misma prueba ($proReciente
-// y $tytReciente ya están calculados arriba a nivel nacional).
-$diffProVsNacional = ($distritalProReciente !== null && $proRecienteNacional !== null) ? round($distritalProReciente - $proRecienteNacional, 1) : null;
-$diffTytVsNacional = ($distritalTytReciente !== null && $tytRecienteNacional !== null) ? round($distritalTytReciente - $tytRecienteNacional, 1) : null;
+// Universidad vs. promedio nacional, mismo año y misma prueba: $proReciente/
+// $tytReciente (ámbito 'universidad' → ya son los de la universidad) contra
+// $proRecienteNacional/$tytRecienteNacional (calculados arriba con ese mismo
+// año "reciente" seleccionado).
+$diffProVsNacional = ($proReciente !== null && $proRecienteNacional !== null) ? round($proReciente - $proRecienteNacional, 1) : null;
+$diffTytVsNacional = ($tytReciente !== null && $tytRecienteNacional !== null) ? round($tytReciente - $tytRecienteNacional, 1) : null;
 
-// Ingeniería en Telemática (solo tiene datos en Saber Pro)
-$telematica2018 = promedioGeneral($filasTelematicaGenerica, 2018, 'Saber Pro');
-$telematica2016 = promedioGeneral($filasTelematicaGenerica, 2016, 'Saber Pro');
-$variacionTelematica = ($telematica2018 !== null && $telematica2016 !== null) ? round($telematica2018 - $telematica2016, 1) : null;
+// Ingeniería en Telemática (solo tiene datos en Saber Pro). A diferencia del
+// bloque 'universidad' de arriba, aquí $tendencia (ámbito 'programas') es
+// Telemática + Sistematización juntas, así que el rango inicial→reciente se
+// calcula aparte, por programa, según los años elegidos en el filtro.
+[$anioProInicialTelematica, $anioProRecienteTelematica] = rangoAnios($filasTelematicaGenerica, 'Saber Pro', $aniosSeleccionados);
+$telematicaReciente = $anioProRecienteTelematica !== null ? promedioGeneral($filasTelematicaGenerica, $anioProRecienteTelematica, 'Saber Pro') : null;
+$telematicaInicial  = $anioProInicialTelematica  !== null ? promedioGeneral($filasTelematicaGenerica, $anioProInicialTelematica,  'Saber Pro') : null;
+$variacionTelematica = ($telematicaReciente !== null && $telematicaInicial !== null) ? round($telematicaReciente - $telematicaInicial, 1) : null;
+$periodoTelematica = ($anioProInicialTelematica !== null && $anioProRecienteTelematica !== null) ? "{$anioProInicialTelematica} y {$anioProRecienteTelematica}" : null;
 [$moduloMejorTelematica, $moduloPeorTelematica] = moduloExtremos($filasTelematicaGenerica, 'Saber Pro');
-$diffTelematicaVsUniversidad = ($telematica2018 !== null && $distritalProReciente !== null) ? round($telematica2018 - $distritalProReciente, 1) : null;
+// Universidad ese mismo año "reciente" de Telemática, para comparar manzanas con manzanas.
+$distritalProParaTelematica = $anioProRecienteTelematica !== null ? promedioGeneral($tendenciaDistrital, $anioProRecienteTelematica, 'Saber Pro') : null;
+$diffTelematicaVsUniversidad = ($telematicaReciente !== null && $distritalProParaTelematica !== null) ? round($telematicaReciente - $distritalProParaTelematica, 1) : null;
 
-// Módulo específico (propio de la carrera) con mejor/peor promedio en el
-// año más reciente con datos específicos (2018).
+// Módulo específico (propio de la carrera) con mejor/peor promedio, en el
+// año "reciente" de Telemática (el más alto seleccionado con datos).
 $moduloEspecificoMejorTelematica = null;
 $moduloEspecificoPeorTelematica = null;
-$especificasTelematica2018 = array_filter($filasTelematica, fn($f) => $f['tipo_modulo'] === 'ESPECIFICA' && (int) $f['anio'] === 2018 && $f['tipo_prueba'] === 'Saber Pro');
-if ($especificasTelematica2018) {
-    $porModuloEsp = [];
-    foreach ($especificasTelematica2018 as $f) $porModuloEsp[$f['modulo']] = (float) $f['promedio_puntaje'];
-    arsort($porModuloEsp);
-    $moduloEspecificoMejorTelematica = array_key_first($porModuloEsp);
-    $moduloEspecificoPeorTelematica = array_key_last($porModuloEsp);
+if ($anioProRecienteTelematica !== null) {
+    $especificasTelematicaReciente = array_filter($filasTelematica, fn($f) => $f['tipo_modulo'] === 'ESPECIFICA' && (int) $f['anio'] === $anioProRecienteTelematica && $f['tipo_prueba'] === 'Saber Pro');
+    if ($especificasTelematicaReciente) {
+        $porModuloEsp = [];
+        foreach ($especificasTelematicaReciente as $f) $porModuloEsp[$f['modulo']] = (float) $f['promedio_puntaje'];
+        arsort($porModuloEsp);
+        $moduloEspecificoMejorTelematica = array_key_first($porModuloEsp);
+        $moduloEspecificoPeorTelematica = array_key_last($porModuloEsp);
+    }
 }
 
-// Tecnología en Sistematización de Datos (solo tiene datos en Saber T&T)
-$sistematizacion2018 = promedioGeneral($filasSistematizacionGenerica, 2018, 'Saber TyT');
-$sistematizacion2016 = promedioGeneral($filasSistematizacionGenerica, 2016, 'Saber TyT');
-$variacionSistematizacion = ($sistematizacion2018 !== null && $sistematizacion2016 !== null) ? round($sistematizacion2018 - $sistematizacion2016, 1) : null;
+// Tecnología en Sistematización de Datos (solo tiene datos en Saber T&T);
+// mismo tratamiento que Telemática, con su propio rango inicial→reciente.
+[$anioTytInicialSistematizacion, $anioTytRecienteSistematizacion] = rangoAnios($filasSistematizacionGenerica, 'Saber TyT', $aniosSeleccionados);
+$sistematizacionReciente = $anioTytRecienteSistematizacion !== null ? promedioGeneral($filasSistematizacionGenerica, $anioTytRecienteSistematizacion, 'Saber TyT') : null;
+$sistematizacionInicial  = $anioTytInicialSistematizacion  !== null ? promedioGeneral($filasSistematizacionGenerica, $anioTytInicialSistematizacion,  'Saber TyT') : null;
+$variacionSistematizacion = ($sistematizacionReciente !== null && $sistematizacionInicial !== null) ? round($sistematizacionReciente - $sistematizacionInicial, 1) : null;
+$periodoSistematizacion = ($anioTytInicialSistematizacion !== null && $anioTytRecienteSistematizacion !== null) ? "{$anioTytInicialSistematizacion} y {$anioTytRecienteSistematizacion}" : null;
 [$moduloMejorSistematizacion, $moduloPeorSistematizacion] = moduloExtremos($filasSistematizacionGenerica, 'Saber TyT');
-$diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distritalTyt2018 !== null) ? round($sistematizacion2018 - $distritalTyt2018, 1) : null;
+// Universidad ese mismo año "reciente" de Sistematización, para comparar manzanas con manzanas.
+$distritalTytParaSistematizacion = $anioTytRecienteSistematizacion !== null ? promedioGeneral($tendenciaDistrital, $anioTytRecienteSistematizacion, 'Saber TyT') : null;
+$diffSistematizacionVsUniversidad = ($sistematizacionReciente !== null && $distritalTytParaSistematizacion !== null) ? round($sistematizacionReciente - $distritalTytParaSistematizacion, 1) : null;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -653,26 +701,26 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
                 </div>
             </div>
             <p style="color:#777;font-size:13px;margin:0;flex:1;min-width:260px;">
-                <strong>Ámbito actual:</strong> <?= htmlspecialchars($ambitoEtiquetas[$ambito]) ?>. El ámbito recorta todo el dashboard (KPIs, gráficos, tablas y conclusiones); con 'Programas UD' o 'Universidad Distrital' se ocultan los rankings "Top de instituciones"/"Top de programas" (dejan de tener sentido con 1-2 elementos) y el panel de tendencia por programa (ya lo cubre la Tendencia de arriba). El año(s) filtra además, al instante, los cuadros que dependen de un año específico (comparación por región<?= $ambito === 'nacional' ? ', top de instituciones y top de programas académicos' : '' ?>); con varios años esos promedian ponderando por la cantidad de evaluados de cada año. Tendencia (varios años a la vez) y Áreas (sin año en sus datos) no cambian con el filtro de año.
+                <strong>Ámbito actual:</strong> <?= htmlspecialchars($ambitoEtiquetas[$ambito]) ?>. El ámbito recorta todo el dashboard (KPIs, gráficos, tablas y conclusiones); con 'Programas UD' o 'Universidad Distrital' se ocultan los rankings "Top de instituciones"/"Top de programas" (dejan de tener sentido con 1-2 elementos) y el panel de tendencia por programa (ya lo cubre la Tendencia de arriba). El año(s) filtra además, al instante, los cuadros que dependen de un año específico (comparación por región<?= $ambito === 'nacional' ? ', top de instituciones y top de programas académicos' : '' ?>, los KPIs de arriba y las Conclusiones de abajo); con varios años, instituciones/programas promedian ponderando por la cantidad de evaluados de cada año, y KPIs/Conclusiones comparan el año más bajo contra el más alto de los seleccionados. Tendencia (varios años a la vez) y Áreas (sin año en sus datos) no cambian con el filtro de año.
             </p>
             <button type="button" class="btn-secundario" onclick="limpiarFiltros()">Limpiar filtros</button>
         </div>
 
         <div class="info-simulacro" style="flex-wrap:wrap;">
             <div class="info-stat">
-                <span class="info-stat-label">Saber Pro 2018 (promedio)</span>
+                <span class="info-stat-label">Saber Pro <?= $anioProReciente ?? '—' ?> (promedio)</span>
                 <span class="info-stat-valor"><?= $proReciente !== null ? number_format($proReciente, 1) : '—' ?></span>
             </div>
             <div class="info-stat">
-                <span class="info-stat-label">Saber T&T <?= $tytAnioReciente ?> (promedio)</span>
+                <span class="info-stat-label">Saber T&T <?= $anioTytReciente ?? '—' ?> (promedio)</span>
                 <span class="info-stat-valor"><?= $tytReciente !== null ? number_format($tytReciente, 1) : '—' ?></span>
             </div>
             <div class="info-stat">
-                <span class="info-stat-label">Variación Saber Pro (2016→2018)</span>
+                <span class="info-stat-label">Variación Saber Pro (<?= htmlspecialchars($rangoProLabel) ?>)</span>
                 <span class="info-stat-valor"><?= $variacionPro !== null ? ($variacionPro >= 0 ? '+' : '') . number_format($variacionPro, 1) : '—' ?></span>
             </div>
             <div class="info-stat">
-                <span class="info-stat-label">Variación Saber T&T (2016→<?= $tytAnioReciente ?>)</span>
+                <span class="info-stat-label">Variación Saber T&T (<?= htmlspecialchars($rangoTytLabel) ?>)</span>
                 <span class="info-stat-valor"><?= $variacionTyt !== null ? ($variacionTyt >= 0 ? '+' : '') . number_format($variacionTyt, 1) : '—' ?></span>
             </div>
             <div class="info-stat">
@@ -684,12 +732,12 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
         <div class="panel-dashboard">
             <h2 style="margin-top:0;">Conclusiones — <?= htmlspecialchars($ambitoEtiquetas[$ambito]) ?></h2>
             <p style="color:#777;font-size:14px;margin-top:-8px;">
-                Cambian con el filtro principal de ámbito de arriba, igual que el resto del dashboard.
+                Cambian con el ámbito y con el filtro de Año(s) de arriba: las tendencias y comparaciones usan el año más bajo y el año más alto que hayas seleccionado (si solo eliges uno, no hay variación que calcular).
             </p>
             <div class="resultado-info">
             <?php if ($ambito === 'nacional'): ?>
-                <p><strong>Tendencia Saber Pro (nacional):</strong> <?= htmlspecialchars(textoTendencia($variacionPro, 'El país en Saber Pro')) ?></p>
-                <p><strong>Tendencia Saber T&T (nacional):</strong> <?= htmlspecialchars(textoTendencia($variacionTyt, 'El país en Saber T&T')) ?></p>
+                <p><strong>Tendencia Saber Pro (nacional):</strong> <?= htmlspecialchars(textoTendencia($variacionPro, 'El país en Saber Pro', $periodoPro)) ?></p>
+                <p><strong>Tendencia Saber T&T (nacional):</strong> <?= htmlspecialchars(textoTendencia($variacionTyt, 'El país en Saber T&T', $periodoTyt)) ?></p>
                 <?php if ($moduloMejorProNacional): ?>
                     <p><strong>En Saber Pro</strong>, el módulo con mejor promedio histórico a nivel nacional es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloMejorProNacional))) ?></em> y el más débil es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloPeorProNacional))) ?></em>.</p>
                 <?php endif; ?>
@@ -698,13 +746,13 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
                 <?php endif; ?>
                 <p><strong>Cobertura:</strong> <?= number_format($totalEvaluados, 0, ',', '.') ?> registros evaluados en el histórico nacional conocido.</p>
             <?php elseif ($ambito === 'universidad'): ?>
-                <p><strong>Tendencia Saber Pro (universidad):</strong> <?= htmlspecialchars(textoTendencia($variacionProDistrital, 'La universidad en Saber Pro')) ?></p>
-                <p><strong>Tendencia Saber T&T (universidad):</strong> <?= htmlspecialchars(textoTendencia($variacionTytDistrital, 'La universidad en Saber T&T')) ?></p>
+                <p><strong>Tendencia Saber Pro (universidad):</strong> <?= htmlspecialchars(textoTendencia($variacionPro, 'La universidad en Saber Pro', $periodoPro)) ?></p>
+                <p><strong>Tendencia Saber T&T (universidad):</strong> <?= htmlspecialchars(textoTendencia($variacionTyt, 'La universidad en Saber T&T', $periodoTyt)) ?></p>
                 <?php if ($diffProVsNacional !== null): ?>
-                    <p><strong>Frente al promedio nacional (Saber Pro 2018):</strong> la universidad quedó <?= $diffProVsNacional >= 0 ? number_format($diffProVsNacional, 1) . ' pts por encima' : number_format(abs($diffProVsNacional), 1) . ' pts por debajo' ?> del promedio nacional (<?= number_format($proRecienteNacional, 1) ?> pts).</p>
+                    <p><strong>Frente al promedio nacional (Saber Pro <?= $anioProReciente ?>):</strong> la universidad quedó <?= $diffProVsNacional >= 0 ? number_format($diffProVsNacional, 1) . ' pts por encima' : number_format(abs($diffProVsNacional), 1) . ' pts por debajo' ?> del promedio nacional (<?= number_format($proRecienteNacional, 1) ?> pts).</p>
                 <?php endif; ?>
                 <?php if ($diffTytVsNacional !== null): ?>
-                    <p><strong>Frente al promedio nacional (Saber T&T 2024):</strong> la universidad quedó <?= $diffTytVsNacional >= 0 ? number_format($diffTytVsNacional, 1) . ' pts por encima' : number_format(abs($diffTytVsNacional), 1) . ' pts por debajo' ?> del promedio nacional (<?= number_format($tytRecienteNacional, 1) ?> pts).</p>
+                    <p><strong>Frente al promedio nacional (Saber T&T <?= $anioTytReciente ?>):</strong> la universidad quedó <?= $diffTytVsNacional >= 0 ? number_format($diffTytVsNacional, 1) . ' pts por encima' : number_format(abs($diffTytVsNacional), 1) . ' pts por debajo' ?> del promedio nacional (<?= number_format($tytRecienteNacional, 1) ?> pts).</p>
                 <?php endif; ?>
                 <?php if ($moduloMejorProDistrital): ?>
                     <p><strong>En Saber Pro</strong>, el módulo con mejor promedio histórico de la universidad es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloMejorProDistrital))) ?></em> y el más débil es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloPeorProDistrital))) ?></em>.</p>
@@ -713,14 +761,14 @@ $diffSistematizacionVsUniversidad = ($sistematizacion2018 !== null && $distrital
                     <p><strong>En Saber T&T</strong>, el módulo con mejor promedio histórico de la universidad es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloMejorTytDistrital))) ?></em> y el más débil es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloPeorTytDistrital))) ?></em>.</p>
                 <?php endif; ?>
             <?php else: // programas ?>
-                <?php if ($variacionTelematica !== null): ?>
-                    <p><strong>Ingeniería en Telemática (Saber Pro):</strong> <?= htmlspecialchars(textoTendencia($variacionTelematica, 'El programa')) ?><?php if ($diffTelematicaVsUniversidad !== null): ?> En 2018 quedó <?= $diffTelematicaVsUniversidad >= 0 ? number_format($diffTelematicaVsUniversidad, 1) . ' pts por encima' : number_format(abs($diffTelematicaVsUniversidad), 1) . ' pts por debajo' ?> del promedio general de la universidad ese mismo año.<?php endif; ?></p>
+                <?php if ($variacionTelematica !== null || $anioProRecienteTelematica !== null): ?>
+                    <p><strong>Ingeniería en Telemática (Saber Pro):</strong> <?= htmlspecialchars(textoTendencia($variacionTelematica, 'El programa', $periodoTelematica)) ?><?php if ($diffTelematicaVsUniversidad !== null): ?> En <?= $anioProRecienteTelematica ?> quedó <?= $diffTelematicaVsUniversidad >= 0 ? number_format($diffTelematicaVsUniversidad, 1) . ' pts por encima' : number_format(abs($diffTelematicaVsUniversidad), 1) . ' pts por debajo' ?> del promedio general de la universidad ese mismo año.<?php endif; ?></p>
                 <?php endif; ?>
                 <?php if ($moduloEspecificoMejorTelematica): ?>
-                    <p><strong>Ingeniería en Telemática — módulo específico (2018):</strong> el mejor promedio fue en <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloEspecificoMejorTelematica))) ?></em> y el más débil en <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloEspecificoPeorTelematica))) ?></em>.</p>
+                    <p><strong>Ingeniería en Telemática — módulo específico (<?= $anioProRecienteTelematica ?>):</strong> el mejor promedio fue en <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloEspecificoMejorTelematica))) ?></em> y el más débil en <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloEspecificoPeorTelematica))) ?></em>.</p>
                 <?php endif; ?>
-                <?php if ($variacionSistematizacion !== null): ?>
-                    <p><strong>Tecnología en Sistematización de Datos (Saber T&T):</strong> <?= htmlspecialchars(textoTendencia($variacionSistematizacion, 'El programa')) ?><?php if ($diffSistematizacionVsUniversidad !== null): ?> En 2018 quedó <?= $diffSistematizacionVsUniversidad >= 0 ? number_format($diffSistematizacionVsUniversidad, 1) . ' pts por encima' : number_format(abs($diffSistematizacionVsUniversidad), 1) . ' pts por debajo' ?> del promedio general de la universidad ese mismo año.<?php endif; ?></p>
+                <?php if ($variacionSistematizacion !== null || $anioTytRecienteSistematizacion !== null): ?>
+                    <p><strong>Tecnología en Sistematización de Datos (Saber T&T):</strong> <?= htmlspecialchars(textoTendencia($variacionSistematizacion, 'El programa', $periodoSistematizacion)) ?><?php if ($diffSistematizacionVsUniversidad !== null): ?> En <?= $anioTytRecienteSistematizacion ?> quedó <?= $diffSistematizacionVsUniversidad >= 0 ? number_format($diffSistematizacionVsUniversidad, 1) . ' pts por encima' : number_format(abs($diffSistematizacionVsUniversidad), 1) . ' pts por debajo' ?> del promedio general de la universidad ese mismo año.<?php endif; ?></p>
                 <?php endif; ?>
                 <?php if ($moduloMejorSistematizacion): ?>
                     <p><strong>Tecnología en Sistematización de Datos — módulo genérico:</strong> el mejor promedio histórico es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloMejorSistematizacion))) ?></em> y el más débil es <em><?= htmlspecialchars(ucwords(mb_strtolower($moduloPeorSistematizacion))) ?></em>.</p>
