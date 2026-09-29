@@ -100,6 +100,10 @@ if ($porcentaje >= 80) {
                     <div class="alert-warning">
                         ⚠️ Este simulacro fue finalizado manualmente por el usuario.
                     </div>
+                <?php elseif (empty($intento['fecha_fin'])): ?>
+                    <div class="alert-warning">
+                        ⚠️ Este simulacro no fue finalizado. Estos son los resultados parciales hasta el momento.
+                    </div>
                 <?php endif; ?>
             </div>
 

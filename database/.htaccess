@@ -1,0 +1,3 @@
+# Esta carpeta contiene dumps SQL y scripts de migración con datos
+# sensibles (credenciales, PII). Nunca debe ser accesible por HTTP.
+Require all denied

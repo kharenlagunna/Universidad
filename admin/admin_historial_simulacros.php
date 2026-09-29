@@ -87,6 +87,8 @@ $listado = $conn->query("
                             <td>
                                 <?php if ($fila['finalizado_manual']): ?>
                                     <span class="estado-badge estado-manual">Finalizado manualmente</span>
+                                <?php elseif (empty($fila['fecha_fin'])): ?>
+                                    <span class="estado-badge estado-incompleto">No finalizado</span>
                                 <?php else: ?>
                                     <span class="estado-badge estado-normal">Completado</span>
                                 <?php endif; ?>

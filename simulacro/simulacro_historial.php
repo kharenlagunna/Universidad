@@ -77,6 +77,8 @@ $result = $stmt->get_result();
                             <td>
                                 <?php if ($row['finalizado_manual']): ?>
                                     <span class="estado-badge estado-manual">Finalizado manualmente</span>
+                                <?php elseif (empty($row['fecha_fin'])): ?>
+                                    <span class="estado-badge estado-incompleto">No finalizado</span>
                                 <?php else: ?>
                                     <span class="estado-badge estado-normal">Completado</span>
                                 <?php endif; ?>
