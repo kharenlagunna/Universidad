@@ -7,7 +7,7 @@ if (!isset($_SESSION['usuario'], $_SESSION['usuario_id'])) {
     exit();
 }
 
-$destino = ($_SESSION['rol'] === 'admin') ? '../admin/dashboard_resultados.php' : '../visor/dashboard_visor.php';
+$destino = '../admin/dashboard_resultados.php';
 
 // Si ya tiene correo registrado, no necesita pasar por aquí.
 $stmt = $conn->prepare("SELECT email FROM usuarios WHERE id = ?");
@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Completa tu perfil - Universidad</title>
     <link rel="stylesheet" href="../estilos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" />
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="alternate icon" href="../favicon.ico">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
@@ -75,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="post" action="">
                 <label for="email">Correo electrónico</label>
                 <div class="input-icon">
-                    <span class="input-icon-glyph">📧</span>
+                    <span class="input-icon-glyph"><i class="fa-solid fa-envelope"></i></span>
                     <input type="email" id="email" name="email" required autofocus />
                 </div>
 

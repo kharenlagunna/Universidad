@@ -8,9 +8,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $usuario = $_POST['usuario'] ?? '';
     $contrasena = $_POST['contrasena'] ?? '';
 
-    $sql = "SELECT * FROM usuarios WHERE usuario = ?";
+    $sql = "SELECT * FROM usuarios WHERE usuario = ? OR email = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $usuario);
+    $stmt->bind_param("ss", $usuario, $usuario);
     $stmt->execute();
     $result = $stmt->get_result();
     $row = ($result && $result->num_rows === 1) ? $result->fetch_assoc() : null;
@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } elseif ($row['rol'] === 'admin') {
             header("Location: ../admin/dashboard_resultados.php");
         } elseif ($row['rol'] === 'visor') {
-            header("Location: ../visor/dashboard_visor.php");
+            header("Location: ../admin/dashboard_resultados.php");
         } else {
             $error = "Rol no reconocido.";
         }
@@ -75,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Login - Universidad</title>
     <link rel="stylesheet" href="../estilos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" />
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="alternate icon" href="../favicon.ico">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
@@ -83,8 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div class="login-wrap">
         <div class="login-brand">
             <div class="login-logo">🎓</div>
-            <h1>Universidad</h1>
-            <p class="login-tagline">Inicia sesión en tu cuenta</p>
+            <h1>SISTEMA PARA LA GESTIÓN DE ANÁLISIS DE INFORMACIÓN SABER T&T Y SABER PRO</h1>
         </div>
 
         <div class="login-card">
@@ -93,15 +93,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <?php endif; ?>
 
             <form method="post" action="">
-                <label for="usuario">Usuario</label>
+                <label for="usuario">Usuario o correo</label>
                 <div class="input-icon">
-                    <span class="input-icon-glyph">👤</span>
+                    <span class="input-icon-glyph"><i class="fa-solid fa-user"></i></span>
                     <input type="text" id="usuario" name="usuario" autocomplete="username" required autofocus />
                 </div>
 
                 <label for="contrasena">Contraseña</label>
                 <div class="input-icon">
-                    <span class="input-icon-glyph">🔒</span>
+                    <span class="input-icon-glyph"><i class="fa-solid fa-lock"></i></span>
                     <input type="password" id="contrasena" name="contrasena" autocomplete="current-password" required />
                 </div>
 
@@ -119,5 +119,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <p class="login-footer">© <?php echo date('Y'); ?> Universidad. Todos los derechos reservados.</p>
     </div>
+    <script src="js/password-toggle.js"></script>
 </body>
 </html>

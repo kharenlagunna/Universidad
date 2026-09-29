@@ -2,7 +2,7 @@
 session_start();
 require_once __DIR__ . '/../conexion_resultados.php';
 
-if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
+if (!isset($_SESSION['usuario']) || !in_array($_SESSION['rol'], ['admin', 'visor'], true)) {
     header("Location: ../auth/login.php");
     exit();
 }
